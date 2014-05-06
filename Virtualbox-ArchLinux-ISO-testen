@@ -443,3 +443,227 @@ vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancod
 # Enter
 vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 1c 9c
 
+
+
+#
+# mount /dev/mapper/main-root /mnt
+#
+# mount
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 32 b2  18 98  16 96  31 b1  14 94
+# Spacebar
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 39 b9 
+# /
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 2a 08 88 aa
+# dev
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 20 a0  12 92  2f af
+# /
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 2a 08 88 aa
+# mapper
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 32 b2  1e 9e  19 99  19 99  12 92  13 93
+# /
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 2a 08 88 aa
+# main
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 32 b2  1e 9e  17 97  31 b1
+# -
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 35 b5
+# root
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 13 93  18 98  18 98  14 94
+# Spacebar
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 39 b9 
+# /
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 2a 08 88 aa
+# mnt
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 32 b2  31 b1  14 94
+# Enter
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 1c 9c
+
+
+
+#
+# mkdir /mnt/home
+#
+# mkdir
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 32 b2  25 a5  20 a0  17 97  13 93
+# Spacebar
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 39 b9 
+# /
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 2a 08 88 aa
+# mnt
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 32 b2  31 b1  14 94
+# /
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 2a 08 88 aa
+# home
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 23 a3  18 98  32 b2  12 92
+# Enter
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 1c 9c
+
+
+
+#
+# mount /dev/mapper/main-home /mnt/home
+#
+# mount
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 32 b2  18 98  16 96  31 b1  14 94
+# Spacebar
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 39 b9 
+# /
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 2a 08 88 aa
+# dev
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 20 a0  12 92  2f af
+# /
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 2a 08 88 aa
+# mapper
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 32 b2  1e 9e  19 99  19 99  12 92  13 93
+# /
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 2a 08 88 aa
+# main
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 32 b2  1e 9e  17 97  31 b1
+# -
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 35 b5
+# home
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 23 a3  18 98  32 b2  12 92
+# Spacebar
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 39 b9 
+# /
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 2a 08 88 aa
+# mnt
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 32 b2  31 b1  14 94
+# /
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 2a 08 88 aa
+# home
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 23 a3  18 98  32 b2  12 92
+# Enter
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 1c 9c
+
+
+
+#
+# mkdir /mnt/boot
+#
+# mkdir
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 32 b2  25 a5  20 a0  17 97  13 93
+# Spacebar
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 39 b9 
+# /
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 2a 08 88 aa
+# mnt
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 32 b2  31 b1  14 94
+# /
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 2a 08 88 aa
+# boot
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 30 b0  18 98  18 98  14 94
+# Enter
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 1c 9c
+
+
+
+#
+# mount /dev/sda1 /mnt/boot
+#
+# mount
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 32 b2  18 98  16 96  31 b1  14 94
+# Spacebar
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 39 b9 
+# /
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 2a 08 88 aa
+# dev
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 20 a0  12 92  2f af
+# /
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 2a 08 88 aa
+# sda1
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 1f 9f  20 a0  1e 9e  02 82
+# Spacebar
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 39 b9 
+# /
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 2a 08 88 aa
+# mnt
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 32 b2  31 b1  14 94
+# /
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 2a 08 88 aa
+# boot
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 30 b0  18 98  18 98  14 94
+# Enter
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 1c 9c
+
+
+
+#
+# pacstrap /mnt base base-devel syslinux
+#
+# pacstrap
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 19 99  1e 9e  2e ae  1f 9f  14 94  13 93  1e 9e  19 99
+# Spacebar
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 39 b9 
+# /
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 2a 08 88 aa
+# mnt
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 32 b2  31 b1  14 94
+# Spacebar
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 39 b9 
+# base
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 30 b0  1e 9e  1f 9f  12 92
+# Spacebar
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 39 b9 
+# base
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 30 b0  1e 9e  1f 9f  12 92
+# -
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 35 b5
+# devel
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 20 a0  12 92  2f af  12 92  26 a6
+# Spacebar
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 39 b9 
+# syslinux
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 1f 9f  2c ac  1f 9f  26 a6  17 97  31 b1  16 96  2d ad
+# Enter
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 1c 9c
+
+
+
+#
+# syslinux-install_update -i -a -m -c /mnt
+#
+# syslinux
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 1f 9f  2c ac  1f 9f  26 a6  17 97  31 b1  16 96  2d ad
+# - (dash)
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 35 b5
+# install
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 17 97  31 b1  1f 9f  14 94  1e 9e  26 a6  26 a6
+# _ (underscore)
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 2a  35 b5  aa
+# update
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 16 96  19 99 20 a0  1e 9e  14 94  12 92
+# Spacebar
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 39 b9 
+# - (dash)
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 35 b5
+# i
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 17 97
+# Spacebar
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 39 b9 
+# - (dash)
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 35 b5
+# a
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 1e 9e
+# Spacebar
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 39 b9 
+# - (dash)
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 35 b5
+# m
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 32 b2
+# Spacebar
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 39 b9 
+# - (dash)
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 35 b5
+# c
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 2e ae
+# Spacebar
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 39 b9 
+# /
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 2a 08 88 aa
+# mnt
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 32 b2  31 b1  14 94
+# Enter
+vboxmanage controlvm "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}" keyboardputscancode 1c 9c
+
+
+
