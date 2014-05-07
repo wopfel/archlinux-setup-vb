@@ -43,8 +43,9 @@ for ( split /\n/, $basemap ) {
 # "Uppercase" keys (with shift modifier key)
 #
 
+# TODO: Replace * by § in 0x02
 my $uppermap = q,
-0x02::!"§$%&/()=?`
+0x02::!"*$%&/()=?`
 0x10::QWERTZUIOPÜ*
 0x1e::ASDFGHJKLÖÄ'
 0x2b::>YXCVBNM;:_,;
@@ -177,7 +178,16 @@ sub http_thread {
 # No output buffering
 $| = 1;
 
+#send_keys_to_vm( "loadkezs deßlatin1<ENTER>" );
+
 send_keys_to_vm( "uptime<ENTER>" );
+
+#send_keys_to_vm( "curl http://10.0.2.2:8080/" );
+send_keys_to_vm( "curl http://" );
+send_keys_to_vm( "10.0.2.2:8080/" );
+send_keys_to_vm( "vmstatus/" );
+send_keys_to_vm( "CURRENTVM/" );
+send_keys_to_vm( "alive<ENTER>" );
 exit 1;
 
 my $thread = threads->create( 'http_thread' );
