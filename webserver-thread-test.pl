@@ -182,6 +182,10 @@ $| = 1;
 
 send_keys_to_vm( "uptime<ENTER>" );
 
+# Seems to be too long if coded in one line
+# TODO: split too long commands automatically
+# vboxmanage complains: error: Could not send all scan codes to the virtual keyboard (VERR_PDM_NO_QUEUE_ITEMS)
+
 #send_keys_to_vm( "curl http://10.0.2.2:8080/" );
 send_keys_to_vm( "curl http://" );
 send_keys_to_vm( "10.0.2.2:8080/" );
