@@ -178,6 +178,10 @@ sub http_thread {
 # No output buffering
 $| = 1;
 
+my $thread = threads->create( 'http_thread' );
+
+print "Program started.\n";
+
 #send_keys_to_vm( "loadkezs deßlatin1<ENTER>" );
 
 send_keys_to_vm( "uptime<ENTER>" );
@@ -192,11 +196,7 @@ send_keys_to_vm( "10.0.2.2:8080/" );
 send_keys_to_vm( "vmstatus/" );
 send_keys_to_vm( "CURRENTVM/" );
 send_keys_to_vm( "alive<ENTER>" );
-exit 1;
 
-my $thread = threads->create( 'http_thread' );
-
-print "Program started.\n";
 sleep 60;
 
 threads->exit();
