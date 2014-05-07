@@ -136,7 +136,16 @@ sub process_client_request {
     if ($r) {
         print "URI: ", $r->uri->path, "\n";
         print "URL: ", $r->url->path, "\n";
-        $c->send_error( 501, "Too early. Function not implemented yet." );
+
+        # /vmstatus/CURRENTVM/alive
+        if ( $r->method eq "GET"  and  $r->url->path =~ m"^/vmstatus/CURRENTVM/alive$" ) {
+            # Maybe we're handling more than one VM at the same time, so CURRENTVM is for future enhancements
+            print "VM is alive!\n";
+            # Send back status code 200: OK
+            $c->send_status_line( 200 );
+        } else {
+            $c->send_error( 501, "Too early. Function not implemented yet." );
+        }
         #if ($r->method eq "GET") {
         #    my $path = $r->url->path();
         #    $c->send_file_response($path);
