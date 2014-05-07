@@ -10,6 +10,120 @@ use threads;
 use HTTP::Daemon;
 
 
+
+# Works with a german keyboard
+
+my %scanmap;
+
+#
+# Base keys (without shift modifier key)
+#
+
+my $basemap = '
+0x02::1234567890ß´
+0x10::qwertzuiopü+
+0x1e::asdfghjklöä#
+0x2b::<yxcvbnm,.-';
+
+for ( split /\n/, $basemap ) {
+
+    if ( /^0x(..)::(.*)$/ ) {
+        my $offset = $1;
+        my $keys = $2;
+        my $nr = 0;
+        for my $key ( split //, $keys ) {
+            $scanmap{ $key } = sprintf "%02x %02x", (hex($offset) + $nr), (hex($offset) + $nr + 128);
+            $nr++;
+        }
+    }
+}
+
+
+#
+# "Uppercase" keys (with shift modifier key)
+#
+
+my $uppermap = qq,
+0x02::!"§$%&/()=?`
+0x10::QWERTZUIOPÜ*
+0x1e::ASDFGHJKLÖÄ'
+0x2b::>YXCVBNM;:_,;
+
+for ( split /\n/, $uppermap ) {
+
+    if ( /^0x(..)::(.*)$/ ) {
+        my $offset = $1;
+        my $keys = $2;
+        my $nr = 0;
+        for my $key ( split //, $keys ) {
+            $scanmap{ $key } = sprintf "2a %02x %02x aa", (hex($offset) + $nr), (hex($offset) + $nr + 128);
+            $nr++;
+        }
+    }
+}
+
+# Credits to: http://www.marjorie.de/ps2/scancode-set1.htm
+$scanmap{ "<LT>" }       = "2b ab";
+$scanmap{ "<GT>" }       = "2a 2b ab aa";
+$scanmap{ "<SPACE>" }    = "39 b9";
+$scanmap{ "<ENTER>" }    = "1c 9c";
+
+
+sub send_keys_to_vm {
+
+    # You can run `showkey --scancodes` on a console to view the scancodes
+
+    my $string = shift;
+    my @scancodes = ();
+
+    while ( length $string > 0 ) {
+
+        # First part: <SPECIAL> keys
+        # Second part: default keys, like 'q', 'w', ..., 'Q', ...
+        if ( $string =~ /^(<.*?>)(.*)$/ ) {
+            my $key = $1;
+            $string = $2;
+
+            if ( defined $scanmap{ $1 } ) {
+                push @scancodes, $scanmap{ $1 };
+            } else {
+                print STDERR "Error: missing scancode for special '$key'!";
+                die;
+            }
+            #print "=== $1 ===\n";
+            #print "=== $2 ===\n";
+        } elsif ( $string =~ /^(.)(.*)$/ ) {
+            my $key = $1;
+            $string = $2;
+            #print "=== $1 ===\n";
+            #print "=== $2 ===\n";
+            if ( defined $scanmap{ $1 } ) {
+                push @scancodes, $scanmap{ $1 };
+            } else {
+                print STDERR "Error: missing scancode for key '$key'!";
+                die;
+            }
+        }
+        #print "==========\n";
+    }
+
+    # Join all 2-digit scancodes using a blank (" ")
+    my $scancodes = join " ", @scancodes;
+
+    # Call vboxmanage
+    # The joined $scancodes doesn't work, vboxmanage complains with "Error: '...' is not a hex byte!"
+    my @args = ( "vboxmanage", "controlvm", "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}",
+                 "keyboardputscancode",
+                 split( / /, $scancodes )
+               );
+
+    #print @args;
+    system( @args ) == 0  or  die "Error: system call (@args) failed";
+
+}
+
+
+
 sub process_client_request {
 
     print "Processing request.\n";
@@ -61,6 +175,9 @@ sub http_thread {
 
 # No output buffering
 $| = 1;
+
+send_keys_to_vm( "uptime<ENTER>" );
+exit 1;
 
 my $thread = threads->create( 'http_thread' );
 
