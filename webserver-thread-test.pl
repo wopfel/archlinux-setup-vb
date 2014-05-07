@@ -66,6 +66,7 @@ for ( split /\n/, $uppermap ) {
 $scanmap{ "<LT>" }       = "2b ab";
 $scanmap{ "<GT>" }       = "2a 2b ab aa";
 $scanmap{ "<SPACE>" }    = "39 b9";
+$scanmap{ " " }          = $scanmap{ "<SPACE>" };
 $scanmap{ "<ENTER>" }    = "1c 9c";
 
 
