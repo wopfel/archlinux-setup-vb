@@ -20,6 +20,7 @@ sub process_client_request {
     if ($r) {
         print "URI: ", $r->uri->path, "\n";
         print "URL: ", $r->url->path, "\n";
+        $c->send_error( 501, "Too early. Function not implemented yet." );
         #if ($r->method eq "GET") {
         #    my $path = $r->url->path();
         #    $c->send_file_response($path);
