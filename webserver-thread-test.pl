@@ -43,7 +43,7 @@ for ( split /\n/, $basemap ) {
 # "Uppercase" keys (with shift modifier key)
 #
 
-my $uppermap = qq,
+my $uppermap = q,
 0x02::!"§$%&/()=?`
 0x10::QWERTZUIOPÜ*
 0x1e::ASDFGHJKLÖÄ'
