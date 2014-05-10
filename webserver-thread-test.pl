@@ -74,6 +74,10 @@ $scanmap{ "<GT>" }       = "2a 2b ab aa";
 $scanmap{ "<SPACE>" }    = "39 b9";
 $scanmap{ " " }          = $scanmap{ "<SPACE>" };
 $scanmap{ "<ENTER>" }    = "1c 9c";
+$scanmap{ "<ARROW-DOWN>" }    = "e0 50 e0 d0";
+$scanmap{ "<ARROW-LEFT>" }    = "e0 4b e0 cb";
+$scanmap{ "<ARROW-UP>" }      = "e0 48 e0 c8";
+$scanmap{ "<ARROW-RIGHT>" }   = "e0 4d e0 cd";
 
 
 sub send_keys_to_vm {
