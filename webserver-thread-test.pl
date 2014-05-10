@@ -11,6 +11,7 @@ use warnings;
 use threads;
 use HTTP::Daemon;
 use HTTP::Status qw(:constants);
+use utf8;
 
 
 
@@ -35,6 +36,7 @@ for ( split /\n/, $basemap ) {
         my $keys = $2;
         my $nr = 0;
         for my $key ( split //, $keys ) {
+            #print "[ $key ]";
             $scanmap{ $key } = sprintf "%02x %02x", (hex($offset) + $nr), (hex($offset) + $nr + 128);
             $nr++;
         }
@@ -46,9 +48,8 @@ for ( split /\n/, $basemap ) {
 # "Uppercase" keys (with shift modifier key)
 #
 
-# TODO: Replace * by § in 0x02
 my $uppermap = q,
-0x02::!"*$%&/()=?`
+0x02::!"§$%&/()=?`
 0x10::QWERTZUIOPÜ*
 0x1e::ASDFGHJKLÖÄ'
 0x2b::>YXCVBNM;:_,;
@@ -60,6 +61,7 @@ for ( split /\n/, $uppermap ) {
         my $keys = $2;
         my $nr = 0;
         for my $key ( split //, $keys ) {
+            #print "[ $key ]";
             $scanmap{ $key } = sprintf "2a %02x %02x aa", (hex($offset) + $nr), (hex($offset) + $nr + 128);
             $nr++;
         }
@@ -194,7 +196,7 @@ my $thread = threads->create( 'http_thread' );
 
 print "Program started.\n";
 
-#send_keys_to_vm( "loadkezs deßlatin1<ENTER>" );
+send_keys_to_vm( "loadkezs deßlatin1<ENTER>" );
 
 send_keys_to_vm( "uptime<ENTER>" );
 
