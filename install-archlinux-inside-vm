@@ -326,6 +326,11 @@ my @vm_steps = (
                    description => "Background loop to let us know the VM is alive",
                  },
                  {
+                   command => "ping -c 3 www.google.com",
+                   description => "Test internet connection",
+                   requestrc => 1,
+                 },
+                 {
                    command => "cfdisk /dev/sda",
                    subcommand => "<WAIT_PAUSE>" .                 # Insert a pause before continuing
                                  "<ENTER>" .                      # New partition
