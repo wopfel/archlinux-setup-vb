@@ -9,6 +9,7 @@
 use strict;
 use warnings;
 use threads;
+use threads::shared;
 use HTTP::Daemon;
 use HTTP::Status qw(:constants);
 use utf8;
@@ -17,7 +18,10 @@ use utf8;
 
 
 # Track state of virtual machine
-my %vm_state;
+# TODO
+#my %vm_state :shared;
+my $last_step_completed_nr :shared;
+my $last_step_completed_rc :shared;
 
 
 # Works with a german keyboard
@@ -218,7 +222,7 @@ sub process_client_request {
             # Send back status code 200: OK
             $c->send_status_line( 200 );
             # Store current time
-            $vm_state{'CURRENTVM'}{'alive_msg'} = time;
+            # TODO: $vm_state->{'CURRENTVM'}{'alive_msg'} = time;
         }
         # http://10.0.2.2:8080/vmstatus/CURRENTVM/step/$step/returncode/\$?
         elsif ( $r->method eq "GET"  and  $r->url->path =~ m"^/vmstatus/CURRENTVM/step/(\d+)/returncode/(\d+)$" ) {
@@ -230,11 +234,14 @@ sub process_client_request {
             # Send back status code 200: OK
             $c->send_status_line( 200 );
             # Store return code and step information
-            $vm_state{'CURRENTVM'}{'last_completed_step_nr'} = $stepnr;
-            $vm_state{'CURRENTVM'}{'last_completed_step_rc'} = $returncode;
-            $vm_state{'CURRENTVM'}{'last_completed_step_time'} = time;
-            $vm_state{'CURRENTVM'}{'steplist'}{$stepnr}{'rc'} = $returncode;
-            $vm_state{'CURRENTVM'}{'steplist'}{$stepnr}{'time'} = $vm_state{'CURRENTVM'}{'last_completed_step_time'};
+            $last_step_completed_nr = $stepnr;
+            $last_step_completed_rc = $returncode;
+            # TODO:
+            #$vm_state->{'CURRENTVM'}{'last_completed_step_nr'} = $stepnr;
+            #$vm_state->{'CURRENTVM'}{'last_completed_step_rc'} = $returncode;
+            #$vm_state->{'CURRENTVM'}{'last_completed_step_time'} = time;
+            #$vm_state->{'CURRENTVM'}{'steplist'}{$stepnr}{'rc'} = $returncode;
+            #$vm_state->{'CURRENTVM'}{'steplist'}{$stepnr}{'time'} = $vm_state->{'CURRENTVM'}{'last_completed_step_time'};
         } else {
             $c->send_error( 501, "Too early. Function not implemented yet." );
         }
@@ -434,10 +441,9 @@ for my $step ( 0 .. $#vm_steps ) {
 
         # TODO: exit loop after timeout
         while (1) {
-            printf "Last step completed: %d, return code: %d.\n", $vm_state{'CURRENTVM'}{'last_completed_step_nr'},
-                                                                  $vm_state{'CURRENTVM'}{'last_completed_step_rc'};
-            last if $vm_state{'CURRENTVM'}{'last_completed_step_nr'} == $step  and
-                    $vm_state{'CURRENTVM'}{'last_completed_step_rc'} == 0;
+            printf "Last step completed: %d, return code: %d.\n", $last_step_completed_nr, $last_step_completed_rc;
+            last if $last_step_completed_nr == $step  and
+                    $last_step_completed_rc == 0;
             sleep 1;
         }
 
