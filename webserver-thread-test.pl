@@ -159,14 +159,14 @@ sub send_keys_to_vm {
 
 sub process_client_request {
 
-    print "Processing request.\n";
+    #print "Processing request.\n";
 
     my $c = shift;
     my $r = $c->get_request;
 
     if ($r) {
-        print "URI: ", $r->uri->path, "\n";
-        print "URL: ", $r->url->path, "\n";
+        #print "URI: ", $r->uri->path, "\n";
+        #print "URL: ", $r->url->path, "\n";
 
         # /vmstatus/CURRENTVM/alive
         if ( $r->method eq "GET"  and  $r->url->path =~ m"^/vmstatus/CURRENTVM/alive$" ) {
