@@ -245,11 +245,6 @@ sub process_client_request {
         } else {
             $c->send_error( HTTP_NOT_IMPLEMENTED, "Too early. Function not implemented yet." );  # HTTP status code 501
         }
-        #if ($r->method eq "GET") {
-        #    my $path = $r->url->path();
-        #    $c->send_file_response($path);
-        #    #or do whatever you want here
-        #}
     } else {
         $c->send_error( HTTP_FORBIDDEN );
     }
