@@ -186,7 +186,7 @@ sub send_keys_to_vm {
                      split( / /, $scancodes )
                    );
 
-        #print @args;
+        #print "@args\n";
         system( @args ) == 0  or  die "Error: system call (@args) failed";
 
     }
