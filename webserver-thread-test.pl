@@ -69,8 +69,8 @@ for ( split /\n/, $uppermap ) {
 }
 
 # Credits to: http://www.marjorie.de/ps2/scancode-set1.htm
-$scanmap{ "<LT>" }       = "2b ab";
-$scanmap{ "<GT>" }       = "2a 2b ab aa";
+$scanmap{ "<LT>" }       = "56 d6";
+$scanmap{ "<GT>" }       = "2a 56 d6 aa";
 $scanmap{ "<SPACE>" }    = "39 b9";
 $scanmap{ " " }          = $scanmap{ "<SPACE>" };
 $scanmap{ "<ENTER>" }    = "1c 9c";
