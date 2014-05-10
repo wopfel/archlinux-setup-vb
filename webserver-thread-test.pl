@@ -278,40 +278,40 @@ my @vm_steps = (
                  },
                  {
                    command => "cfdisk /dev/sda" .
-                              " ; curl http://10.0.2.2:8080/vmstatus/CURRENTVM/lastcommandrc/\$?<ENTER>" .
-                              "<WAIT_PAUSE>" .                 # Insert a pause before continuing
-                              "<ENTER>" .                      # New partition
-                              "<ENTER>" .                      # Primary
-                              "100<ENTER>" .                   # MB
-                              "<ENTER>" .                      # Beginning
-                              "<ENTER>" .                      # Bootable
-                              "<WAIT_PAUSE>" .                 # Insert a pause before continuing
-                              "<ARROW-DOWN>" .                 # Free space
-                              "<ENTER>" .                      # New partition
-                              "<ENTER>" .                      # Primary
-                              "<ENTER>" .                      # Default size
-                              "<ARROW-LEFT>" .                 # Highlight Write
-                              "<ENTER>" .                      # Write
-                              "yes<ENTER>" .
-                              "<WAIT_PAUSE>" .                 # Insert a pause before continuing
-                              "<ARROW-LEFT><ARROW-LEFT>" .     # Highlight Units
-                              "<ARROW-LEFT><ARROW-LEFT>" .     # Highlight Quit
-                              "<ENTER>"                        # Quit
+                              " ; curl http://10.0.2.2:8080/vmstatus/CURRENTVM/lastcommandrc/\$?<ENTER>",
+                   subcommand => "<WAIT_PAUSE>" .                 # Insert a pause before continuing
+                                 "<ENTER>" .                      # New partition
+                                 "<ENTER>" .                      # Primary
+                                 "100<ENTER>" .                   # MB
+                                 "<ENTER>" .                      # Beginning
+                                 "<ENTER>" .                      # Bootable
+                                 "<WAIT_PAUSE>" .                 # Insert a pause before continuing
+                                 "<ARROW-DOWN>" .                 # Free space
+                                 "<ENTER>" .                      # New partition
+                                 "<ENTER>" .                      # Primary
+                                 "<ENTER>" .                      # Default size
+                                 "<ARROW-LEFT>" .                 # Highlight Write
+                                 "<ENTER>" .                      # Write
+                                 "yes<ENTER>" .
+                                 "<WAIT_PAUSE>" .                 # Insert a pause before continuing
+                                 "<ARROW-LEFT><ARROW-LEFT>" .     # Highlight Units
+                                 "<ARROW-LEFT><ARROW-LEFT>" .     # Highlight Quit
+                                 "<ENTER>"                        # Quit
                  },
                  {
                    command => "cryptsetup -c aes-xts-plain64 -y -s 512 luksFormat /dev/sda2" .
-                              " ; curl http://10.0.2.2:8080/vmstatus/CURRENTVM/lastcommandrc/\$?<ENTER>" .
-                              "<WAIT_PAUSE>" .                 # Insert a pause before continuing
-                              "YES<ENTER>" .
-                              "<WAIT_PAUSE>" .
-                              "arch<ENTER>" .                  # The passphrase
-                              "<WAIT_PAUSE>" .
-                              "arch<ENTER>"                    # Verify the passphrase
+                              " ; curl http://10.0.2.2:8080/vmstatus/CURRENTVM/lastcommandrc/\$?<ENTER>",
+                   subcommand => "<WAIT_PAUSE>" .                 # Insert a pause before continuing
+                                 "YES<ENTER>" .
+                                 "<WAIT_PAUSE>" .
+                                 "arch<ENTER>" .                  # The passphrase
+                                 "<WAIT_PAUSE>" .
+                                 "arch<ENTER>"                    # Verify the passphrase
                  },
                  {
                    command => "cryptsetup luksOpen /dev/sda2 lvm" .
-                              " ; curl http://10.0.2.2:8080/vmstatus/CURRENTVM/lastcommandrc/\$?<ENTER>" .
-                              "arch<ENTER>"                    # The passphrase
+                              " ; curl http://10.0.2.2:8080/vmstatus/CURRENTVM/lastcommandrc/\$?<ENTER>",
+                   subcommand => "arch<ENTER>"                    # The passphrase
                  },
                  {
                    command => "pvcreate /dev/mapper/lvm" .
@@ -389,6 +389,12 @@ for my $step ( 0 .. $#vm_steps ) {
 
     # Send command to virtual machine
     send_keys_to_vm( $step{'command'} );
+
+    # Sleeping 1 second
+    sleep 1;
+
+    # Send subcommand to virtual machine
+    send_keys_to_vm( $step{'subcommand'} )  if  defined $step{'subcommand'};
 
     # Sleeping 1 second
     sleep 1;
