@@ -457,6 +457,49 @@ my @vm_steps = (
                    description => "Ensure there are 4 partitions in the fstab file",
                    requestrc => 1,
                  },
+                 {
+                   command => "echo 'LANG=\"de_DE.UTF-8\"' <GT> /mnt/etc/locale.conf",
+                   requestrc => 1,
+                 },
+                 {
+                   command => "echo 'LC_COLLATE=\"C\"' <GT><GT> /mnt/etc/locale.conf",
+                   requestrc => 1,
+                 },
+                 {
+                   command => "echo 'LC_TIME=\"de_DE.UTF-8\"' <GT><GT> /mnt/etc/locale.conf",
+                   requestrc => 1,
+                 },
+                 {
+                   command => "[[ ` grep -c = /mnt/etc/locale.conf`  -eq 3 ]]",  # Space following ` needed (dead key)
+                   description => "Ensure there are 3 lines containing = in locale.conf",
+                   requestrc => 1,
+                 },
+                 {
+                   command => "sed -i 's,^ #de_DE,de_DE,' /mnt/etc/locale.gen",
+                   description => "Prepare locale.gen",
+                   requestrc => 1,
+                 },
+                 {
+                   command => "echo archlinux-setup-vb <GT> /mnt/etc/hostname",
+                   requestrc => 1,
+                 },
+                 {
+                   command => "echo KEYMAP=de-latin1 <GT><GT> /mnt/etc/vconsole.conf",
+                   requestrc => 1,
+                 },
+                 {
+                   command => "echo FONT=lat9w-16 <GT><GT> /mnt/etc/vconsole.conf",
+                   requestrc => 1,
+                 },
+                 {
+                   command => "echo FONT_MAP=8859-1_to_uni <GT><GT> /mnt/etc/vconsole.conf",
+                   requestrc => 1,
+                 },
+                 {
+                   command => "[[ ` grep -c = /mnt/etc/vconsole.conf`  -eq 3 ]]",  # Space following ` needed (dead key)
+                   description => "Ensure there are 3 lines containing = in vconsole.conf",
+                   requestrc => 1,
+                 },
                );
 
 
