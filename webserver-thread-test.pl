@@ -224,15 +224,17 @@ sub process_client_request {
         elsif ( $r->method eq "GET"  and  $r->url->path =~ m"^/vmstatus/CURRENTVM/step/(\d+)/returncode/(\d+)$" ) {
             # Assuming only positive returncodes (\d+)
             # Maybe we're handling more than one VM at the same time, so CURRENTVM is for future enhancements
-            print "VM reported return code: $2. Finished step number: $1.\n";
+            my $stepnr = $1;
+            my $returncode = $2;
+            print "VM reported return code: $returncode. Finished step number: $stepnr.\n";
             # Send back status code 200: OK
             $c->send_status_line( 200 );
             # Store return code and step information
-            $vm_state{'CURRENTVM'}{'last_completed_step_nr'} = $1;
-            $vm_state{'CURRENTVM'}{'last_completed_step_rc'} = $2;
+            $vm_state{'CURRENTVM'}{'last_completed_step_nr'} = $stepnr;
+            $vm_state{'CURRENTVM'}{'last_completed_step_rc'} = $returncode;
             $vm_state{'CURRENTVM'}{'last_completed_step_time'} = time;
-            $vm_state{'CURRENTVM'}{'steplist'}{$1}{'rc'} = $2;
-            $vm_state{'CURRENTVM'}{'steplist'}{$1}{'time'} = $vm_state{'CURRENTVM'}{'last_completed_step_time'};
+            $vm_state{'CURRENTVM'}{'steplist'}{$stepnr}{'rc'} = $returncode;
+            $vm_state{'CURRENTVM'}{'steplist'}{$stepnr}{'time'} = $vm_state{'CURRENTVM'}{'last_completed_step_time'};
         } else {
             $c->send_error( 501, "Too early. Function not implemented yet." );
         }
