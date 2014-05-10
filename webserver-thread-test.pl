@@ -108,6 +108,10 @@ sub send_keys_to_vm {
             $string = $2;
             #print "=== $1 ===\n";
             #print "=== $2 ===\n";
+            if ( $key =~ /^(<|>)$/ ) {
+                print STDERR "Error: Lonely '$key' found. Use <LT> and <GT> for single '<'/'>' keys!";
+                die;
+            }
             if ( defined $scanmap{ $1 } ) {
                 push @scancodes, $scanmap{ $1 };
             } else {
