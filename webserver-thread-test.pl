@@ -260,6 +260,8 @@ sub http_thread {
                                     Listen => 20
                                   );
 
+    die unless $daemon;
+
     print "Embedded web server started.\n";
     print "Server address: ", $daemon->sockhost(), "\n";
     print "Server port: ",    $daemon->sockport(), "\n";
