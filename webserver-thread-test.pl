@@ -212,9 +212,12 @@ sub process_client_request {
             print "VM is alive!\n";
             # Send back status code 200: OK
             $c->send_status_line( 200 );
-        } elsif ( $r->method eq "GET"  and  $r->url->path =~ m"^/vmstatus/CURRENTVM/lastcommandrc/(\d+)$" ) {
+        }
+        # http://10.0.2.2:8080/vmstatus/CURRENTVM/step/$step/returncode/\$?
+        elsif ( $r->method eq "GET"  and  $r->url->path =~ m"^/vmstatus/CURRENTVM/step/(\d+)/returncode/(\d+)$" ) {
+            # Assuming only positive returncodes (\d+)
             # Maybe we're handling more than one VM at the same time, so CURRENTVM is for future enhancements
-            print "VM reported return code: $1.\n";
+            print "VM reported return code: $2. Finished step number: $1.\n";
             # Send back status code 200: OK
             $c->send_status_line( 200 );
         } else {
@@ -395,7 +398,7 @@ for my $step ( 0 .. $#vm_steps ) {
     send_keys_to_vm( $step{'command'} );
 
     # Send "submitting the return code" command to virtual machine if requested
-    send_keys_to_vm( " ; curl http://10.0.2.2:8080/vmstatus/CURRENTVM/lastcommandrc/\$?" )  if  $step{'requestrc'};
+    send_keys_to_vm( " ; curl http://10.0.2.2:8080/vmstatus/CURRENTVM/step/$step/returncode/\$?" )  if  $step{'requestrc'};
 
     # Send enter key to virtual machine
     send_keys_to_vm( "<ENTER>" );
