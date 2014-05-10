@@ -15,6 +15,11 @@ use utf8;
 
 
 
+
+# Track state of virtual machine
+my %vm_state;
+
+
 # Works with a german keyboard
 
 my %scanmap;
@@ -212,6 +217,8 @@ sub process_client_request {
             print "VM is alive!\n";
             # Send back status code 200: OK
             $c->send_status_line( 200 );
+            # Store current time
+            $vm_state{'CURRENTVM'}{'alive_msg'} = time;
         }
         # http://10.0.2.2:8080/vmstatus/CURRENTVM/step/$step/returncode/\$?
         elsif ( $r->method eq "GET"  and  $r->url->path =~ m"^/vmstatus/CURRENTVM/step/(\d+)/returncode/(\d+)$" ) {
@@ -220,6 +227,12 @@ sub process_client_request {
             print "VM reported return code: $2. Finished step number: $1.\n";
             # Send back status code 200: OK
             $c->send_status_line( 200 );
+            # Store return code and step information
+            $vm_state{'CURRENTVM'}{'last_completed_step_nr'} = $1;
+            $vm_state{'CURRENTVM'}{'last_completed_step_rc'} = $2;
+            $vm_state{'CURRENTVM'}{'last_completed_step_time'} = time;
+            $vm_state{'CURRENTVM'}{'steplist'}{$1}{'rc'} = $2;
+            $vm_state{'CURRENTVM'}{'steplist'}{$1}{'time'} = $vm_state{'CURRENTVM'}{'last_completed_step_time'};
         } else {
             $c->send_error( 501, "Too early. Function not implemented yet." );
         }
