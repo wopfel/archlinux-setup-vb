@@ -281,8 +281,7 @@ my @vm_steps = (
                    description => "Background loop to let us know the VM is alive",
                  },
                  {
-                   command => "cfdisk /dev/sda" .
-                              " ; curl http://10.0.2.2:8080/vmstatus/CURRENTVM/lastcommandrc/\$?<ENTER>",
+                   command => "cfdisk /dev/sda",
                    subcommand => "<WAIT_PAUSE>" .                 # Insert a pause before continuing
                                  "<ENTER>" .                      # New partition
                                  "<ENTER>" .                      # Primary
@@ -300,86 +299,87 @@ my @vm_steps = (
                                  "<WAIT_PAUSE>" .                 # Insert a pause before continuing
                                  "<ARROW-LEFT><ARROW-LEFT>" .     # Highlight Units
                                  "<ARROW-LEFT><ARROW-LEFT>" .     # Highlight Quit
-                                 "<ENTER>"                        # Quit
+                                 "<ENTER>",                       # Quit
+                   requestrc => 1,
                  },
                  {
-                   command => "cryptsetup -c aes-xts-plain64 -y -s 512 luksFormat /dev/sda2" .
-                              " ; curl http://10.0.2.2:8080/vmstatus/CURRENTVM/lastcommandrc/\$?<ENTER>",
+                   command => "cryptsetup -c aes-xts-plain64 -y -s 512 luksFormat /dev/sda2",
                    subcommand => "<WAIT_PAUSE>" .                 # Insert a pause before continuing
                                  "YES<ENTER>" .
                                  "<WAIT_PAUSE>" .
                                  "arch<ENTER>" .                  # The passphrase
                                  "<WAIT_PAUSE>" .
-                                 "arch<ENTER>"                    # Verify the passphrase
+                                 "arch<ENTER>",                   # Verify the passphrase
+                   requestrc => 1,
                  },
                  {
-                   command => "cryptsetup luksOpen /dev/sda2 lvm" .
-                              " ; curl http://10.0.2.2:8080/vmstatus/CURRENTVM/lastcommandrc/\$?<ENTER>",
-                   subcommand => "arch<ENTER>"                    # The passphrase
+                   command => "cryptsetup luksOpen /dev/sda2 lvm",
+                   subcommand => "arch<ENTER>",                   # The passphrase
+                   requestrc => 1,
                  },
                  {
-                   command => "pvcreate /dev/mapper/lvm" .
-                              " ; curl http://10.0.2.2:8080/vmstatus/CURRENTVM/lastcommandrc/\$?<ENTER>"
+                   command => "pvcreate /dev/mapper/lvm",
+                   requestrc => 1,
                  },
                  {
-                   command => "vgcreate main /dev/mapper/lvm" .
-                              " ; curl http://10.0.2.2:8080/vmstatus/CURRENTVM/lastcommandrc/\$?<ENTER>"
+                   command => "vgcreate main /dev/mapper/lvm",
+                   requestrc => 1,
                  },
                  {
-                   command => "lvcreate -L 2GB -n root main" .
-                              " ; curl http://10.0.2.2:8080/vmstatus/CURRENTVM/lastcommandrc/\$?<ENTER>"
+                   command => "lvcreate -L 2GB -n root main",
+                   requestrc => 1,
                  },
                  {
-                   command => "lvcreate -L 2GB -n swap main" .
-                              " ; curl http://10.0.2.2:8080/vmstatus/CURRENTVM/lastcommandrc/\$?<ENTER>"
+                   command => "lvcreate -L 2GB -n swap main",
+                   requestrc => 1,
                  },
                  {
-                   command => "lvcreate -L 2GB -n home main" .
-                              " ; curl http://10.0.2.2:8080/vmstatus/CURRENTVM/lastcommandrc/\$?<ENTER>"
+                   command => "lvcreate -L 2GB -n home main",
+                   requestrc => 1,
                  },
                  {
-                   command => "lvs" .
-                              " ; curl http://10.0.2.2:8080/vmstatus/CURRENTVM/lastcommandrc/\$?<ENTER>"
+                   command => "lvs",
+                   requestrc => 1,
                  },
                  {
-                   command => "mkfs.ext4 -L root /dev/mapper/main-root" .
-                              " ; curl http://10.0.2.2:8080/vmstatus/CURRENTVM/lastcommandrc/\$?<ENTER>"
+                   command => "mkfs.ext4 -L root /dev/mapper/main-root",
+                   requestrc => 1,
                  },
                  {
-                   command => "mkfs.ext4 -L home /dev/mapper/main-home" .
-                              " ; curl http://10.0.2.2:8080/vmstatus/CURRENTVM/lastcommandrc/\$?<ENTER>"
+                   command => "mkfs.ext4 -L home /dev/mapper/main-home",
+                   requestrc => 1,
                  },
                  {
-                   command => "mkfs.ext4 -L boot /dev/sda1" .
-                              " ; curl http://10.0.2.2:8080/vmstatus/CURRENTVM/lastcommandrc/\$?<ENTER>"
+                   command => "mkfs.ext4 -L boot /dev/sda1",
+                   requestrc => 1,
                  },
                  {
-                   command => "mkswap -L swap /dev/mapper/main-swap" .
-                              " ; curl http://10.0.2.2:8080/vmstatus/CURRENTVM/lastcommandrc/\$?<ENTER>"
+                   command => "mkswap -L swap /dev/mapper/main-swap",
+                   requestrc => 1,
                  },
                  {
-                   command => "mount /dev/mapper/main-root /mnt" .
-                              " ; curl http://10.0.2.2:8080/vmstatus/CURRENTVM/lastcommandrc/\$?<ENTER>"
+                   command => "mount /dev/mapper/main-root /mnt",
+                   requestrc => 1,
                  },
                  {
-                   command => "mkdir /mnt/home" .
-                              " ; curl http://10.0.2.2:8080/vmstatus/CURRENTVM/lastcommandrc/\$?<ENTER>"
+                   command => "mkdir /mnt/home",
+                   requestrc => 1,
                  },
                  {
-                   command => "mount /dev/mapper/main-home /mnt/home" .
-                              " ; curl http://10.0.2.2:8080/vmstatus/CURRENTVM/lastcommandrc/\$?<ENTER>"
+                   command => "mount /dev/mapper/main-home /mnt/home",
+                   requestrc => 1,
                  },
                  {
-                   command => "mkdir /mnt/boot" .
-                              " ; curl http://10.0.2.2:8080/vmstatus/CURRENTVM/lastcommandrc/\$?<ENTER>"
+                   command => "mkdir /mnt/boot",
+                   requestrc => 1,
                  },
                  {
-                   command => "mount /dev/sda1 /mnt/boot" .
-                              " ; curl http://10.0.2.2:8080/vmstatus/CURRENTVM/lastcommandrc/\$?<ENTER>"
+                   command => "mount /dev/sda1 /mnt/boot",
+                   requestrc => 1,
                  },
                  {
-                   command => "pacstrap /mnt base base-devel syslinux" .
-                              " ; curl http://10.0.2.2:8080/vmstatus/CURRENTVM/lastcommandrc/\$?<ENTER>"
+                   command => "pacstrap /mnt base base-devel syslinux",
+                   requestrc => 1,
                  },
                );
 
@@ -393,6 +393,12 @@ for my $step ( 0 .. $#vm_steps ) {
 
     # Send command to virtual machine
     send_keys_to_vm( $step{'command'} );
+
+    # Send "submitting the return code" command to virtual machine if requested
+    send_keys_to_vm( " ; curl http://10.0.2.2:8080/vmstatus/CURRENTVM/lastcommandrc/\$?" )  if  $step{'requestrc'};
+
+    # Send enter key to virtual machine
+    send_keys_to_vm( "<ENTER>" );
 
     # Sleeping 1 second
     sleep 1;
