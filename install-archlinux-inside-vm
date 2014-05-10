@@ -431,6 +431,16 @@ my @vm_steps = (
                    command => "pacstrap /mnt base base-devel syslinux",
                    requestrc => 1,
                  },
+                 {
+                   command => "syslinux-install_update -i -a -m -c /mnt",
+                   description => "Install syslinux bootloader",
+                   requestrc => 1,
+                 },
+                 {
+                   command => "sed -i 's,APPEND root.*,APPEND cryptdevice=/dev/sda2:main root=/dev/mapper/main-root rw lang=de locale=de_DE.UTF-8,' /mnt/boot/syslinux/syslinux.cfg",
+                   description => "Prepare bootloader APPEND options",
+                   requestrc => 1,
+                 },
                );
 
 
