@@ -289,17 +289,17 @@ print "Program started.\n";
 
 my @vm_steps = (
                  {
-                   command => "loadkezs deßlatin1<ENTER>",
+                   command => "loadkezs deßlatin1",
                  },
                  {
-                   command => 'kill ${${(v)jobstates#*:*:}%=*}<ENTER>',
+                   command => 'kill ${${(v)jobstates#*:*:}%=*}',
                    description => "Killing all background jobs (easier for testing when the program is restarted frequently)",
                  },
                  {
-                   command => "curl http://10.0.2.2:8080/vmstatus/CURRENTVM/alive<ENTER>",
+                   command => "curl http://10.0.2.2:8080/vmstatus/CURRENTVM/alive",
                  },
                  {
-                   command => "while true ; do curl http://10.0.2.2:8080/vmstatus/CURRENTVM/alive 1<GT> /dev/null 2<GT>&1 ; sleep 2 ; done &<ENTER>",
+                   command => "while true ; do curl http://10.0.2.2:8080/vmstatus/CURRENTVM/alive 1<GT> /dev/null 2<GT>&1 ; sleep 2 ; done &",
                    description => "Background loop to let us know the VM is alive",
                  },
                  {
