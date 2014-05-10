@@ -270,6 +270,10 @@ my @vm_steps = (
                    command => "loadkezs deßlatin1<ENTER>",
                  },
                  {
+                   command => 'kill ${${(v)jobstates#*:*:}%=*}<ENTER>',
+                   description => "Killing all background jobs (easier for testing when the program is restarted frequently)",
+                 },
+                 {
                    command => "curl http://10.0.2.2:8080/vmstatus/CURRENTVM/alive<ENTER>",
                  },
                  {
