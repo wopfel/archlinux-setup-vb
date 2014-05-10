@@ -114,18 +114,31 @@ sub send_keys_to_vm {
         #print "==========\n";
     }
 
-    # Join all 2-digit scancodes using a blank (" ")
-    my $scancodes = join " ", @scancodes;
 
-    # Call vboxmanage
-    # The joined $scancodes doesn't work, vboxmanage complains with "Error: '...' is not a hex byte!"
-    my @args = ( "vboxmanage", "controlvm", "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}",
-                 "keyboardputscancode",
-                 split( / /, $scancodes )
-               );
+    # The command mustn't be too long, otherwise vboxmanage complains with the following message:
+    # error: Could not send all scan codes to the virtual keyboard (VERR_PDM_NO_QUEUE_ITEMS)
+    # To avoid this the scancodes are split and passed in several vboxmanage commands
 
-    #print @args;
-    system( @args ) == 0  or  die "Error: system call (@args) failed";
+    # While there are elements in the array...
+    while ( scalar @scancodes > 0 ) {
+
+        # Get the first 10 scancodes (note: in this context, one scancode could be "26 a6")
+        my @subset = splice( @scancodes, 0, 10 );
+
+        # Join all 2-digit scancodes using a blank (" ")
+        my $scancodes = join " ", @subset;
+
+        # Call vboxmanage
+        # Blanks are not allowed, so the joined $scancodes doesn't work, vboxmanage complains with "Error: '...' is not a hex byte!"
+        my @args = ( "vboxmanage", "controlvm", "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}",
+                     "keyboardputscancode",
+                     split( / /, $scancodes )
+                   );
+
+        #print @args;
+        system( @args ) == 0  or  die "Error: system call (@args) failed";
+
+    }
 
 }
 
@@ -200,16 +213,7 @@ send_keys_to_vm( "loadkezs deßlatin1<ENTER>" );
 
 send_keys_to_vm( "uptime<ENTER>" );
 
-# Seems to be too long if coded in one line
-# TODO: split too long commands automatically
-# vboxmanage complains: error: Could not send all scan codes to the virtual keyboard (VERR_PDM_NO_QUEUE_ITEMS)
-
-#send_keys_to_vm( "curl http://10.0.2.2:8080/" );
-send_keys_to_vm( "curl http://" );
-send_keys_to_vm( "10.0.2.2:8080/" );
-send_keys_to_vm( "vmstatus/" );
-send_keys_to_vm( "CURRENTVM/" );
-send_keys_to_vm( "alive<ENTER>" );
+send_keys_to_vm( "curl http://10.0.2.2:8080/vmstatus/CURRENTVM/alive<ENTER>" );
 
 sleep 60;
 
