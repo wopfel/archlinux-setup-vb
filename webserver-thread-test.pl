@@ -427,6 +427,20 @@ for my $step ( 0 .. $#vm_steps ) {
     # Sleeping 1 second
     sleep 1;
 
+    # Wait for successful completion
+    if ( $step{'requestrc'} ) {
+
+        # TODO: exit loop after timeout
+        while (1) {
+            printf "Last step completed: %d, return code: %d.\n", $vm_state{'CURRENTVM'}{'last_completed_step_nr'},
+                                                                  $vm_state{'CURRENTVM'}{'last_completed_step_rc'};
+            last if $vm_state{'CURRENTVM'}{'last_completed_step_nr'} == $step  and
+                    $vm_state{'CURRENTVM'}{'last_completed_step_rc'} == 0;
+            sleep 1;
+        }
+
+    }
+
 }
 
 # Wait 10 minutes so pacstrap can finish the installation (hopefully done in 10 minutes)
