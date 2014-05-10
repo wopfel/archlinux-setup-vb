@@ -441,6 +441,16 @@ my @vm_steps = (
                    description => "Prepare bootloader APPEND options",
                    requestrc => 1,
                  },
+                 {
+                   command => "swapon -L swap",
+                   description => "Enable swap",
+                   requestrc => 1,
+                 },
+                 {
+                   command => "genfstab -U -p /mnt <GT><GT> /mnt/etc/fstab",
+                   description => "Write fstab",
+                   requestrc => 1,
+                 },
                );
 
 
