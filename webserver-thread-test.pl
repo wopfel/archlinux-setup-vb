@@ -231,7 +231,8 @@ send_keys_to_vm( "loadkezs deßlatin1<ENTER>" );
 
 send_keys_to_vm( "uptime<ENTER>" );
 
-send_keys_to_vm( "curl http://10.0.2.2:8080/vmstatus/CURRENTVM/alive<ENTER>" );
+# Background loop to let us know the VM is alive
+send_keys_to_vm( "while true ; do curl http://10.0.2.2:8080/vmstatus/CURRENTVM/alive 1<GT> /dev/null 2<GT>&1 ; sleep 2 ; done &<ENTER>" );
 
 send_keys_to_vm( "cfdisk /dev/sda" );
 send_keys_to_vm( " ; curl http://10.0.2.2:8080/vmstatus/CURRENTVM/lastcommandrc/\$?<ENTER>" );
@@ -308,6 +309,13 @@ send_keys_to_vm( " ; curl http://10.0.2.2:8080/vmstatus/CURRENTVM/lastcommandrc/
 
 send_keys_to_vm( "pacstrap /mnt base base-devel syslinux" );
 send_keys_to_vm( " ; curl http://10.0.2.2:8080/vmstatus/CURRENTVM/lastcommandrc/\$?<ENTER>" );
+
+# Wait 10 minutes so pacstrap can finish the installation (hopefully done in 10 minutes)
+sleep 10*60;
+
+# Kill all background jobs (for example, the I'm-alive loop we've started previously
+# From: http://stackoverflow.com/questions/13166544/how-to-kill-all-background-processes-in-zsh
+send_keys_to_vm( 'kill ${${(v)jobstates#*:*:}%=*}' ); #<ENTER>" );
 
 
 sleep 60;
