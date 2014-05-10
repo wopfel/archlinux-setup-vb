@@ -317,6 +317,11 @@ my @vm_steps = (
                    command => "curl http://10.0.2.2:8080/vmstatus/CURRENTVM/alive",
                  },
                  {
+                   command => "[[ ` grep -c 'sda[0-9]' /proc/partitions`  -eq 0 ]]",  # Space following ` needed (dead key)
+                   description => "Ensure there are no partitions on the disk",
+                   requestrc => 1,
+                 },
+                 {
                    command => "while true ; do curl http://10.0.2.2:8080/vmstatus/CURRENTVM/alive 1<GT> /dev/null 2<GT>&1 ; sleep 2 ; done &",
                    description => "Background loop to let us know the VM is alive",
                  },
