@@ -219,6 +219,24 @@ send_keys_to_vm( "uptime<ENTER>" );
 
 send_keys_to_vm( "curl http://10.0.2.2:8080/vmstatus/CURRENTVM/alive<ENTER>" );
 
+send_keys_to_vm( "cfdisk /dev/sda<ENTER>" );
+send_keys_to_vm( "<ENTER>" );                      # New partition
+send_keys_to_vm( "<ENTER>" );                      # Primary
+send_keys_to_vm( "100<ENTER>" );                   # MB
+send_keys_to_vm( "<ENTER>" );                      # Beginning
+send_keys_to_vm( "<ENTER>" );                      # Bootable
+send_keys_to_vm( "<ARROW-DOWN>" );                 # Free space
+send_keys_to_vm( "<ENTER>" );                      # New partition
+send_keys_to_vm( "<ENTER>" );                      # Primary
+send_keys_to_vm( "<ENTER>" );                      # Default size
+send_keys_to_vm( "<ARROW-LEFT>" );                 # Highlight Write
+send_keys_to_vm( "<ENTER>" );                      # Write
+send_keys_to_vm( "yes<ENTER>" );
+send_keys_to_vm( "<ARROW-LEFT><ARROW-LEFT>" );     # Highlight Units
+send_keys_to_vm( "<ARROW-LEFT><ARROW-LEFT>" );     # Highlight Quit
+send_keys_to_vm( "<ENTER>" );                      # Quit
+
+
 sleep 60;
 
 threads->exit();
