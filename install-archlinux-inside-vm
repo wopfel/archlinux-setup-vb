@@ -436,7 +436,7 @@ for my $step ( 0 .. $#vm_steps ) {
 
         # TODO: exit loop after timeout
         while (1) {
-            printf "Last step completed: %d, return code: %d.\n", $last_step_completed_nr, $last_step_completed_rc;
+            #printf "Last step completed: %d, return code: %d.\n", $last_step_completed_nr, $last_step_completed_rc;
             last if $last_step_completed_nr == $step  and
                     $last_step_completed_rc == 0;
             sleep 1;
