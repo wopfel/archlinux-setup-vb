@@ -102,6 +102,9 @@ sub send_keys_to_vm {
 
             if ( defined $scanmap{ $1 } ) {
                 push @scancodes, $scanmap{ $1 };
+            } elsif ( $key eq "<WAIT_PAUSE>" ) {
+                # Inserts a pause before firing the next keystrokes
+                push @scancodes, "WAIT_PAUSE";
             } else {
                 print STDERR "Error: missing scancode for special '$key'!";
                 die;
@@ -132,11 +135,46 @@ sub send_keys_to_vm {
     # error: Could not send all scan codes to the virtual keyboard (VERR_PDM_NO_QUEUE_ITEMS)
     # To avoid this the scancodes are split and passed in several vboxmanage commands
 
+    # Some commands seem to empty the keyboard buffer before reading new keys
+    # For this, <WAIT_PAUSE> (which was translated to WAIT_PAUSE) can be used which delays the next keystrokes
+
+
     # While there are elements in the array...
     while ( scalar @scancodes > 0 ) {
 
-        # Get the first 10 scancodes (note: in this context, one scancode could be "26 a6")
-        my @subset = splice( @scancodes, 0, 10 );
+        # Check if the first element tells us to wait
+        if ( $scancodes[0] eq "WAIT_PAUSE" ) {
+            # Sleep some time
+            #print "Sleeping.\n";
+            sleep 2;
+            # Remove element and retry loop
+            shift @scancodes;
+            next;
+        }
+
+        # The maximum number of elements for splice
+        my $max_elements;
+
+        # Check if there's a "WAIT_PAUSE" awaiting us
+        # Beginning with 1, since the first element cannot be "WAIT_PAUSE"
+        for my $i ( 1..9 ) {
+
+            # Exit the loop if end is reached
+            last unless defined $scancodes[$i];
+
+            # Check for pause instruction
+            if ( $scancodes[$i] eq "WAIT_PAUSE" ) {
+                # Not "+ 1", so WAIT_PAUSE is left in the array
+                $max_elements = $i;
+            }
+
+        }
+
+        # Defaults to 10
+        $max_elements ||= 10;
+
+        # Get the first $max_elements scancodes (note: in this context, one scancode could be "26 a6")
+        my @subset = splice( @scancodes, 0, $max_elements );
 
         # Join all 2-digit scancodes using a blank (" ")
         my $scancodes = join " ", @subset;
@@ -241,11 +279,13 @@ my @vm_steps = (
                  {
                    command => "cfdisk /dev/sda" .
                               " ; curl http://10.0.2.2:8080/vmstatus/CURRENTVM/lastcommandrc/\$?<ENTER>" .
+                              "<WAIT_PAUSE>" .                 # Insert a pause before continuing
                               "<ENTER>" .                      # New partition
                               "<ENTER>" .                      # Primary
                               "100<ENTER>" .                   # MB
                               "<ENTER>" .                      # Beginning
                               "<ENTER>" .                      # Bootable
+                              "<WAIT_PAUSE>" .                 # Insert a pause before continuing
                               "<ARROW-DOWN>" .                 # Free space
                               "<ENTER>" .                      # New partition
                               "<ENTER>" .                      # Primary
@@ -253,6 +293,7 @@ my @vm_steps = (
                               "<ARROW-LEFT>" .                 # Highlight Write
                               "<ENTER>" .                      # Write
                               "yes<ENTER>" .
+                              "<WAIT_PAUSE>" .                 # Insert a pause before continuing
                               "<ARROW-LEFT><ARROW-LEFT>" .     # Highlight Units
                               "<ARROW-LEFT><ARROW-LEFT>" .     # Highlight Quit
                               "<ENTER>"                        # Quit
@@ -260,8 +301,11 @@ my @vm_steps = (
                  {
                    command => "cryptsetup -c aes-xts-plain64 -y -s 512 luksFormat /dev/sda2" .
                               " ; curl http://10.0.2.2:8080/vmstatus/CURRENTVM/lastcommandrc/\$?<ENTER>" .
+                              "<WAIT_PAUSE>" .                 # Insert a pause before continuing
                               "YES<ENTER>" .
+                              "<WAIT_PAUSE>" .
                               "arch<ENTER>" .                  # The passphrase
+                              "<WAIT_PAUSE>" .
                               "arch<ENTER>"                    # Verify the passphrase
                  },
                  {
