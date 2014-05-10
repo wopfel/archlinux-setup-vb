@@ -453,7 +453,7 @@ for my $step ( 0 .. $#vm_steps ) {
 
 # Kill all background jobs (for example, the I'm-alive loop we've started previously
 # From: http://stackoverflow.com/questions/13166544/how-to-kill-all-background-processes-in-zsh
-send_keys_to_vm( 'kill ${${(v)jobstates#*:*:}%=*}' ); #<ENTER>" );
+send_keys_to_vm( 'kill ${${(v)jobstates#*:*:}%=*}<ENTER>' );
 
 
 sleep 60;
