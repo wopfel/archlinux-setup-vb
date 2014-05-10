@@ -452,6 +452,11 @@ my @vm_steps = (
                    description => "Write fstab",
                    requestrc => 1,
                  },
+                 {
+                   command => "[[ ` grep -c '^ UUID=' /mnt/etc/fstab`  -eq 4 ]]",  # Space following ^ needed (dead key)
+                   description => "Ensure there are 4 partitions in the fstab file",
+                   requestrc => 1,
+                 },
                );
 
 
