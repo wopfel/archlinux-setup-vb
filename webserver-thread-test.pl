@@ -228,8 +228,7 @@ my $thread = threads->create( 'http_thread' );
 print "Program started.\n";
 
 send_keys_to_vm( "loadkezs deßlatin1<ENTER>" );
-
-send_keys_to_vm( "uptime<ENTER>" );
+send_keys_to_vm( "curl http://10.0.2.2:8080/vmstatus/CURRENTVM/alive<ENTER>" );
 
 # Background loop to let us know the VM is alive
 send_keys_to_vm( "while true ; do curl http://10.0.2.2:8080/vmstatus/CURRENTVM/alive 1<GT> /dev/null 2<GT>&1 ; sleep 2 ; done &<ENTER>" );
