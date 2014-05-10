@@ -451,9 +451,6 @@ for my $step ( 0 .. $#vm_steps ) {
 
 }
 
-# Wait 10 minutes so pacstrap can finish the installation (hopefully done in 10 minutes)
-sleep 10*60;
-
 # Kill all background jobs (for example, the I'm-alive loop we've started previously
 # From: http://stackoverflow.com/questions/13166544/how-to-kill-all-background-processes-in-zsh
 send_keys_to_vm( 'kill ${${(v)jobstates#*:*:}%=*}' ); #<ENTER>" );
