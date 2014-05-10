@@ -220,7 +220,7 @@ sub process_client_request {
             # Maybe we're handling more than one VM at the same time, so CURRENTVM is for future enhancements
             print "VM is alive!\n";
             # Send back status code 200: OK
-            $c->send_status_line( 200 );
+            $c->send_status_line( HTTP_OK );
             # Store current time
             # TODO: $vm_state->{'CURRENTVM'}{'alive_msg'} = time;
         }
@@ -232,7 +232,7 @@ sub process_client_request {
             my $returncode = $2;
             print "VM reported return code: $returncode. Finished step number: $stepnr.\n";
             # Send back status code 200: OK
-            $c->send_status_line( 200 );
+            $c->send_status_line( HTTP_OK );
             # Store return code and step information
             $last_step_completed_nr = $stepnr;
             $last_step_completed_rc = $returncode;
@@ -243,7 +243,7 @@ sub process_client_request {
             #$vm_state->{'CURRENTVM'}{'steplist'}{$stepnr}{'rc'} = $returncode;
             #$vm_state->{'CURRENTVM'}{'steplist'}{$stepnr}{'time'} = $vm_state->{'CURRENTVM'}{'last_completed_step_time'};
         } else {
-            $c->send_error( 501, "Too early. Function not implemented yet." );
+            $c->send_error( HTTP_NOT_IMPLEMENTED, "Too early. Function not implemented yet." );  # HTTP status code 501
         }
         #if ($r->method eq "GET") {
         #    my $path = $r->url->path();
