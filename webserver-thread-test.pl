@@ -6,8 +6,11 @@
 #
 # https://github.com/wopfel/archlinux-setup-vb
 
+use strict;
+use warnings;
 use threads;
 use HTTP::Daemon;
+use HTTP::Status qw(:constants);
 
 
 
@@ -152,7 +155,7 @@ sub process_client_request {
         #    #or do whatever you want here
         #}
     } else {
-        $c->send_error( RC_FORBIDDEN );
+        $c->send_error( HTTP_FORBIDDEN );
     }
 
     $c->close;
