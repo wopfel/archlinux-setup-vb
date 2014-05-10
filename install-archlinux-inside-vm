@@ -94,6 +94,7 @@ $scanmap{ "[" }          = "e0 38 09 89 e0 b8";
 $scanmap{ "]" }          = "e0 38 0a 8a e0 b8";
 $scanmap{ "#" }          = "2b ab";
 $scanmap{ "'" }          = "2a 2b ab aa";
+$scanmap{ "^" }          = "29 a9";
 $scanmap{ "<ENTER>" }    = "1c 9c";
 $scanmap{ "<ARROW-DOWN>" }    = "e0 50 e0 d0";
 $scanmap{ "<ARROW-LEFT>" }    = "e0 4b e0 cb";
