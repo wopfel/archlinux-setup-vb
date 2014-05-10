@@ -165,6 +165,11 @@ sub process_client_request {
             print "VM is alive!\n";
             # Send back status code 200: OK
             $c->send_status_line( 200 );
+        } elsif ( $r->method eq "GET"  and  $r->url->path =~ m"^/vmstatus/CURRENTVM/lastcommandrc/(\d+)$" ) {
+            # Maybe we're handling more than one VM at the same time, so CURRENTVM is for future enhancements
+            print "VM reported return code: $1.\n";
+            # Send back status code 200: OK
+            $c->send_status_line( 200 );
         } else {
             $c->send_error( 501, "Too early. Function not implemented yet." );
         }
@@ -219,7 +224,8 @@ send_keys_to_vm( "uptime<ENTER>" );
 
 send_keys_to_vm( "curl http://10.0.2.2:8080/vmstatus/CURRENTVM/alive<ENTER>" );
 
-send_keys_to_vm( "cfdisk /dev/sda<ENTER>" );
+send_keys_to_vm( "cfdisk /dev/sda" );
+send_keys_to_vm( " ; curl http://10.0.2.2:8080/vmstatus/CURRENTVM/lastcommandrc/\$?<ENTER>" );
 send_keys_to_vm( "<ENTER>" );                      # New partition
 send_keys_to_vm( "<ENTER>" );                      # Primary
 send_keys_to_vm( "100<ENTER>" );                   # MB
