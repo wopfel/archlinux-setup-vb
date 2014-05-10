@@ -13,6 +13,7 @@ use threads::shared;
 use HTTP::Daemon;
 use HTTP::Status qw(:constants);
 use utf8;
+use Date::Format;
 
 
 
@@ -22,6 +23,11 @@ use utf8;
 #my %vm_state :shared;
 my $last_step_completed_nr :shared;
 my $last_step_completed_rc :shared;
+
+
+
+sub consolemsg(@);
+
 
 
 # Works with a german keyboard
@@ -218,7 +224,7 @@ sub process_client_request {
         # /vmstatus/CURRENTVM/alive
         if ( $r->method eq "GET"  and  $r->url->path =~ m"^/vmstatus/CURRENTVM/alive$" ) {
             # Maybe we're handling more than one VM at the same time, so CURRENTVM is for future enhancements
-            print "VM is alive!\n";
+            consolemsg "VM is alive!\n";
             # Send back status code 200: OK
             $c->send_status_line( HTTP_OK );
             # Store current time
@@ -230,7 +236,7 @@ sub process_client_request {
             # Maybe we're handling more than one VM at the same time, so CURRENTVM is for future enhancements
             my $stepnr = $1;
             my $returncode = $2;
-            print "VM reported return code: $returncode. Finished step number: $stepnr.\n";
+            consolemsg "VM reported return code: $returncode. Finished step number: $stepnr.\n";
             # Send back status code 200: OK
             $c->send_status_line( HTTP_OK );
             # Store return code and step information
@@ -264,9 +270,9 @@ sub http_thread {
 
     die unless $daemon;
 
-    print "Embedded web server started.\n";
-    print "Server address: ", $daemon->sockhost(), "\n";
-    print "Server port: ",    $daemon->sockport(), "\n";
+    consolemsg "Embedded web server started.\n";
+    consolemsg "Server address: ", $daemon->sockhost(), "\n";
+    consolemsg "Server port: ",    $daemon->sockport(), "\n";
 
     # Wait for client requests
     while ( my $c = $daemon->accept ) {
@@ -275,7 +281,18 @@ sub http_thread {
 
     # TODO: Reach this point the "normal" way (how to exit the previous while loop?)
 
-    print "Embedded web server ends.\n";
+    consolemsg "Embedded web server ends.\n";
+
+}
+
+
+sub consolemsg(@) {
+
+    my @msg = @_;
+
+    print time2str( "[%H:%M:%S] ", time );
+
+    print @msg;
 
 }
 
@@ -285,7 +302,7 @@ $| = 1;
 
 my $thread = threads->create( 'http_thread' );
 
-print "Program started.\n";
+consolemsg "Program started.\n";
 
 my @vm_steps = (
                  {
@@ -411,7 +428,7 @@ for my $step ( 0 .. $#vm_steps ) {
     # For easier access ($step{key} instead of ${ $vm_steps[$step] }{key})
     my %step = %{ $vm_steps[$step] };
 
-    print "Starting step $step...\n";
+    consolemsg "Starting step $step...\n";
 
     # Send command to virtual machine
     send_keys_to_vm( $step{'command'} );
