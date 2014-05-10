@@ -242,6 +242,64 @@ send_keys_to_vm( "<ARROW-LEFT><ARROW-LEFT>" );     # Highlight Units
 send_keys_to_vm( "<ARROW-LEFT><ARROW-LEFT>" );     # Highlight Quit
 send_keys_to_vm( "<ENTER>" );                      # Quit
 
+send_keys_to_vm( "cryptsetup -c aes-xts-plain64 -y -s 512 luksFormat /dev/sda2" );
+send_keys_to_vm( " ; curl http://10.0.2.2:8080/vmstatus/CURRENTVM/lastcommandrc/\$?<ENTER>" );
+send_keys_to_vm( "YES<ENTER>" );
+send_keys_to_vm( "arch<ENTER>" );                  # The passphrase
+send_keys_to_vm( "arch<ENTER>" );                  # Verify the passphrase
+
+send_keys_to_vm( "cryptsetup luksOpen /dev/sda2 lvm" );
+send_keys_to_vm( " ; curl http://10.0.2.2:8080/vmstatus/CURRENTVM/lastcommandrc/\$?<ENTER>" );
+send_keys_to_vm( "arch<ENTER>" );                  # The passphrase
+
+send_keys_to_vm( "pvcreate /dev/mapper/lvm" );
+send_keys_to_vm( " ; curl http://10.0.2.2:8080/vmstatus/CURRENTVM/lastcommandrc/\$?<ENTER>" );
+
+send_keys_to_vm( "vgcreate main /dev/mapper/lvm" );
+send_keys_to_vm( " ; curl http://10.0.2.2:8080/vmstatus/CURRENTVM/lastcommandrc/\$?<ENTER>" );
+
+send_keys_to_vm( "lvcreate -L 2GB -n root main" );
+send_keys_to_vm( " ; curl http://10.0.2.2:8080/vmstatus/CURRENTVM/lastcommandrc/\$?<ENTER>" );
+
+send_keys_to_vm( "lvcreate -L 2GB -n swap main" );
+send_keys_to_vm( " ; curl http://10.0.2.2:8080/vmstatus/CURRENTVM/lastcommandrc/\$?<ENTER>" );
+
+send_keys_to_vm( "lvcreate -L 2GB -n home main" );
+send_keys_to_vm( " ; curl http://10.0.2.2:8080/vmstatus/CURRENTVM/lastcommandrc/\$?<ENTER>" );
+
+send_keys_to_vm( "lvs" );
+send_keys_to_vm( " ; curl http://10.0.2.2:8080/vmstatus/CURRENTVM/lastcommandrc/\$?<ENTER>" );
+
+send_keys_to_vm( "mkfs.ext4 -L root /dev/mapper/main-root" );
+send_keys_to_vm( " ; curl http://10.0.2.2:8080/vmstatus/CURRENTVM/lastcommandrc/\$?<ENTER>" );
+
+send_keys_to_vm( "mkfs.ext4 -L home /dev/mapper/main-home" );
+send_keys_to_vm( " ; curl http://10.0.2.2:8080/vmstatus/CURRENTVM/lastcommandrc/\$?<ENTER>" );
+
+send_keys_to_vm( "mkfs.ext4 -L boot /dev/sda1" );
+send_keys_to_vm( " ; curl http://10.0.2.2:8080/vmstatus/CURRENTVM/lastcommandrc/\$?<ENTER>" );
+
+send_keys_to_vm( "mkswap -L swap /dev/mapper/main-swap" );
+send_keys_to_vm( " ; curl http://10.0.2.2:8080/vmstatus/CURRENTVM/lastcommandrc/\$?<ENTER>" );
+
+send_keys_to_vm( "mount /dev/mapper/main-root /mnt" );
+send_keys_to_vm( " ; curl http://10.0.2.2:8080/vmstatus/CURRENTVM/lastcommandrc/\$?<ENTER>" );
+
+send_keys_to_vm( "mkdir /mnt/home" );
+send_keys_to_vm( " ; curl http://10.0.2.2:8080/vmstatus/CURRENTVM/lastcommandrc/\$?<ENTER>" );
+
+send_keys_to_vm( "mount /dev/mapper/main-home /mnt/home" );
+send_keys_to_vm( " ; curl http://10.0.2.2:8080/vmstatus/CURRENTVM/lastcommandrc/\$?<ENTER>" );
+
+send_keys_to_vm( "mkdir /mnt/boot" );
+send_keys_to_vm( " ; curl http://10.0.2.2:8080/vmstatus/CURRENTVM/lastcommandrc/\$?<ENTER>" );
+
+send_keys_to_vm( "mount /dev/sda1 /mnt/boot" );
+send_keys_to_vm( " ; curl http://10.0.2.2:8080/vmstatus/CURRENTVM/lastcommandrc/\$?<ENTER>" );
+
+send_keys_to_vm( "pacstrap /mnt base base-devel syslinux" );
+send_keys_to_vm( " ; curl http://10.0.2.2:8080/vmstatus/CURRENTVM/lastcommandrc/\$?<ENTER>" );
+
 
 sleep 60;
 
