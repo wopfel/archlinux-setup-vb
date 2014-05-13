@@ -40,11 +40,12 @@ my %scanmap;
 # Base keys (without shift modifier key)
 #
 
-my $basemap = '
+my $basemap = <<'KEYMAP';
 0x02::1234567890ß´
 0x10::qwertzuiopü+
 0x1e::asdfghjklöä#
-0x2b::<yxcvbnm,.-';
+0x2b::<yxcvbnm,.-
+KEYMAP
 
 for ( split /\n/, $basemap ) {
 
@@ -65,11 +66,12 @@ for ( split /\n/, $basemap ) {
 # "Uppercase" keys (with shift modifier key)
 #
 
-my $uppermap = q,
+my $uppermap = <<'KEYMAP';
 0x02::!"§$%&/()=?`
 0x10::QWERTZUIOPÜ*
 0x1e::ASDFGHJKLÖÄ'
-0x2b::>YXCVBNM;:_,;
+0x2b::>YXCVBNM;:_
+KEYMAP
 
 for ( split /\n/, $uppermap ) {
 
