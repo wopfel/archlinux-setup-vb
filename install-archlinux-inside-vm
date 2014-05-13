@@ -505,6 +505,9 @@ for my $step ( 0 .. $#vm_steps ) {
     # For easier access ($step{key} instead of ${ $vm_steps[$step] }{key})
     my %step = %{ $vm_steps[$step] };
 
+    # Check if web server thread is still running
+    die "Web server thread inactive"  unless  $thread->is_running();
+
     consolemsg "Starting step $step...\n";
 
     # Send command to virtual machine
