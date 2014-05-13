@@ -41,17 +41,16 @@ my %scanmap;
 #
 
 my $basemap = <<'KEYMAP';
-0x02::1234567890ß´
-0x10::qwertzuiopü+
-0x1e::asdfghjklöä#
-0x2b::<yxcvbnm,.-
+normal::0x02::1234567890ß´
+normal::0x10::qwertzuiopü+
+normal::0x1e::asdfghjklöä#
+normal::0x2b::<yxcvbnm,.-
 KEYMAP
 
 for ( split /\n/, $basemap ) {
 
-    if ( /^0x(..)::(.*)$/ ) {
-        my $offset = $1;
-        my $keys = $2;
+    if ( /^([a-z]+)::0x(..)::(.*)$/ ) {
+        my ( $modifier, $offset, $keys ) = ( $1, $2, $3 );
         my $nr = 0;
         for my $key ( split //, $keys ) {
             #print "[ $key ]";
@@ -67,17 +66,16 @@ for ( split /\n/, $basemap ) {
 #
 
 my $uppermap = <<'KEYMAP';
-0x02::!"§$%&/()=?`
-0x10::QWERTZUIOPÜ*
-0x1e::ASDFGHJKLÖÄ'
-0x2b::>YXCVBNM;:_
+shift::0x02::!"§$%&/()=?`
+shift::0x10::QWERTZUIOPÜ*
+shift::0x1e::ASDFGHJKLÖÄ'
+shift::0x2b::>YXCVBNM;:_
 KEYMAP
 
 for ( split /\n/, $uppermap ) {
 
-    if ( /^0x(..)::(.*)$/ ) {
-        my $offset = $1;
-        my $keys = $2;
+    if ( /^([a-z]+)::0x(..)::(.*)$/ ) {
+        my ( $modifier, $offset, $keys ) = ( $1, $2, $3 );
         my $nr = 0;
         for my $key ( split //, $keys ) {
             #print "[ $key ]";
