@@ -30,7 +30,9 @@ sub consolemsg(@);
 
 
 
-# Works with a german keyboard
+# The scanmap hash stores for a specific keyboard key or character (hash key)
+# the respective scancodes (hash value).
+# The keyboard layout is based on a german keyboard.
 
 my %scanmap;
 
@@ -197,7 +199,8 @@ sub send_keys_to_vm {
         my $scancodes = join " ", @subset;
 
         # Call vboxmanage
-        # Blanks are not allowed, so the joined $scancodes doesn't work, vboxmanage complains with "Error: '...' is not a hex byte!"
+        # The scancodes must be passed as separate parameters, so the joined $scancodes doesn't work
+        # If passed as a single parameter ("1c 9c"), vboxmanage complains with "Error: '...' is not a hex byte!"
         my @args = ( "vboxmanage", "controlvm", "{f57aeae8-bc2c-47c3-9b65-f5822f8b47ef}",
                      "keyboardputscancode",
                      split( / /, $scancodes )
