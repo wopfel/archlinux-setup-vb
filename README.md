@@ -59,3 +59,12 @@ Modify `./install-archlinux-inside-vm`:
 Run `./install-archlinux-inside-vm`
 
 
+Future
+======
+
+- implement the TODOs
+- implement command line options (using Getopt I think)
+- automatic creation/deletion of virtual machine
+- moving instruction list to separate file(s)
+- use internal webserver for providing status information
+
