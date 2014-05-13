@@ -299,6 +299,15 @@ my @vm_steps = (
                    command => "loadkezs deßlatin1",
                  },
                  {
+                   command => 'sendrc() { curl http://10.0.2.2:8080/vmstatus/CURRENTVM/step/$1/returncode/$? }',
+                   description => "Define shell function for sending the return code",
+                 },
+                 {
+                   command => "true",
+                   description => "Test sendrc() function",
+                   requestrc => 1,
+                 },
+                 {
                    command => 'kill ${${(v)jobstates#*:*:}%=*}',
                    description => "Killing all background jobs (easier for testing when the program is restarted frequently)",
                  },
@@ -502,7 +511,7 @@ for my $step ( 0 .. $#vm_steps ) {
     send_keys_to_vm( $step{'command'} );
 
     # Send "submitting the return code" command to virtual machine if requested
-    send_keys_to_vm( " ; curl http://10.0.2.2:8080/vmstatus/CURRENTVM/step/$step/returncode/\$?" )  if  $step{'requestrc'};
+    send_keys_to_vm( " ; sendrc $step" )  if  $step{'requestrc'};
 
     # Send enter key to virtual machine
     send_keys_to_vm( "<ENTER>" );
