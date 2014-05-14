@@ -1,24 +1,31 @@
 archlinux-setup-vb
 ==================
 
-Set up an ArchLinux installation from an ISO image in a Virtualbox virtual machine.
+Automatically set up Arch Linux from an ISO image in a Virtualbox virtual machine.
 
-The virtual machine must be created manually. When the virtual machine finished booting the Live CD,
-the vboxmanage command is used to send key strokes to the running Arch Linux.
+When the virtual machine finished booting the Live CD, this script is taking over. After you started this script, it uses vboxmanage commands to send the necessary keystrokes to the running Arch Linux Live CD.
+
+The main purpose is to prove that
+- the ISO is fully functional
+- Arch Linux can be installed from the Live CD
+- the installed Arch Linux is bootable
 
 THIS IS WORK IN PROGRESS!
 
-See file `Virtualbox-ArchLinux-ISO-testen` for the commands so far.
+Note: The virtual machine must be created manually at the moment.
+
+See file `Virtualbox-ArchLinux-ISO-testen` for the vboxmanage commands emulating keystrokes so far. That file isn't used any longer. All commands from this file were migrated to the script.
 
 
 Script
 ======
 
 `install-archlinux-inside-vm`
+
 When the virtual machine has finished booting from the Live CD and the shell prompt is ready,
 you can run `./install-archlinux-inside-vm`.
 
-The script emulates the keystrokes submitting all commands necessary for setting up an ArchLinux environment.
+The script emulates the keystrokes submitting all commands necessary for setting up an Arch Linux environment.
 
 The return code of the commands is passed back to the script. For this, a tiny web server is running inside the script.
 If the command has completed successfully, the next command is submitted.
@@ -27,10 +34,16 @@ If the command has completed successfully, the next command is submitted.
 Details
 =======
 
-A while loop inside the VM starts a curl command every few seconds, so the script knows the virtual machine is still running.
-So far, the "I'm alive" messages are just shown by the script, nothing else happens.
+The script has a list of commands that are needed to set up an Arch Linux machine (including syslinux boot loader and lvm residing on an encrypted partition). The commands are taken from https://wiki.archlinux.de/title/ArchLinux_mit_verschl%C3%BCsseltem_LVM_und_Systemd.
 
-When the script transfers a command to the virtual machine, it (usually) appends a "; curl http://vboxhost:8080/vmstatus/CURRENTVM/step/<stepnumber>/returncode/<returncode>" in the shell. When the main command finishes, the shell (zsh in the ArchLinux Live ISO) executes the curl program which transfers the returncode of the previous command (the main command) using HTTP to the script. The script waits for completion before it transfers the next command to the cirtual machine.
+Several commands are necessary until the new Arch Linux machine is completely set up. The script emulates the keystrokes using VirtualBox' vboxmanage the same way as a human being would enter the commands manually.
+
+Unfortunately, the script lacks the ability to look at the VM's screen when the commands finish. To accomplish this, a second command is (usually) appended to the main commands. The shell (zsh in the Arch Linux Live ISO) executes the second command when the main command has finished. The second command is curl which transmits the returncode. The curl command requests a web page from a web server. In this environment, the script provides a tiny embedded web server. The curl command requests a web page like http://vboxhost:8080/vmstatus/CURRENTVM/step/<stepnumber>/returncode/<returncode>. The embedded web server gets the HTTP request and therefore "knows" the returncode of the specified step number.
+The script waits for completion of one step before it transfers the next command to the virtual machine.
+
+Additionally, a while loop inside the VM starts a curl command every few seconds in the background, so the script assumes the virtual machine is still running. So far, the "I'm alive" messages are just shown by the script, nothing else happens.
+
+Before anything is changed on the virtual machine's hard disk, the script ensures there are no partitions present.
 
 For a very first try of the tiny web server, see `./webserver-thread-test.pl`.
 
@@ -40,7 +53,7 @@ Instructions
 
 Download ArchLinux Live ISO image from the official mirrors
 
-Create a virtual machine using the VirtualBox Manager (type=Linux, Version=Arch Linux (64 bit), 256 MB RAM, new dynamic VDI 8 GB)
+Create a virtual machine using the VirtualBox Manager (type=Linux, Version=Arch Linux (64 bit), 256 MB RAM, new dynamic VDI with 8 GB of size)
 
 Start the virtual machine using the downloaded ISO image as CD
 
@@ -64,7 +77,8 @@ Future
 
 - implement the TODOs
 - implement command line options (using Getopt I think)
-- automatic creation/deletion of virtual machine
+- automatic creation/boot/reboot/deletion of virtual machine
 - moving instruction list to separate file(s)
-- use internal webserver for providing status information
+- enhance internal webserver for providing status information
+- support english keyboard as well
 
