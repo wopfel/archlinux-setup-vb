@@ -18,7 +18,7 @@ use Date::Format;
 
 
 
-# Track state of virtual machine
+# Track state of virtual machine (shared within threads)
 # TODO
 #my %vm_state :shared;
 my $last_step_completed_nr :shared;
