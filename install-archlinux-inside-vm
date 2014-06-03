@@ -477,7 +477,7 @@ my @vm_steps = (
                    requestrc => 1,
                  },
                  {
-                   command => "echo archlinux-setup-vb <GT> /mnt/etc/hostname",
+                   command => "echo archlinux-setup-vb <GT> /mnt/etc/hostname",  # Used for determining chroot later
                    requestrc => 1,
                  },
                  {
@@ -495,6 +495,60 @@ my @vm_steps = (
                  {
                    command => "[[ ` grep -c = /mnt/etc/vconsole.conf`  -eq 3 ]]",  # Space following ` needed (dead key)
                    description => "Ensure there are 3 lines containing = in vconsole.conf",
+                   requestrc => 1,
+                 },
+                 {
+                   command => "arch-chroot /mnt",
+                   requestrc => 0,  # We won't return for some time...
+                 },
+                 {
+                   command => 'sendrc() { curl http://10.0.2.2:8080/vmstatus/CURRENTVM/step/$1/returncode/$? }',
+                   description => "New shell, sendrc() has to be redefined",
+                 },
+                 {
+                   command => "[[ ` grep -c archlinux-setup-vb /etc/hostname`  -eq 1 ]]",  # Space following ` needed (dead key)
+                   description => "Ensure we are in the chroot now",
+                   requestrc => 1,
+                 },
+                 {
+                   command => "locale-gen",
+                   requestrc => 1,
+                 },
+                 {
+                   command => "ln -s /usr/share/zoneinfo/Europe/Berlin /etc/localtime",
+                   requestrc => 1,
+                 },
+                 {
+                   command => "sed -i 's,^ HOOKS=.*,HOOKS=\"base udev autodetect block keyboard keymap encrypt lvm2 filesystems fsck shutdown\",' /etc/mkinitcpio.conf",  # Space following ^ needed (dead key)
+                   description => "Prepare mkinitcpio.conf",
+                   requestrc => 1,
+                 },
+                 {
+                   command => "export LANG=de_DE.UTF-8",
+                   requestrc => 1,
+                 },
+                 {
+                   command => "mkinitcpio -p linux",
+                   requestrc => 1,
+                 },
+                 {
+                   command => "passwd",
+                   subcommand => "<WAIT_PAUSE>" .                 # Insert a pause before continuing
+                                 "arch<ENTER>" .                  # Password
+                                 "<WAIT_PAUSE>" .
+                                 "arch<ENTER>",                   # Verify the password
+                   requestrc => 1,
+                 },
+                 {
+                   command => "systemctl enable dhcpcd.service",
+                   requestrc => 1,
+                 },
+                 {
+                   command => "exit",
+                   requestrc => 1,
+                 },
+                 {
+                   command => "umount /mnt/{boot,home,}",
                    requestrc => 1,
                  },
                );
