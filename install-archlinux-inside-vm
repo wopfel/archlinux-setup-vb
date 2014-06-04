@@ -98,11 +98,16 @@ sub send_keys_to_vm {
 
     while ( length $string > 0 ) {
 
-        # First part: <SPECIAL> keys
-        # Second part: default keys, like 'q', 'w', ..., 'Q', ...
+        # First if-part: <SPECIAL> keys
+        # Second if-part: default keys, like 'q', 'w', ..., 'Q', ...
+
         if ( $string =~ /^(<.*?>)(.*)$/ ) {
+
+            # Store special key and move everything else back to $string for the next round
             my $key = $1;
             $string = $2;
+            #print "=== $1 ===\n";
+            #print "=== $2 ===\n";
 
             if ( defined $scanmap{ $1 } ) {
                 push @scancodes, $scanmap{ $1 };
@@ -113,25 +118,33 @@ sub send_keys_to_vm {
                 print STDERR "Error: missing scancode for special '$key'!";
                 die;
             }
-            #print "=== $1 ===\n";
-            #print "=== $2 ===\n";
+
         } elsif ( $string =~ /^(.)(.*)$/ ) {
+
+            # Store key and move everything else back to $string for the next round
             my $key = $1;
             $string = $2;
             #print "=== $1 ===\n";
             #print "=== $2 ===\n";
+
+            # Check for a less-than sign or greather-than sign
             if ( $key =~ /^(<|>)$/ ) {
                 print STDERR "Error: Lonely '$key' found. Use <LT> and <GT> for single '<'/'>' keys!";
                 die;
             }
+
+            # Get the respective scan codes
             if ( defined $scanmap{ $1 } ) {
                 push @scancodes, $scanmap{ $1 };
             } else {
                 print STDERR "Error: missing scancode for key '$key'!";
                 die;
             }
+
         }
+
         #print "==========\n";
+
     }
 
 
@@ -207,7 +220,7 @@ sub process_client_request {
     my $c = shift;
     my $r = $c->get_request;
 
-    if ($r) {
+    if ( $r ) {
         #print "URI: ", $r->uri->path, "\n";
         #print "URL: ", $r->url->path, "\n";
 
@@ -502,6 +515,7 @@ my @vm_steps = (
                    requestrc => 0,  # We won't return for some time...
                  },
                  {
+                   # BUG:
                    command => 'sendrc() { curl http://10.0.2.2:8080/vmstatus/CURRENTVM/step/$1/returncode/$? }',
                    description => "New shell, sendrc() has to be redefined",
                  },
@@ -608,6 +622,7 @@ send_keys_to_vm( 'kill ${${(v)jobstates#*:*:}%=*}<ENTER>' );
 
 sleep 60;
 
+# TODO: This doesn't seem to work...
 threads->exit();
 
 exit 0;
