@@ -515,9 +515,8 @@ my @vm_steps = (
                    requestrc => 0,  # We won't return for some time...
                  },
                  {
-                   # BUG:
-                   command => 'sendrc() { curl http://10.0.2.2:8080/vmstatus/CURRENTVM/step/$1/returncode/$? }',
-                   description => "New shell, sendrc() has to be redefined",
+                   command => 'function sendrc {<ENTER>curl http://10.0.2.2:8080/vmstatus/CURRENTVM/step/$1/returncode/$?<ENTER>}',
+                   description => "New shell (sh), function sendrc has to be redefined in sh-syntax",
                  },
                  {
                    command => "[[ ` grep -c archlinux-setup-vb /etc/hostname`  -eq 1 ]]",  # Space following ` needed (dead key)
