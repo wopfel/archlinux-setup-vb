@@ -68,6 +68,7 @@ Run `vboxmanage list vms` on your host, remember the UUID ("{xxxxxxxx-xxxx-xxxx-
 Modify `./install-archlinux-inside-vm`:
 - change UUID (mine was {f57aeae8-bc2c-47c3-9b65-f5822f8b47ef})
 - change IP address (mine was 10.0.2.2)
+- remove "{...export http_proxy='http://proxy:3128'...}," if you don't have a proxy with this name and port or adjust to fit your's (mine is squid)
 
 Run `./install-archlinux-inside-vm`
 

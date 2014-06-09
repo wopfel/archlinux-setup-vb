@@ -312,7 +312,7 @@ my @vm_steps = (
                    command => "loadkezs deßlatin1",
                  },
                  {
-                   command => 'sendrc() { curl http://10.0.2.2:8080/vmstatus/CURRENTVM/step/$1/returncode/$? }',
+                   command => 'sendrc() { curl --noproxy "*" http://10.0.2.2:8080/vmstatus/CURRENTVM/step/$1/returncode/$? }',
                    description => "Define shell function for sending the return code",
                  },
                  {
@@ -325,7 +325,7 @@ my @vm_steps = (
                    description => "Killing all background jobs (easier for testing when the program is restarted frequently)",
                  },
                  {
-                   command => "curl http://10.0.2.2:8080/vmstatus/CURRENTVM/alive",
+                   command => "curl --noproxy '*' http://10.0.2.2:8080/vmstatus/CURRENTVM/alive",
                  },
                  {
                    command => "[[ ` grep -c 'sda[0-9]' /proc/partitions`  -eq 0 ]]",  # Space following ` needed (dead key)
@@ -333,7 +333,7 @@ my @vm_steps = (
                    requestrc => 1,
                  },
                  {
-                   command => "while true ; do curl http://10.0.2.2:8080/vmstatus/CURRENTVM/alive 1<GT> /dev/null 2<GT>&1 ; sleep 2 ; done &",
+                   command => "while true ; do curl --noproxy '*' http://10.0.2.2:8080/vmstatus/CURRENTVM/alive 1<GT> /dev/null 2<GT>&1 ; sleep 2 ; done &",
                    description => "Background loop to let us know the VM is alive",
                  },
                  {
@@ -439,6 +439,11 @@ my @vm_steps = (
                    requestrc => 1,
                  },
                  {
+                   command => "export http_proxy='http://proxy:3128'",
+                   description => "Use proxy when downloading files with pacstrap",
+                   requestrc => 1,
+                 },
+                 {
                    command => "pacstrap /mnt base base-devel syslinux",
                    requestrc => 1,
                  },
@@ -515,7 +520,7 @@ my @vm_steps = (
                    requestrc => 0,  # We won't return for some time...
                  },
                  {
-                   command => 'function sendrc {<ENTER>curl http://10.0.2.2:8080/vmstatus/CURRENTVM/step/$1/returncode/$?<ENTER>}',
+                   command => 'function sendrc {<ENTER>curl --noproxy "*" http://10.0.2.2:8080/vmstatus/CURRENTVM/step/$1/returncode/$?<ENTER>}',
                    description => "New shell (sh), function sendrc has to be redefined in sh-syntax",
                  },
                  {
