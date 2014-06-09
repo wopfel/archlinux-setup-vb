@@ -444,7 +444,7 @@ my @vm_steps = (
                    requestrc => 1,
                  },
                  {
-                   command => "pacstrap /mnt base base-devel syslinux",
+                   command => "pacstrap /mnt base base-devel syslinux cronie",
                    requestrc => 1,
                  },
                  {
@@ -559,6 +559,10 @@ my @vm_steps = (
                  },
                  {
                    command => "systemctl enable dhcpcd.service",
+                   requestrc => 1,
+                 },
+                 {
+                   command => "systemctl enable cronie.service",
                    requestrc => 1,
                  },
                  {
