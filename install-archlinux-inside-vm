@@ -563,7 +563,7 @@ my @vm_steps = (
                  },
                  {
                    command => "exit",
-                   requestrc => 1,
+                   requestrc => 0,  # The shell ends, so the second command (sendrc) won't be executed
                  },
                  {
                    command => "umount /mnt/{boot,home,}",
