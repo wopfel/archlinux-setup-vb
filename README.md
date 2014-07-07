@@ -83,3 +83,18 @@ Future
 - enhance internal webserver for providing status information
 - support english keyboard as well
 
+
+Known issues
+============
+
+- not every key stroke works so far (you'll get "Error: missing scancode for ...")
+- the mkfs.ext4 command for the boot partition will prompt if there was such a partition before (beginning 2014-07-03, never seen this before)
+  if you enter this situation, just enter y followed by the enter key
+  maybe the parameter "-F -F" (yes, twice) forces the creation of the filesystem (less secure of course)
+  I think this could be avoided if dd'ed from /dev/zero to the partition before deletion
+  Example output from mkfs.ext4:
+  mke2fs 1.42.10 (18-May-2014)
+  /dev/sda1 contains a ext4 file system labelled 'boot'
+          last mounted on /mnt/boot on Mon Jun  9 13:30:10 2014
+  Proceed anyway? (y,n)
+
