@@ -594,6 +594,36 @@ my @vm_steps = (
                    requestrc => 0,  # No possibility
                    delay_before => 20,  # To be sure the "A password is required to access the main volume:" message is on the screen...
                  },
+                 {
+                   command => "root",
+                   subcommand => "<WAIT_PAUSE>" .                 # Insert a pause before continuing
+                                 "arch" .                         # The password for the root user
+                                 "<ENTER>",
+                   requestrc => 0,  # No possibility
+                   delay_before => 30,  # To be sure the login screen has been reached
+                 },
+                 {
+                   command => 'function sendrc {<ENTER>curl --noproxy "*" http://10.0.2.2:8080/vmstatus/CURRENTVM/step/$1/returncode/$?<ENTER>}',
+                   description => "Root has a bash as default, so the function sendrc has to be defined in bash-syntax",
+                 },
+                 {
+                   command => "true",
+                   description => "Test sendrc() function",
+                   requestrc => 1,
+                 },
+                 {
+                   command => "curl --noproxy '*' http://10.0.2.2:8080/vmstatus/CURRENTVM/alive",
+                 },
+                 {
+                   command => "[[ ` grep -c 'sda[0-9]' /proc/partitions`  -eq 2 ]]",  # Space following ` needed (dead key)
+                   description => "Ensure there are two partitions on the disk",
+                   requestrc => 1,
+                 },
+                 {
+                   command => "ping -c 3 www.google.com",
+                   description => "Test internet connection",
+                   requestrc => 1,
+                 },
                );
 
 

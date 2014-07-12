@@ -82,7 +82,6 @@ Future
 - moving instruction list to separate file(s)
 - enhance internal webserver for providing status information
 - support english keyboard as well
-- ~~reboot the VM after installation and~~ proceed testing until the login prompt is seen
 
 
 Known issues
