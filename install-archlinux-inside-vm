@@ -573,6 +573,15 @@ my @vm_steps = (
                    command => "umount /mnt/{boot,home,}",
                    requestrc => 1,
                  },
+                 {
+                   command => "###       REBOOTING the VM in 10 seconds...       ###",
+                   requestrc => 0,  # No need
+                 },
+                 {
+                   command => "reboot",
+                   requestrc => 0,  # No need
+                   delay_before => 10,
+                 },
                );
 
 
@@ -587,6 +596,13 @@ for my $step ( 0 .. $#vm_steps ) {
     consolemsg "Starting step $step...\n";
 
     my $step_started_time = time();
+
+    # Check if command should be delayed
+    if ( $step{'delay_before'} ) {
+        my $delay_amount = $step{'delay_before'};
+        consolemsg "Delaying command for $delay_amount second(s)...\n";
+        sleep $delay_amount;
+    }
 
     # Send command to virtual machine
     send_keys_to_vm( $step{'command'} );
