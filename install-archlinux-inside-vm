@@ -588,6 +588,12 @@ my @vm_steps = (
                    requestrc => 0,  # No possibility
                    delay_before => 30,  # To be sure the machine has rebooted and the boot dialog is on the screen...
                  },
+                 {
+                   command => "arch",
+                   description => "Passphrase",
+                   requestrc => 0,  # No possibility
+                   delay_before => 20,  # To be sure the "A password is required to access the main volume:" message is on the screen...
+                 },
                );
 
 
