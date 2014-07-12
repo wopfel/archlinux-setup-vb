@@ -586,6 +586,8 @@ for my $step ( 0 .. $#vm_steps ) {
 
     consolemsg "Starting step $step...\n";
 
+    my $step_started_time = time();
+
     # Send command to virtual machine
     send_keys_to_vm( $step{'command'} );
 
@@ -620,6 +622,11 @@ for my $step ( 0 .. $#vm_steps ) {
         }
 
     }
+
+    # Measure step duration
+    my $step_stopped_time = time();
+    my $step_elapsed_sec = $step_stopped_time - $step_started_time;
+    consolemsg "Step elapsed $step_elapsed_sec second(s).\n";
 
 }
 
