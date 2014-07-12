@@ -582,6 +582,12 @@ my @vm_steps = (
                    requestrc => 0,  # No need
                    delay_before => 10,
                  },
+                 {
+                   command => "<ARROW-DOWN><ARROW-DOWN>",
+                   description => "In bootscreen, select 3rd option (Boot existing OS)",
+                   requestrc => 0,  # No possibility
+                   delay_before => 30,  # To be sure the machine has rebooted and the boot dialog is on the screen...
+                 },
                );
 
 
@@ -645,10 +651,6 @@ for my $step ( 0 .. $#vm_steps ) {
     consolemsg "Step elapsed $step_elapsed_sec second(s).\n";
 
 }
-
-# Kill all background jobs to stop the I'm-alive loop we've started previously
-# From: http://stackoverflow.com/questions/13166544/how-to-kill-all-background-processes-in-zsh
-send_keys_to_vm( 'kill ${${(v)jobstates#*:*:}%=*}<ENTER>' );
 
 
 sleep 60;
