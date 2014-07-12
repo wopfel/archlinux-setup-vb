@@ -37,7 +37,7 @@ sub consolemsg(@);
 my %scanmap;
 
 #
-# Keylist on keyboard
+# Keylist on German keyboard
 #
 # Base keys (beginning with normal), used without shift modifier key
 # "Uppercase" keys (beginning with shift), used with shift modifier key
@@ -623,7 +623,7 @@ for my $step ( 0 .. $#vm_steps ) {
 
 }
 
-# Kill all background jobs (for example, the I'm-alive loop we've started previously
+# Kill all background jobs to stop the I'm-alive loop we've started previously
 # From: http://stackoverflow.com/questions/13166544/how-to-kill-all-background-processes-in-zsh
 send_keys_to_vm( 'kill ${${(v)jobstates#*:*:}%=*}<ENTER>' );
 
