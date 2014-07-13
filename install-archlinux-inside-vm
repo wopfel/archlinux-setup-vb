@@ -718,6 +718,7 @@ for my $step ( 0 .. $#vm_steps ) {
         my $delay_amount = $step{'delay_before'};
         consolemsg "Delaying command for $delay_amount second(s)...\n";
         sleep $delay_amount;
+        consolemsg "Proceeding now.\n";
     }
 
     # Send command to virtual machine
