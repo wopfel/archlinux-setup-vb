@@ -764,7 +764,9 @@ for my $step ( 0 .. $#vm_steps ) {
 }
 
 
-sleep 60;
+sleep 3;
+
+consolemsg "All steps done. Program ends now.\n";
 
 # TODO: This doesn't seem to work...
 threads->exit();
