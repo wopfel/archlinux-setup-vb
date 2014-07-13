@@ -142,6 +142,11 @@ sub send_keys_to_vm {
                 die;
             }
 
+        } else {
+
+            print STDERR "Error: unknown format, perhaps at least one backslash has to be escaped in '$string'!";
+            die;
+
         }
 
         #print "==========\n";
