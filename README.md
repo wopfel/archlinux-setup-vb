@@ -51,26 +51,26 @@ For a very first try of the tiny web server, see `./webserver-thread-test.pl`.
 Instructions
 ============
 
-Download ArchLinux Live ISO image from the official mirrors
+1. Download ArchLinux Live ISO image from the official mirrors
 
-Create a virtual machine using the VirtualBox Manager (type=Linux, Version=Arch Linux (64 bit), 256 MB RAM, new dynamic VDI with 8 GB of size)
+2. Create a virtual machine using the VirtualBox Manager (type=Linux, Version=Arch Linux (64 bit), 256 MB RAM, new dynamic VDI with 8 GB of size)
 
-Start the virtual machine using the downloaded ISO image as CD
+3. Start the virtual machine using the downloaded ISO image as CD
 
-Hit enter in the start screen ("Boot Arch Linux (x86_64)")
+4. Hit enter in the start screen ("Boot Arch Linux (x86_64)")
 
-Wait for the shell prompt ("root@archiso ~ #")
+5. Wait for the shell prompt ("root@archiso ~ #")
 
-Run `ip route` inside your virtual machine, remember the IP address ("default via x.x.x.x")
+6. Run `ip route` inside your virtual machine, remember the IP address ("default via x.x.x.x")
 
-Run `vboxmanage list vms` on your host, remember the UUID ("{xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx}")
+7. Run `vboxmanage list vms` on your host, remember the UUID ("{xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx}")
 
-Modify `./install-archlinux-inside-vm`:
-- change UUID (mine was {f57aeae8-bc2c-47c3-9b65-f5822f8b47ef})
-- change IP address (mine was 10.0.2.2)
-- remove "{...export http_proxy='http://proxy:3128'...}," if you don't have a proxy with this name and port or adjust to fit your's (mine is squid)
+8. Modify `./install-archlinux-inside-vm`:
+   - change UUID (mine was {f57aeae8-bc2c-47c3-9b65-f5822f8b47ef})
+   - change IP address (mine was 10.0.2.2)
+   - remove "{...export http_proxy='http://proxy:3128'...}," if you don't have a proxy with this name and port or adjust to fit your's (mine is squid)
 
-Run `./install-archlinux-inside-vm`
+9. Run `./install-archlinux-inside-vm`
 
 
 Future
