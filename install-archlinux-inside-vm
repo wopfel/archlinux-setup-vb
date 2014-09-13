@@ -351,22 +351,26 @@ my @vm_steps = (
                  {
                    command => "cfdisk /dev/sda",
                    subcommand => "<WAIT_PAUSE>" .                 # Insert a pause before continuing
+                                 "<ARROW-DOWN>" .                 # Select label type -> dos
+                                 "<ENTER>" .                      # dos
                                  "<ENTER>" .                      # New partition
+                                 "<BACKSPACE><BACKSPACE><BACKSPACE><BACKSPACE>" .   # Erase pre-defined value ("8G" for an 8 Gigabyte disk)
+                                 "100M<ENTER>" .                  # MB
                                  "<ENTER>" .                      # Primary
-                                 "100<ENTER>" .                   # MB
-                                 "<ENTER>" .                      # Beginning
                                  "<ENTER>" .                      # Bootable
                                  "<WAIT_PAUSE>" .                 # Insert a pause before continuing
                                  "<ARROW-DOWN>" .                 # Free space
                                  "<ENTER>" .                      # New partition
-                                 "<ENTER>" .                      # Primary
                                  "<ENTER>" .                      # Default size
+                                 "<ENTER>" .                      # Primary
                                  "<ARROW-LEFT>" .                 # Highlight Write
                                  "<ENTER>" .                      # Write
+                                 "<WAIT_PAUSE>" .                 # Insert a pause before continuing
                                  "yes<ENTER>" .
                                  "<WAIT_PAUSE>" .                 # Insert a pause before continuing
-                                 "<ARROW-LEFT><ARROW-LEFT>" .     # Highlight Units
-                                 "<ARROW-LEFT><ARROW-LEFT>" .     # Highlight Quit
+                                 "<ARROW-LEFT>" .                 # Highlight Help
+                                 "<ARROW-LEFT>" .                 # Highlight Type
+                                 "<ARROW-LEFT>" .                 # Highlight Quit
                                  "<ENTER>",                       # Quit
                    requestrc => 1,
                  },
