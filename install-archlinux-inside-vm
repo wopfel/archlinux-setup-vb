@@ -73,6 +73,7 @@ for ( split /\n/, $keyboardmap ) {
 # Credits to: http://www.marjorie.de/ps2/scancode-set1.htm
 $scanmap{ "<LT>" }       = "56 d6";
 $scanmap{ "<GT>" }       = "2a 56 d6 aa";
+$scanmap{ "<BACKSPACE>" }= "0e 8e";
 $scanmap{ "<SPACE>" }    = "39 b9";
 $scanmap{ " " }          = $scanmap{ "<SPACE>" };
 $scanmap{ "{" }          = "e0 38 08 88 e0 b8";
