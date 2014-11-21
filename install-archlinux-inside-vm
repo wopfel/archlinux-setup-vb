@@ -260,6 +260,12 @@ sub process_client_request {
             #$vm_state->{'CURRENTVM'}{'last_completed_step_time'} = time;
             #$vm_state->{'CURRENTVM'}{'steplist'}{$stepnr}{'rc'} = $returncode;
             #$vm_state->{'CURRENTVM'}{'steplist'}{$stepnr}{'time'} = $vm_state->{'CURRENTVM'}{'last_completed_step_time'};
+        } elsif ( $r->method eq "POST"  and  $r->url->path =~ m"^/data/CURRENTVM/step/(\d+)/data/(.*)$" ) {
+            my $stepnr = $1;
+            my $datatype = $2;
+            consolemsg "VM sent data '$datatype' in step $stepnr: <<" . $r->content . ">>.\n";
+            # Send back status code 200: OK
+            $c->send_status_line( HTTP_OK );
         } else {
             $c->send_error( HTTP_NOT_IMPLEMENTED, "Too early. Function not implemented yet." );  # HTTP status code 501
         }
@@ -348,6 +354,12 @@ my @vm_steps = (
                  {
                    command => "ping -c 3 www.google.com",
                    description => "Test internet connection",
+                   requestrc => 1,
+                 },
+                 {
+                   # TODO: Transfer current step number
+                   command => "uname -a | curl -d \@- --noproxy '*' http://10.0.2.2:8080/data/CURRENTVM/step/0/data/uname",
+                   description => "Submit data: current kernel information",
                    requestrc => 1,
                  },
                  {
