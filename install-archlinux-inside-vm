@@ -85,6 +85,7 @@ $scanmap{ "#" }          = "2b ab";
 $scanmap{ "'" }          = "2a 2b ab aa";
 $scanmap{ "^" }          = "29 a9";
 $scanmap{ "|" }          = "e0 38 56 d6 e0 b8";  # From `showkey -s`
+$scanmap{ '@' }          = "e0 38 " . $scanmap{ "q" } . " e0 b8";
 $scanmap{ "<ENTER>" }    = "1c 9c";
 $scanmap{ "<ARROW-DOWN>" }    = "e0 50 e0 d0";
 $scanmap{ "<ARROW-LEFT>" }    = "e0 4b e0 cb";
