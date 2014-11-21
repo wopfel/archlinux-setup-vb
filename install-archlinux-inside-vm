@@ -363,6 +363,11 @@ my @vm_steps = (
                    requestrc => 1,
                  },
                  {
+                   command => "[[ ` fdisk -l /dev/sda | grep -ci 'disklabel'`  -eq 0 ]]",
+                   description => "Ensure there is no partition layout so far",
+                   requestrc => 1,
+                 },
+                 {
                    command => "cfdisk /dev/sda",
                    subcommand => "<WAIT_PAUSE>" .                 # Insert a pause before continuing
                                  "<ARROW-DOWN>" .                 # Select label type -> dos
