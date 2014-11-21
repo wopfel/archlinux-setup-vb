@@ -233,7 +233,7 @@ sub process_client_request {
 
         # /vmstatus/CURRENTVM/alive
         if ( $r->method eq "GET"  and  $r->url->path =~ m"^/vmstatus/CURRENTVM/alive$" ) {
-            # Maybe we're handling more than one VM at the same time, so CURRENTVM is for future enhancements
+            # Maybe we're handling more than one VM at the same time, so CURRENTVM is a placeholder for future enhancements
             consolemsg "VM is alive!\n";
             # Send back status code 200: OK
             $c->send_status_line( HTTP_OK );
@@ -243,7 +243,7 @@ sub process_client_request {
         # http://10.0.2.2:8080/vmstatus/CURRENTVM/step/$step/returncode/\$?
         elsif ( $r->method eq "GET"  and  $r->url->path =~ m"^/vmstatus/CURRENTVM/step/(\d+)/returncode/(\d+)$" ) {
             # Assuming only positive returncodes (\d+)
-            # Maybe we're handling more than one VM at the same time, so CURRENTVM is for future enhancements
+            # Maybe we're handling more than one VM at the same time, so CURRENTVM is a placeholder for future enhancements
             my $stepnr = $1;
             my $returncode = $2;
             consolemsg "VM reported return code: $returncode. Finished step number: $stepnr.\n";
