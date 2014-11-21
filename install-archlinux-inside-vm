@@ -645,6 +645,12 @@ my @vm_steps = (
                    command => "curl --noproxy '*' http://10.0.2.2:8080/vmstatus/CURRENTVM/alive",
                  },
                  {
+                   # TODO: Transfer current step number
+                   command => "uname -a | curl -d \@- --noproxy '*' http://10.0.2.2:8080/data/CURRENTVM/step/0/data/uname",
+                   description => "Submit data: current kernel information",
+                   requestrc => 1,
+                 },
+                 {
                    command => "[[ ` grep -c 'sda[0-9]' /proc/partitions`  -eq 2 ]]",  # Space following ` needed (dead key)
                    description => "Ensure there are two partitions on the disk",
                    requestrc => 1,
@@ -711,6 +717,12 @@ my @vm_steps = (
                  },
                  {
                    command => "curl --noproxy '*' http://10.0.2.2:8080/vmstatus/CURRENTVM/alive",
+                 },
+                 {
+                   # TODO: Transfer current step number
+                   command => "uname -a | curl -d \@- --noproxy '*' http://10.0.2.2:8080/data/CURRENTVM/step/0/data/uname",
+                   description => "Submit data: current kernel information",
+                   requestrc => 1,
                  },
                  {
                    command => "[[ ` grep -c 'sda[0-9]' /proc/partitions`  -eq 2 ]]",  # Space following ` needed (dead key)
