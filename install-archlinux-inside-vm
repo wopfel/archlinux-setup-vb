@@ -699,7 +699,7 @@ my @vm_steps = (
                    command => "arch",
                    description => "Passphrase",
                    requestrc => 0,  # No possibility
-                   delay_before => 20,  # To be sure the "A password is required to access the main volume:" message is on the screen...
+                   delay_before => 15,  # To be sure the "A password is required to access the main volume:" message is on the screen...
                  },
                  {
                    command => "root",
@@ -707,7 +707,7 @@ my @vm_steps = (
                                  "arch" .                         # The password for the root user
                                  "<ENTER>",
                    requestrc => 0,  # No possibility
-                   delay_before => 30,  # To be sure the login screen has been reached
+                   delay_before => 20,  # To be sure the login screen has been reached
                  },
                  {
                    command => 'function sendrc {<ENTER>curl --noproxy "*" http://10.0.2.2:8080/vmstatus/CURRENTVM/step/$1/returncode/$?<ENTER>}',
