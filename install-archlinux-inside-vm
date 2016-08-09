@@ -444,7 +444,7 @@ my @vm_steps = (
                    requestrc => 1,
                  },
                  {
-                   command => "mkfs.ext4 -L boot /dev/sda1",
+                   command => "mkfs.ext4 -L boot -O '^64bit' /dev/sda1",
                    requestrc => 1,
                  },
                  {
