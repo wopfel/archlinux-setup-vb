@@ -477,6 +477,11 @@ my @vm_steps = (
                    requestrc => 1,
                  },
                  {
+                   command => "echo 'Server = http://ftp.fau.de/archlinux/\$repo/os/\$arch' <GT> /etc/pacman.d/mirrorlist",
+                   description => "Use specific repository server",
+                   requestrc => 1,
+                 },
+                 {
                    command => "pacstrap /mnt base base-devel syslinux cronie",
                    requestrc => 1,
                  },
@@ -541,6 +546,11 @@ my @vm_steps = (
                  },
                  {
                    command => "echo FONT_MAP=8859-1_to_uni <GT><GT> /mnt/etc/vconsole.conf",
+                   requestrc => 1,
+                 },
+                 {
+                   command => "echo 'Server = http://ftp.fau.de/archlinux/\$repo/os/\$arch' <GT> /mnt/etc/pacman.d/mirrorlist",
+                   description => "Use specific repository server",
                    requestrc => 1,
                  },
                  {
