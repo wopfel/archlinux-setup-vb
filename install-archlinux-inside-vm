@@ -797,8 +797,12 @@ for my $step ( 0 .. $#vm_steps ) {
             last if $last_step_completed_nr == $step  and
                     $last_step_completed_rc == 0;
 
-            die "Wrong returncode"  if  $last_step_completed_nr == $step  and
-                                        $last_step_completed_rc != 0;
+            # Check if last command failed
+            if ( $last_step_completed_nr == $step  and  $last_step_completed_rc != 0 ) {
+                consolemsg "Failed command: " . $step{'command'} . ".\n";
+                consolemsg "Description of failed command: " . $step{'description'} . ".\n"  if  $step{'description'};
+                die "Error: Wrong returncode";
+            }
 
             sleep 1;
         }
