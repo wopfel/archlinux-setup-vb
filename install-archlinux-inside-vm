@@ -751,6 +751,10 @@ my @vm_steps = (
                    description => "Test internet connection",
                    requestrc => 1,
                  },
+                 {
+                   command => "echo End of script...",
+                   requestrc => 1,
+                 },
                );
 
 
