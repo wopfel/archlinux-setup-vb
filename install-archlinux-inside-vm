@@ -576,6 +576,10 @@ my @vm_steps = (
                    requestrc => 1,
                  },
                  {
+                   command => "rm /etc/localtime",
+                   requestrc => 1,
+                 },
+                 {
                    command => "ln -s /usr/share/zoneinfo/Europe/Berlin /etc/localtime",
                    requestrc => 1,
                  },
