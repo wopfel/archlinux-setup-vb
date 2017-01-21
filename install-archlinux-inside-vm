@@ -617,13 +617,13 @@ my @vm_steps = (
                    requestrc => 1,
                  },
                  {
-                   command => "###       REBOOTING the VM in 10 seconds...       ###",
+                   command => "###       REBOOTING the VM in 5 seconds...       ###",
                    requestrc => 0,  # No need
                  },
                  {
                    command => "reboot",
                    requestrc => 0,  # No need
-                   delay_before => 10,
+                   delay_before => 5,
                  },
                  {
                    command => "<ARROW-DOWN><ARROW-DOWN>",
@@ -691,13 +691,13 @@ my @vm_steps = (
                    requestrc => 1,
                  },
                  {
-                   command => "###       REBOOTING the VM in 10 seconds...       ###",
+                   command => "###       REBOOTING the VM in 5 seconds...       ###",
                    requestrc => 0,  # No need
                  },
                  {
                    command => "reboot",
                    requestrc => 0,  # No need
-                   delay_before => 10,
+                   delay_before => 5,
                  },
                  {
                    command => "<ARROW-DOWN><ARROW-DOWN>",
