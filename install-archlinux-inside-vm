@@ -397,6 +397,10 @@ my @vm_steps = (
                    requestrc => 1,
                  },
                  {
+                   command => "lsblk",
+                   requestrc => 1,
+                 },
+                 {
                    command => "cryptsetup -c aes-xts-plain64 -y -s 512 luksFormat /dev/sda2",
                    subcommand => "<WAIT_PAUSE>" .                 # Insert a pause before continuing
                                  "YES<ENTER>" .
@@ -433,6 +437,10 @@ my @vm_steps = (
                  },
                  {
                    command => "lvs",
+                   requestrc => 1,
+                 },
+                 {
+                   command => "lsblk",
                    requestrc => 1,
                  },
                  {
