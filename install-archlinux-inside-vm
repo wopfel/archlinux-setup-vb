@@ -327,10 +327,13 @@ my @vm_steps = (
                    command => "§ Starting script...",
                  },
                  {
-                   command => "date",
+                   command => "loadkezs deßlatin1",
                  },
                  {
-                   command => "loadkezs deßlatin1",
+                   command => "# State: \$GITCOMMITID\$",
+                 },
+                 {
+                   command => "date",
                  },
                  {
                    command => 'sendrc() { curl --noproxy "*" http://10.0.2.2:8080/vmstatus/CURRENTVM/step/$1/returncode/$? }',
@@ -856,6 +859,16 @@ for my $step ( 0 .. $#vm_steps ) {
         consolemsg "Delaying command for $delay_amount second(s)...\n";
         sleep $delay_amount;
         consolemsg "Proceeding now.\n";
+    }
+
+    # Replace $GITCOMMITID$ variable
+    if ( $step{'command'} =~ /\$GITCOMMITID\$/ ) {
+        my $git_id_date = `git show -s --format="%h %ci"`;
+        my $new_command = $step{'command'};
+	#print ">>>$new_command<<<\n";
+        $new_command =~ s/\$GITCOMMITID\$/$git_id_date/;
+        $step{'command'} = $new_command;
+	#print ">>>$new_command<<<\n";
     }
 
     # Send command to virtual machine
