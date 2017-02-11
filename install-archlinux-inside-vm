@@ -324,6 +324,12 @@ consolemsg "Program started.\n";
 
 my @vm_steps = (
                  {
+                   command => "§ Starting script...",
+                 },
+                 {
+                   command => "date",
+                 },
+                 {
                    command => "loadkezs deßlatin1",
                  },
                  {
