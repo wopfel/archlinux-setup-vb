@@ -333,6 +333,9 @@ my @vm_steps = (
                    command => "# State: \$GITCOMMITID\$",
                  },
                  {
+                   command => "cat /proc/cmdline",
+                 },
+                 {
                    command => "date",
                  },
                  {
