@@ -650,8 +650,8 @@ my @vm_steps = (
                    delay_before => 5,
                  },
                  {
-                   command => "<ARROW-DOWN><ARROW-DOWN>",
-                   description => "In bootscreen, select 3rd option (Boot existing OS)",
+                   command => "<ARROW-DOWN>",
+                   description => "In bootscreen, select 2nd option (Boot existing OS)",
                    requestrc => 0,  # No possibility
                    delay_before => 20,  # To be sure the machine has rebooted and the boot dialog is on the screen...
                  },
@@ -780,8 +780,8 @@ my @vm_steps = (
                    delay_before => 5,
                  },
                  {
-                   command => "<ARROW-DOWN><ARROW-DOWN>",
-                   description => "In bootscreen, select 3rd option (Boot existing OS)",
+                   command => "<ARROW-DOWN>",
+                   description => "In bootscreen, select 2nd option (Boot existing OS)",
                    requestrc => 0,  # No possibility
                    delay_before => 20,  # To be sure the machine has rebooted and the boot dialog is on the screen...
                  },
