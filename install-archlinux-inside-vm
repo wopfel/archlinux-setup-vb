@@ -698,41 +698,11 @@ my @vm_steps = (
                    requestrc => 1,
                  },
 		 #
-		 # Building and running arch-audit from AUR
+		 # Install arch-audit
 		 #
                  {
-                   command => "pacman --noconfirm -S cargo",
-                   description => "Install dependency for arch-audit",
-                   requestrc => 1,
-                 },
-                 {
-                   command => "useradd -m pkgbuild",
-                   description => "Adding user",
-                   requestrc => 1,
-                 },
-                 {
-                   command => "cd /home/pkgbuild",
-                   description => "Change directory",
-                   requestrc => 1,
-                 },
-                 {
-                   command => "su - pkgbuild -c \"curl -LO 'https://aur.archlinux.org/cgit/aur.git/snapshot/arch-audit.tar.gz'\"",
-                   description => "Download package from AUR",
-                   requestrc => 1,
-                 },
-                 {
-                   command => "su - pkgbuild -c 'tar xzf arch-audit.tar.gz'",
-                   description => "Download package from AUR",
-                   requestrc => 1,
-                 },
-                 {
-                   command => "su - pkgbuild -c 'cd arch-audit && makepkg'",
-                   description => "Make package (takes some minutes...)",
-                   requestrc => 1,
-                 },
-                 {
-                   command => "pacman --noconfirm -U arch-audit/arch-audit-*-x86_64.pkg.tar.xz",
-                   description => "Install package",
+                   command => "pacman --noconfirm -S arch-audit",
+                   description => "Install arch-audit",
                    requestrc => 1,
                  },
                  {
@@ -743,11 +713,6 @@ my @vm_steps = (
                  {
                    command => "arch-audit --upgradable",
                    description => "Run arch-audit",
-                   requestrc => 1,
-                 },
-                 {
-                   command => "cd",
-                   description => "Change directory",
                    requestrc => 1,
                  },
 		 #
