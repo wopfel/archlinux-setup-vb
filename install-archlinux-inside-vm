@@ -197,7 +197,7 @@ sub send_keys_to_vm {
         }
 
         # Defaults to 10
-        $max_elements ||= 10;
+        $max_elements //= 10;
 
         # Get the first $max_elements scancodes (note: in this context, one scancode could be "26 a6")
         my @subset = splice( @scancodes, 0, $max_elements );
