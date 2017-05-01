@@ -360,7 +360,7 @@ my @vm_steps = (
                    requestrc => 1,
                  },
                  {
-                   command => "while true ; do curl --noproxy '*' http://10.0.2.2:8080/vmstatus/CURRENTVM/alive 1<GT> /dev/null 2<GT>&1 ; sleep 2 ; done &",
+                   command => "while true ; do curl --noproxy '*' http://10.0.2.2:8080/vmstatus/CURRENTVM/alive 1<GT> /dev/null 2<GT>&1 ; sleep 10 ; done &",
                    description => "Background loop to let us know the VM is alive",
                  },
                  {
