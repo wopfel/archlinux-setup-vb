@@ -369,8 +369,7 @@ my @vm_steps = (
                    requestrc => 1,
                  },
                  {
-                   # TODO: Transfer current step number
-                   command => "uname -a | curl -d \@- --noproxy '*' http://10.0.2.2:8080/data/CURRENTVM/step/0/data/uname",
+                   command => "uname -a | curl -d \@- --noproxy '*' http://10.0.2.2:8080/data/CURRENTVM/step/\$CURRENTSTEPNUMBER\$/data/uname",
                    description => "Submit data: current kernel information",
                    requestrc => 1,
                  },
@@ -682,8 +681,7 @@ my @vm_steps = (
                    command => "curl --noproxy '*' http://10.0.2.2:8080/vmstatus/CURRENTVM/alive",
                  },
                  {
-                   # TODO: Transfer current step number
-                   command => "uname -a | curl -d \@- --noproxy '*' http://10.0.2.2:8080/data/CURRENTVM/step/0/data/uname",
+                   command => "uname -a | curl -d \@- --noproxy '*' http://10.0.2.2:8080/data/CURRENTVM/step/\$CURRENTSTEPNUMBER\$/data/uname",
                    description => "Submit data: current kernel information",
                    requestrc => 1,
                  },
@@ -777,8 +775,7 @@ my @vm_steps = (
                    command => "curl --noproxy '*' http://10.0.2.2:8080/vmstatus/CURRENTVM/alive",
                  },
                  {
-                   # TODO: Transfer current step number
-                   command => "uname -a | curl -d \@- --noproxy '*' http://10.0.2.2:8080/data/CURRENTVM/step/0/data/uname",
+                   command => "uname -a | curl -d \@- --noproxy '*' http://10.0.2.2:8080/data/CURRENTVM/step/\$CURRENTSTEPNUMBER\$/data/uname",
                    description => "Submit data: current kernel information",
                    requestrc => 1,
                  },
@@ -837,6 +834,13 @@ for my $step ( 0 .. $#vm_steps ) {
         $new_command =~ s/\$GITCOMMITID\$/$git_id_date/;
         $step{'command'} = $new_command;
 	#print ">>>$new_command<<<\n";
+    }
+
+    # Replace $CURRENTSTEPNUMBER$ variable
+    if ( $step{'command'} =~ /\$CURRENTSTEPNUMBER\$/ ) {
+        my $new_command = $step{'command'};
+        $new_command =~ s/\$CURRENTSTEPNUMBER\$/$step/;
+        $step{'command'} = $new_command;
     }
 
     # Send command to virtual machine
