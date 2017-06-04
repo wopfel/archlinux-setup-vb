@@ -332,7 +332,26 @@ my @vm_steps = (
                    command => "loadkezs deßlatin1",
                  },
                  {
+                   command => "cat <GT> /dev/null",
+                   subcommand => "<ENTER>" .
+                                 "<ENTER>" .
+                                 "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" .
+                                 "<ENTER>" .
+                                 "<ENTER>" .
+                                 "  This is an automated / scripted installation of Arch Linux." .
+                                 "<ENTER>" .
+                                 "  It is recorded for historic reasons. This is NO TUTORIAL." .
+                                 "<ENTER>" .
+                                 "<ENTER>" .
+                                 "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" .
+                                 "<ENTER>" .
+                                 "<ENTER>" .
+                                 "<ENTER>" .
+                                 "<CRTL-D>",
+                 },
+                 {
                    command => "# State: \$GITCOMMITID\$",
+                   delay_before => 5,
                  },
                  {
                    command => "cat /proc/cmdline",
