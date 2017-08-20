@@ -84,6 +84,15 @@ Future
 - support english keyboard as well
 
 
+Requirements
+============
+
+The following packages are needed in order to run this script:
+
+- perl-timedate
+- perl-http-daemon
+
+
 Known issues
 ============
 
