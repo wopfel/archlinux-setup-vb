@@ -250,7 +250,7 @@ sub process_client_request {
             # Maybe we're handling more than one VM at the same time, so CURRENTVM is a placeholder for future enhancements
             my $stepnr = $1;
             my $returncode = $2;
-            consolemsg "VM reported return code: $returncode. Finished step number: $stepnr.\n";
+            consolemsg "Step $stepnr: finished. Return code: $returncode.\n";
             # Send back status code 200: OK
             $c->send_status_line( HTTP_OK );
             # Store return code and step information
@@ -835,7 +835,7 @@ for my $step ( 0 .. $#vm_steps ) {
     # Check if web server thread is still running
     die "Web server thread inactive"  unless  $thread->is_running();
 
-    consolemsg "Starting step $step...\n";
+    consolemsg "Step $step: starting...\n";
 
     my $step_started_time = time();
 
@@ -906,7 +906,7 @@ for my $step ( 0 .. $#vm_steps ) {
     # Measure step duration
     my $step_stopped_time = time();
     my $step_elapsed_sec = $step_stopped_time - $step_started_time;
-    consolemsg "Step elapsed $step_elapsed_sec second(s).\n";
+    consolemsg "Step $step: elapsed $step_elapsed_sec second(s).\n";
 
 }
 
