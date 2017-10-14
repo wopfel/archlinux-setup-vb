@@ -702,6 +702,10 @@ my @vm_steps = (
                    command => "curl --noproxy '*' http://10.0.2.2:8080/vmstatus/CURRENTVM/alive",
                  },
                  {
+                   command => "systemd-analyze --no-pager blame | head -n 15",
+                   requestrc => 1,
+                 },
+                 {
                    command => "uname -a | curl -d \@- --noproxy '*' http://10.0.2.2:8080/data/CURRENTVM/step/\$CURRENTSTEPNUMBER\$/data/uname",
                    description => "Submit data: current kernel information",
                    requestrc => 1,
@@ -794,6 +798,10 @@ my @vm_steps = (
                  },
                  {
                    command => "curl --noproxy '*' http://10.0.2.2:8080/vmstatus/CURRENTVM/alive",
+                 },
+                 {
+                   command => "systemd-analyze --no-pager blame | head -n 15",
+                   requestrc => 1,
                  },
                  {
                    command => "uname -a | curl -d \@- --noproxy '*' http://10.0.2.2:8080/data/CURRENTVM/step/\$CURRENTSTEPNUMBER\$/data/uname",
