@@ -532,6 +532,11 @@ my @vm_steps = (
                    requestrc => 1,
                  },
                  {
+                   command => "grep -A10 '^ LABEL arch\$' /mnt/boot/syslinux/syslinux.cfg",
+                   description => "Show boot options from syslinux.cfg",
+                   requestrc => 1,
+                 },
+                 {
                    command => "swapon -L swap",
                    description => "Enable swap",
                    requestrc => 1,
