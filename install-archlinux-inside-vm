@@ -369,10 +369,6 @@ my @vm_steps = (
                    requestrc => 1,
                  },
                  {
-                   command => 'kill ${${(v)jobstates#*:*:}%=*}',
-                   description => "Killing all background jobs (easier for testing when the program is restarted frequently)",
-                 },
-                 {
                    command => "curl --noproxy '*' http://10.0.2.2:8080/vmstatus/CURRENTVM/alive",
                  },
                  {
