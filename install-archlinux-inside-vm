@@ -603,6 +603,11 @@ my @vm_steps = (
                    description => "New shell (sh), function sendrc has to be redefined in sh-syntax",
                  },
                  {
+                   command => "pacman -Q | wc -l",
+                   description => "Count number of installed packages",
+                   requestrc => 1,
+                 },
+                 {
                    command => "[[ ` grep -c archlinux-setup-vb /etc/hostname`  -eq 1 ]]",  # Space following ` needed (dead key)
                    description => "Ensure we are in the chroot now",
                    requestrc => 1,
@@ -707,6 +712,11 @@ my @vm_steps = (
                    requestrc => 1,
                  },
                  {
+                   command => "pacman -Q | wc -l",
+                   description => "Count number of installed packages",
+                   requestrc => 1,
+                 },
+                 {
                    command => "[[ ` grep -c 'sda[0-9]' /proc/partitions`  -eq 2 ]]",  # Space following ` needed (dead key)
                    description => "Ensure there are two partitions on the disk",
                    requestrc => 1,
@@ -732,6 +742,11 @@ my @vm_steps = (
                  {
                    command => "arch-audit --upgradable",
                    description => "Run arch-audit",
+                   requestrc => 1,
+                 },
+                 {
+                   command => "pacman -Q | wc -l",
+                   description => "Count number of installed packages",
                    requestrc => 1,
                  },
 		 #
@@ -802,6 +817,11 @@ my @vm_steps = (
                  {
                    command => "uname -a | curl -d \@- --noproxy '*' http://10.0.2.2:8080/data/CURRENTVM/step/\$CURRENTSTEPNUMBER\$/data/uname",
                    description => "Submit data: current kernel information",
+                   requestrc => 1,
+                 },
+                 {
+                   command => "pacman -Q | wc -l",
+                   description => "Count number of installed packages",
                    requestrc => 1,
                  },
                  {
