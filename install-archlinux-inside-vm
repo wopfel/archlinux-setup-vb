@@ -404,7 +404,7 @@ my @vm_steps = (
                                  "<BACKSPACE><BACKSPACE><BACKSPACE><BACKSPACE>" .   # Erase pre-defined value ("8G" for an 8 Gigabyte disk)
                                  "100M<ENTER>" .                  # MB
                                  "<ENTER>" .                      # Primary
-                                 "<ARROW-LEFT><ARROW-LEFT>" .     # Highlight Bootable
+                                 "<ARROW-LEFT><ARROW-LEFT><ARROW-LEFT>" .     # Highlight Bootable
                                  "<ENTER>" .                      # Bootable
                                  "<WAIT_PAUSE>" .                 # Insert a pause before continuing
                                  "<ARROW-DOWN>" .                 # Free space
