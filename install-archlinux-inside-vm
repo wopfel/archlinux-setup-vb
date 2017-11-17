@@ -755,6 +755,11 @@ my @vm_steps = (
                    requestrc => 1,
                  },
                  {
+                   command => "arch-audit -q",
+                   description => "Run arch-audit (quiet mode)",
+                   requestrc => 1,
+                 },
+                 {
                    command => "pacman -Q | wc -l",
                    description => "Count number of installed packages",
                    requestrc => 1,
@@ -852,6 +857,11 @@ my @vm_steps = (
                  {
                    command => "arch-audit --upgradable",
                    description => "Run arch-audit",
+                   requestrc => 1,
+                 },
+                 {
+                   command => "arch-audit -q",
+                   description => "Run arch-audit (quiet mode)",
                    requestrc => 1,
                  },
                  {
