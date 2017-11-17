@@ -635,6 +635,11 @@ my @vm_steps = (
                    requestrc => 1,
                  },
                  {
+                   command => "grep '^ HOOKS=' /etc/mkinitcpio.conf",
+                   description => "Show HOOKS line from mkinitcpio.conf",
+                   requestrc => 1,
+                 },
+                 {
                    command => "export LANG=de_DE.UTF-8",
                    requestrc => 1,
                  },
