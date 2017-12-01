@@ -527,13 +527,18 @@ my @vm_steps = (
                    requestrc => 1,
                  },
                  {
+                   command => "grep -A10 '^ LABEL arch\$' /mnt/boot/syslinux/syslinux.cfg",
+                   description => "Show boot options from syslinux.cfg before sed",
+                   requestrc => 1,
+                 },
+                 {
                    command => "sed -i 's,APPEND root.*,APPEND cryptdevice=/dev/sda2:main root=/dev/mapper/main-root rw lang=de locale=de_DE.UTF-8,' /mnt/boot/syslinux/syslinux.cfg",
                    description => "Prepare bootloader APPEND options",
                    requestrc => 1,
                  },
                  {
                    command => "grep -A10 '^ LABEL arch\$' /mnt/boot/syslinux/syslinux.cfg",
-                   description => "Show boot options from syslinux.cfg",
+                   description => "Show boot options from syslinux.cfg after sed",
                    requestrc => 1,
                  },
                  {
@@ -571,6 +576,11 @@ my @vm_steps = (
                  {
                    command => "sed -i 's,^ #de_DE,de_DE,' /mnt/etc/locale.gen",
                    description => "Prepare locale.gen",
+                   requestrc => 1,
+                 },
+                 {
+                   command => "grep '^ de_DE' /mnt/etc/locale.gen",
+                   description => "Show lines beginning with de_DE",
                    requestrc => 1,
                  },
                  {
