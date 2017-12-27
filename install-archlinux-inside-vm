@@ -623,6 +623,11 @@ my @vm_steps = (
                    requestrc => 1,
                  },
                  {
+                   command => "df --block-size=1MB -T / /boot /home",
+                   description => "Display mount point utilization",
+                   requestrc => 1,
+                 },
+                 {
                    command => "[[ ` grep -c archlinux-setup-vb /etc/hostname`  -eq 1 ]]",  # Space following ` needed (dead key)
                    description => "Ensure we are in the chroot now",
                    requestrc => 1,
@@ -737,6 +742,11 @@ my @vm_steps = (
                    requestrc => 1,
                  },
                  {
+                   command => "df --block-size=1MB -T / /boot /home",
+                   description => "Display mount point utilization",
+                   requestrc => 1,
+                 },
+                 {
                    command => "[[ ` grep -c 'sda[0-9]' /proc/partitions`  -eq 2 ]]",  # Space following ` needed (dead key)
                    description => "Ensure there are two partitions on the disk",
                    requestrc => 1,
@@ -772,6 +782,11 @@ my @vm_steps = (
                  {
                    command => "pacman -Q | wc -l",
                    description => "Count number of installed packages",
+                   requestrc => 1,
+                 },
+                 {
+                   command => "df --block-size=1MB -T / /boot /home",
+                   description => "Display mount point utilization",
                    requestrc => 1,
                  },
 		 #
@@ -847,6 +862,11 @@ my @vm_steps = (
                  {
                    command => "pacman -Q | wc -l",
                    description => "Count number of installed packages",
+                   requestrc => 1,
+                 },
+                 {
+                   command => "df --block-size=1MB -T / /boot /home",
+                   description => "Display mount point utilization",
                    requestrc => 1,
                  },
                  {
