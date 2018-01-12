@@ -579,8 +579,8 @@ my @vm_steps = (
                    requestrc => 1,
                  },
                  {
-                   command => "grep '^ de_DE' /mnt/etc/locale.gen",
-                   description => "Show lines beginning with de_DE",
+                   command => "grep -v '^ #' /mnt/etc/locale.gen",
+                   description => "Show only un-commented lines",
                    requestrc => 1,
                  },
                  {
