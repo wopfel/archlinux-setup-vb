@@ -547,6 +547,11 @@ my @vm_steps = (
                    requestrc => 1,
                  },
                  {
+                   command => "free -h",
+                   description => "Show memory",
+                   requestrc => 1,
+                 },
+                 {
                    command => "genfstab -U -p /mnt <GT><GT> /mnt/etc/fstab",
                    description => "Write fstab",
                    requestrc => 1,
