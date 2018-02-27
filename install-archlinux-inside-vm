@@ -738,6 +738,11 @@ my @vm_steps = (
                    command => "curl --noproxy '*' http://10.0.2.2:8080/vmstatus/CURRENTVM/alive",
                  },
                  {
+                   command => "[[ ` hostname`  = 'archlinux-setup-vb' ]]",  # Space following ` needed (dead key)
+                   description => "Check host name",
+                   requestrc => 1,
+                 },
+                 {
                    command => "systemd-analyze --no-pager blame | head -n 15",
                    requestrc => 1,
                  },
@@ -859,6 +864,11 @@ my @vm_steps = (
                  },
                  {
                    command => "curl --noproxy '*' http://10.0.2.2:8080/vmstatus/CURRENTVM/alive",
+                 },
+                 {
+                   command => "[[ ` hostname`  = 'archlinux-setup-vb' ]]",  # Space following ` needed (dead key)
+                   description => "Check host name",
+                   requestrc => 1,
                  },
                  {
                    command => "systemd-analyze --no-pager blame | head -n 15",
