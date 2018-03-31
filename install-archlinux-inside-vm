@@ -23,6 +23,7 @@ use Date::Format;
 #my %vm_state :shared;
 my $last_step_completed_nr :shared;
 my $last_step_completed_rc :shared;
+my $current_stage :shared;
 
 
 
@@ -268,7 +269,10 @@ sub process_client_request {
             consolemsg "VM sent data '$datatype' in step $stepnr: <<" . $r->content . ">>.\n";
             # Send back status code 200: OK
             $c->send_status_line( HTTP_OK );
-        } else {
+        } elsif ( $r->method eq "GET"  and  $r->url->path =~ m"^/vmstatus/CURRENTVM/get-stage/$" ) {
+            $c->send_status_line( HTTP_OK );
+	    $c->send_response( "Content-type: text/html\n\nTest\n$current_stage" );
+	} else {
             $c->send_error( HTTP_NOT_IMPLEMENTED, "Too early. Function not implemented yet." );  # HTTP status code 501
         }
     } else {
@@ -323,11 +327,13 @@ $| = 1;
 my $thread = threads->create( 'http_thread' );
 
 consolemsg "Program started.\n";
+$current_stage = "Program started";
 
 my @vm_steps = (
                  {
                    command => "",
                    description => "In bootscreen, select 1st option (Boot Arch Linux ...)",
+                   stage => "Booting",
                  },
                  {
                    command => "§ Starting script...",
@@ -335,6 +341,7 @@ my @vm_steps = (
                  },
                  {
                    command => "loadkezs deßlatin1",
+                   stage => "Preparing",
                  },
                  {
                    command => "cat <GT> /dev/null",
@@ -428,6 +435,7 @@ my @vm_steps = (
                                  "<ARROW-LEFT>" .                 # Highlight Quit
                                  "<ENTER>",                       # Quit
                    requestrc => 1,
+                   stage => "Preparing disk",
                  },
                  {
                    command => "lsblk",
@@ -525,11 +533,13 @@ my @vm_steps = (
                  {
                    command => "pacstrap /mnt base base-devel syslinux cronie",
                    requestrc => 1,
+                   stage => "Installing Arch Linux",
                  },
                  {
                    command => "syslinux-install_update -i -a -m -c /mnt",
                    description => "Install syslinux bootloader",
                    requestrc => 1,
+                   stage => "Configure boot",
                  },
                  {
                    command => "grep -A10 '^ LABEL arch\$' /mnt/boot/syslinux/syslinux.cfg",
@@ -550,6 +560,7 @@ my @vm_steps = (
                    command => "swapon -L swap",
                    description => "Enable swap",
                    requestrc => 1,
+                   stage => "Configure system",
                  },
                  {
                    command => "free -h",
@@ -622,6 +633,7 @@ my @vm_steps = (
                  {
                    command => "arch-chroot /mnt",
                    requestrc => 0,  # We won't return for some time...
+                   stage => "Configure system in chroot",
                  },
                  {
                    command => 'function sendrc {<ENTER>curl --noproxy "*" http://10.0.2.2:8080/vmstatus/CURRENTVM/step/$1/returncode/$?<ENTER>}',
@@ -709,6 +721,7 @@ my @vm_steps = (
                    command => "reboot",
                    requestrc => 0,  # No need
                    delay_before => 5,
+                   stage => "Boot into new system",
                  },
                  {
                    command => "<ARROW-DOWN>",
@@ -738,6 +751,7 @@ my @vm_steps = (
                    command => "true",
                    description => "Test sendrc() function",
                    requestrc => 1,
+                   stage => "Running in new system",
                  },
                  {
                    command => "curl --noproxy '*' http://10.0.2.2:8080/vmstatus/CURRENTVM/alive",
@@ -817,6 +831,7 @@ my @vm_steps = (
                    # Original command (without double-backslash): perl -i -0777 -pe 's/#\[testing\]\n#Include/[testing]\nInclude/s' /etc/pacman.conf
                    description => "Activate testing repository",
                    requestrc => 1,
+                   stage => "Activating testing repository",
                  },
                  {
                    command => "perl -i -0777 -pe 's/#\\[community-testing\\]\\n#Include/[community-testing]\\nInclude/s' /etc/pacman.conf",
@@ -837,6 +852,7 @@ my @vm_steps = (
                    command => "reboot",
                    requestrc => 0,  # No need
                    delay_before => 5,
+                   stage => "Booting to system with testing repository",
                  },
                  {
                    command => "<ARROW-DOWN>",
@@ -857,6 +873,7 @@ my @vm_steps = (
                                  "<ENTER>",
                    requestrc => 0,  # No possibility
                    delay_before => 20,  # To be sure the login screen has been reached
+                   stage => "Testing system with testing repository",
                  },
                  {
                    command => 'function sendrc {<ENTER>curl --noproxy "*" http://10.0.2.2:8080/vmstatus/CURRENTVM/step/$1/returncode/$?<ENTER>}',
@@ -922,6 +939,7 @@ my @vm_steps = (
                  {
                    command => "echo End of script...",
                    requestrc => 1,
+                   stage => "End",
                  },
                );
 
@@ -930,6 +948,8 @@ for my $step ( 0 .. $#vm_steps ) {
 
     # For easier access ($step{key} instead of ${ $vm_steps[$step] }{key})
     my %step = %{ $vm_steps[$step] };
+
+    $current_stage = $step{'stage'}  if  defined $step{'stage'};
 
     # Check if web server thread is still running
     die "Web server thread inactive"  unless  $thread->is_running();
