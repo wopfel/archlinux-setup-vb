@@ -271,7 +271,7 @@ sub process_client_request {
             $c->send_status_line( HTTP_OK );
         } elsif ( $r->method eq "GET"  and  $r->url->path =~ m"^/vmstatus/CURRENTVM/get-stage/$" ) {
             $c->send_status_line( HTTP_OK );
-	    $c->send_response( "Content-type: text/html\n\nTest\n$current_stage" );
+	    $c->send_response( "Content-type: text/html\n\nCurrent stage:\n$current_stage" );
 	} else {
             $c->send_error( HTTP_NOT_IMPLEMENTED, "Too early. Function not implemented yet." );  # HTTP status code 501
         }
