@@ -672,7 +672,7 @@ my @vm_steps = (
                    requestrc => 1,
                  },
                  {
-                   command => "sed -i 's,^ HOOKS=.*,HOOKS=\"base udev autodetect block keyboard keymap encrypt lvm2 filesystems fsck shutdown\",' /etc/mkinitcpio.conf",  # Space following ^ needed (dead key)
+                   command => "sed -i 's,^ HOOKS=.*,HOOKS=(base udev autodetect block keyboard keymap encrypt lvm2 filesystems fsck shutdown),' /etc/mkinitcpio.conf",  # Space following ^ needed (dead key)
                    description => "Prepare mkinitcpio.conf",
                    requestrc => 1,
                  },
