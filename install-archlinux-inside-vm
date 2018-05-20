@@ -333,7 +333,7 @@ my @vm_steps = (
                  {
                    command => "",
                    description => "In bootscreen, select 1st option (Boot Arch Linux ...)",
-                   stage => "Booting",
+                   stage => "Booting from ISO",
                  },
                  {
                    command => "§ Starting script...",
