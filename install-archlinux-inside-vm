@@ -944,6 +944,10 @@ my @vm_steps = (
                );
 
 
+# Store unix timestamp for time calculation
+my $begin_time = time();
+my @time_list;
+
 for my $step ( 0 .. $#vm_steps ) {
 
     # For easier access ($step{key} instead of ${ $vm_steps[$step] }{key})
@@ -964,6 +968,14 @@ for my $step ( 0 .. $#vm_steps ) {
         consolemsg "Delaying command for $delay_amount second(s)...\n";
         sleep $delay_amount;
         consolemsg "Proceeding now.\n";
+    }
+
+    # Record time offset
+    if ( defined $step{'stage'} ) {
+        my $time_diff = time() - $begin_time;
+        my $time_diff_min = int( $time_diff / 60 );
+        my $time_diff_sec = $time_diff % 60;
+	push @time_list, sprintf( "[%02d:%02d] %s", $time_diff_min, $time_diff_sec, $step{'stage'} );
     }
 
     # Replace $GITCOMMITID$ variable
@@ -1033,6 +1045,11 @@ for my $step ( 0 .. $#vm_steps ) {
 sleep 3;
 
 consolemsg "All steps done. Program ends now.\n";
+
+print "\n";
+print "Summry:\n";
+print join "\n", @time_list;
+print "\n";
 
 # TODO: This doesn't seem to work...
 threads->exit();
