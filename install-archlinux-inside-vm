@@ -650,7 +650,7 @@ my @vm_steps = (
                    requestrc => 1,
                  },
                  {
-                   command => "echo \"\$RESULT\" | curl -d \@- --noproxy '*' http://10.0.2.2:8080/data/CURRENTVM/step/\$CURRENTSTEPNUMBER\$/data/pastebin-packagelist-1",
+                   command => "echo \"\$RESULT\" | curl -F a=\@- --noproxy '*' http://10.0.2.2:8080/data/CURRENTVM/step/\$CURRENTSTEPNUMBER\$/data/pastebin-packagelist-1",
                    description => "Submit data: ptbw.pw result",
                    requestrc => 1,
                  },
@@ -791,7 +791,7 @@ my @vm_steps = (
                    requestrc => 1,
                  },
                  {
-                   command => "echo \"\$RESULT\" | curl -d \@- --noproxy '*' http://10.0.2.2:8080/data/CURRENTVM/step/\$CURRENTSTEPNUMBER\$/data/pastebin-packagelist-2",
+                   command => "echo \"\$RESULT\" | curl -F a=\@- --noproxy '*' http://10.0.2.2:8080/data/CURRENTVM/step/\$CURRENTSTEPNUMBER\$/data/pastebin-packagelist-2",
                    description => "Submit data: ptbw.pw result",
                    requestrc => 1,
                  },
@@ -844,7 +844,7 @@ my @vm_steps = (
                    requestrc => 1,
                  },
                  {
-                   command => "echo \"\$RESULT\" | curl -d \@- --noproxy '*' http://10.0.2.2:8080/data/CURRENTVM/step/\$CURRENTSTEPNUMBER\$/data/pastebin-packagelist-3",
+                   command => "echo \"\$RESULT\" | curl -F a=\@- --noproxy '*' http://10.0.2.2:8080/data/CURRENTVM/step/\$CURRENTSTEPNUMBER\$/data/pastebin-packagelist-3",
                    description => "Submit data: ptbw.pw result",
                    requestrc => 1,
                  },
@@ -942,7 +942,7 @@ my @vm_steps = (
                    requestrc => 1,
                  },
                  {
-                   command => "echo \"\$RESULT\" | curl -d \@- --noproxy '*' http://10.0.2.2:8080/data/CURRENTVM/step/\$CURRENTSTEPNUMBER\$/data/pastebin-packagelist-4",
+                   command => "echo \"\$RESULT\" | curl -F a=\@- --noproxy '*' http://10.0.2.2:8080/data/CURRENTVM/step/\$CURRENTSTEPNUMBER\$/data/pastebin-packagelist-4",
                    description => "Submit data: ptbw.pw result",
                    requestrc => 1,
                  },
