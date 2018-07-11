@@ -645,6 +645,16 @@ my @vm_steps = (
                    requestrc => 1,
                  },
                  {
+                   command => "RESULT=\$(pacman -Q | curl -F c=\@- https://ptpb.pw/)",
+                   description => "Paste package list on ptbw.pw",
+                   requestrc => 1,
+                 },
+                 {
+                   command => "echo \"\$RESULT\" | curl -d \@- --noproxy '*' http://10.0.2.2:8080/data/CURRENTVM/step/\$CURRENTSTEPNUMBER\$/data/pastebin-packagelist-1",
+                   description => "Submit data: ptbw.pw result",
+                   requestrc => 1,
+                 },
+                 {
                    command => "df --block-size=1MB -T / /boot /home",
                    description => "Display mount point utilization",
                    requestrc => 1,
@@ -776,6 +786,16 @@ my @vm_steps = (
                    requestrc => 1,
                  },
                  {
+                   command => "RESULT=\$(pacman -Q | curl -F c=\@- https://ptpb.pw/)",
+                   description => "Paste package list on ptbw.pw",
+                   requestrc => 1,
+                 },
+                 {
+                   command => "echo \"\$RESULT\" | curl -d \@- --noproxy '*' http://10.0.2.2:8080/data/CURRENTVM/step/\$CURRENTSTEPNUMBER\$/data/pastebin-packagelist-2",
+                   description => "Submit data: ptbw.pw result",
+                   requestrc => 1,
+                 },
+                 {
                    command => "df --block-size=1MB -T / /boot /home",
                    description => "Display mount point utilization",
                    requestrc => 1,
@@ -816,6 +836,16 @@ my @vm_steps = (
                  {
                    command => "pacman -Q | wc -l",
                    description => "Count number of installed packages",
+                   requestrc => 1,
+                 },
+                 {
+                   command => "RESULT=\$(pacman -Q | curl -F c=\@- https://ptpb.pw/)",
+                   description => "Paste package list on ptbw.pw",
+                   requestrc => 1,
+                 },
+                 {
+                   command => "echo \"\$RESULT\" | curl -d \@- --noproxy '*' http://10.0.2.2:8080/data/CURRENTVM/step/\$CURRENTSTEPNUMBER\$/data/pastebin-packagelist-3",
+                   description => "Submit data: ptbw.pw result",
                    requestrc => 1,
                  },
                  {
@@ -904,6 +934,16 @@ my @vm_steps = (
                  {
                    command => "pacman -Q | wc -l",
                    description => "Count number of installed packages",
+                   requestrc => 1,
+                 },
+                 {
+                   command => "RESULT=\$(pacman -Q | curl -F c=\@- https://ptpb.pw/)",
+                   description => "Paste package list on ptbw.pw",
+                   requestrc => 1,
+                 },
+                 {
+                   command => "echo \"\$RESULT\" | curl -d \@- --noproxy '*' http://10.0.2.2:8080/data/CURRENTVM/step/\$CURRENTSTEPNUMBER\$/data/pastebin-packagelist-4",
+                   description => "Submit data: ptbw.pw result",
                    requestrc => 1,
                  },
                  {
