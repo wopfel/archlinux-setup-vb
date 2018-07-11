@@ -25,6 +25,7 @@ my $last_step_completed_nr :shared;
 my $last_step_completed_rc :shared;
 my $current_stage :shared;
 my @pastebin_url :shared;
+my @pastebin_systemdanalyze_url :shared;
 
 
 
@@ -272,7 +273,9 @@ sub process_client_request {
             $c->send_status_line( HTTP_OK );
 	    # Save url if pastebin result is found
             if ( $r->content =~ /^url: (http.*)$/m ) {
-                push @pastebin_url, $1;
+                my $url = $1;
+                push @pastebin_url, $url  if  $r->url->path =~ /pastebin-packagelist-/;
+                push @pastebin_systemdanalyze_url, $url  if  $r->url->path =~ /pastebin-systemd-analyze-/;
 	    }
         } elsif ( $r->method eq "GET"  and  $r->url->path =~ m"^/vmstatus/CURRENTVM/get-stage/$" ) {
             $c->send_status_line( HTTP_OK );
@@ -777,7 +780,21 @@ my @vm_steps = (
                    requestrc => 1,
                  },
                  {
-                   command => "systemd-analyze --no-pager blame | head -n 15",
+                   command => "OUT=\$(systemd-analyze --no-pager blame)",
+                   requestrc => 1,
+                 },
+                 {
+                   command => "echo \"\$OUT\" | head -n 15",
+                   requestrc => 1,
+                 },
+                 {
+                   command => "RESULT=\$(echo \"\$OUT\" | curl -F c=\@- https://ptpb.pw/)",
+                   description => "Paste systemd-analyze on ptbw.pw",
+                   requestrc => 1,
+                 },
+                 {
+                   command => "echo \"\$RESULT\" | curl -F a=\@- --noproxy '*' http://10.0.2.2:8080/data/CURRENTVM/step/\$CURRENTSTEPNUMBER\$/data/pastebin-systemd-analyze-1",
+                   description => "Submit data: ptbw.pw result",
                    requestrc => 1,
                  },
                  {
@@ -928,7 +945,21 @@ my @vm_steps = (
                    requestrc => 1,
                  },
                  {
-                   command => "systemd-analyze --no-pager blame | head -n 15",
+                   command => "OUT=\$(systemd-analyze --no-pager blame)",
+                   requestrc => 1,
+                 },
+                 {
+                   command => "echo \"\$OUT\" | head -n 15",
+                   requestrc => 1,
+                 },
+                 {
+                   command => "RESULT=\$(echo \"\$OUT\" | curl -F c=\@- https://ptpb.pw/)",
+                   description => "Paste systemd-analyze on ptbw.pw",
+                   requestrc => 1,
+                 },
+                 {
+                   command => "echo \"\$RESULT\" | curl -F a=\@- --noproxy '*' http://10.0.2.2:8080/data/CURRENTVM/step/\$CURRENTSTEPNUMBER\$/data/pastebin-systemd-analyze-2",
+                   description => "Submit data: ptbw.pw result",
                    requestrc => 1,
                  },
                  {
@@ -1097,8 +1128,13 @@ print join "\n", @time_list;
 print "\n";
 
 print "\n";
-print "Pastebin urls:\n";
+print "Pastebin urls (package list):\n";
 print join "\n", @pastebin_url;
+print "\n";
+
+print "\n";
+print "Pastebin urls (systemd-analyze):\n";
+print join "\n", @pastebin_systemdanalyze_url;
 print "\n";
 
 # TODO: This doesn't seem to work...
