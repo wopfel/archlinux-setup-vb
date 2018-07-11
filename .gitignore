@@ -1,2 +1,4 @@
 # vim swap files
 *.swp
+# configuration file
+install-archlinux-inside-vm.yml

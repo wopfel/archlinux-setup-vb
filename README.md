@@ -91,6 +91,13 @@ The following packages are needed in order to run this script:
 
 - perl-timedate
 - perl-http-daemon
+- perl-yaml-tiny
+
+
+Config file
+===========
+
+The configuration is read from `install-archlinux-inside-vm.yml`. See the sample file (`.sample`).
 
 
 Known issues

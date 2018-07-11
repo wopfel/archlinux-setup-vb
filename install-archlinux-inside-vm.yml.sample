@@ -1,0 +1,3 @@
+---
+# Set id of your VM (get a list by issuing 'vboxmanage list vms')
+vm_id: "{aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee}"
