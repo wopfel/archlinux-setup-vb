@@ -1092,7 +1092,7 @@ sleep 3;
 consolemsg "All steps done. Program ends now.\n";
 
 print "\n";
-print "Summry:\n";
+print "Summary:\n";
 print join "\n", @time_list;
 print "\n";
 
