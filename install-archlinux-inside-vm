@@ -24,6 +24,7 @@ use Date::Format;
 my $last_step_completed_nr :shared;
 my $last_step_completed_rc :shared;
 my $current_stage :shared;
+my @pastebin_url :shared;
 
 
 
@@ -269,6 +270,10 @@ sub process_client_request {
             consolemsg "VM sent data '$datatype' in step $stepnr: <<" . $r->content . ">>.\n";
             # Send back status code 200: OK
             $c->send_status_line( HTTP_OK );
+	    # Save url if pastebin result is found
+            if ( $r->content =~ /^url: (http.*)$/m ) {
+                push @pastebin_url, $1;
+	    }
         } elsif ( $r->method eq "GET"  and  $r->url->path =~ m"^/vmstatus/CURRENTVM/get-stage/$" ) {
             $c->send_status_line( HTTP_OK );
 	    $c->send_response( "Content-type: text/html\n\nCurrent stage:\n$current_stage" );
@@ -1089,6 +1094,11 @@ consolemsg "All steps done. Program ends now.\n";
 print "\n";
 print "Summry:\n";
 print join "\n", @time_list;
+print "\n";
+
+print "\n";
+print "Pastebin urls:\n";
+print join "\n", @pastebin_url;
 print "\n";
 
 # TODO: This doesn't seem to work...
