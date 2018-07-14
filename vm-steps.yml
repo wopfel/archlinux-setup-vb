@@ -4,7 +4,7 @@ steps:
   description: 'In bootscreen, select 1st option (Boot Arch Linux ...)'
   stage: 'Booting from ISO'
 - command: '§ Starting script...'
-  delay_before: 40
+  delay_before: 40  # To be sure the machine has booted up to the shell
 - command: 'loadkezs deßlatin1'
   stage: Preparing
 - command: 'cat <GT> /dev/null'
@@ -45,15 +45,46 @@ steps:
 - command: 'cfdisk /dev/sda'
   requestrc: 1
   stage: 'Preparing disk'
-  subcommand: <WAIT_PAUSE><ARROW-DOWN><ENTER><ENTER><BACKSPACE><BACKSPACE><BACKSPACE><BACKSPACE>100M<ENTER><ENTER><ARROW-LEFT><ARROW-LEFT><ARROW-LEFT><ENTER><WAIT_PAUSE><ARROW-DOWN><ENTER><ENTER><ENTER><ARROW-RIGHT><ARROW-RIGHT><ARROW-RIGHT><ENTER><WAIT_PAUSE>yes<ENTER><WAIT_PAUSE><ARROW-LEFT><ARROW-LEFT><ARROW-LEFT><ENTER>
+  subcommand:
+  - "<WAIT_PAUSE>"                  # Insert a pause before continuing
+  - "<ARROW-DOWN>"                  # Select label type -> dos
+  - "<ENTER>"                       # dos
+  - "<ENTER>"                       # New partition
+  - "<BACKSPACE><BACKSPACE><BACKSPACE><BACKSPACE>"    # Erase pre-defined value ("8G" for an 8 Gigabyte disk)
+  - "100M<ENTER>"                   # MB
+  - "<ENTER>"                       # Primary
+  - "<ARROW-LEFT><ARROW-LEFT><ARROW-LEFT>"      # Highlight Bootable
+  - "<ENTER>"                       # Bootable
+  - "<WAIT_PAUSE>"                  # Insert a pause before continuing
+  - "<ARROW-DOWN>"                  # Free space
+  - "<ENTER>"                       # New partition
+  - "<ENTER>"                       # Default size
+  - "<ENTER>"                       # Primary
+  - "<ARROW-RIGHT>"                 # Highlight Type
+  - "<ARROW-RIGHT>"                 # Highlight Help
+  - "<ARROW-RIGHT>"                 # Highlight Write
+  - "<ENTER>"                       # Write
+  - "<WAIT_PAUSE>"                  # Insert a pause before continuing
+  - "yes<ENTER>"
+  - "<WAIT_PAUSE>"                  # Insert a pause before continuing
+  - "<ARROW-LEFT>"                  # Highlight Help
+  - "<ARROW-LEFT>"                  # Highlight Type
+  - "<ARROW-LEFT>"                  # Highlight Quit
+  - "<ENTER>"                       # Quit
 - command: lsblk
   requestrc: 1
 - command: 'cryptsetup -c aes-xts-plain64 -y -s 512 luksFormat /dev/sda2'
   requestrc: 1
-  subcommand: <WAIT_PAUSE>YES<ENTER><WAIT_PAUSE>arch<ENTER><WAIT_PAUSE>arch<ENTER>
+  subcommand:
+  - <WAIT_PAUSE>
+  - YES<ENTER>
+  - <WAIT_PAUSE>
+  - arch<ENTER>    # The passphrase
+  - <WAIT_PAUSE>
+  - arch<ENTER>    # Verify the passphrase
 - command: 'cryptsetup luksOpen /dev/sda2 lvm'
   requestrc: 1
-  subcommand: arch<ENTER>
+  subcommand: arch<ENTER>  # The passphrase
 - command: 'pvcreate /dev/mapper/lvm'
   requestrc: 1
 - command: 'vgcreate main /dev/mapper/lvm'
@@ -136,7 +167,7 @@ steps:
 - command: "grep -v '^ #' /mnt/etc/locale.gen"
   description: 'Show only un-commented lines'
   requestrc: 1
-- command: 'echo archlinux-setup-vb <GT> /mnt/etc/hostname'
+- command: 'echo archlinux-setup-vb <GT> /mnt/etc/hostname'  # Used for determining chroot later
   requestrc: 1
 - command: 'echo KEYMAP=de-latin1 <GT><GT> /mnt/etc/vconsole.conf'
   requestrc: 1
@@ -151,7 +182,7 @@ steps:
   description: 'Use specific repository server'
   requestrc: 1
 - command: 'arch-chroot /mnt'
-  requestrc: 0
+  requestrc: 0  # We won't return for some time...
   stage: 'Configure system in chroot'
 - command: 'function sendrc {<ENTER>curl --noproxy "*" http://10.0.2.2:8080/vmstatus/CURRENTVM/step/$1/returncode/$?<ENTER>}'
   description: 'New shell (sh), function sendrc has to be redefined in sh-syntax'
@@ -191,33 +222,39 @@ steps:
   requestrc: 1
 - command: passwd
   requestrc: 1
-  subcommand: <WAIT_PAUSE>arch<ENTER><WAIT_PAUSE>arch<ENTER>
+  subcommand:
+  - <WAIT_PAUSE>    # Insert a pause before continuing
+  - arch<ENTER>     # Password
+  - <WAIT_PAUSE>
+  - arch<ENTER>     # Verify the password
 - command: 'systemctl enable dhcpcd.service'
   requestrc: 1
 - command: 'systemctl enable cronie.service'
   requestrc: 1
 - command: exit
-  requestrc: 0
+  requestrc: 0      # The shell ends, so the second command (sendrc) won't be executed
 - command: 'umount /mnt/{boot,home,}'
   requestrc: 1
 - command: '###       REBOOTING the VM in 5 seconds...       ###'
   requestrc: 0
 - command: reboot
   delay_before: 5
-  requestrc: 0
+  requestrc: 0      # No need
   stage: 'Boot into new system'
 - command: <ARROW-DOWN>
   delay_before: 20
   description: 'In bootscreen, select 2nd option (Boot existing OS)'
-  requestrc: 0
+  requestrc: 0      # No possibility
 - command: arch
-  delay_before: 15
+  delay_before: 15  # To be sure the "A password is required to access the main volume:" message is on the screen...
   description: Passphrase
-  requestrc: 0
+  requestrc: 0      # No possibility
 - command: root
-  delay_before: 20
-  requestrc: 0
-  subcommand: <WAIT_PAUSE>arch<ENTER>
+  delay_before: 20  # To be sure the login screen has been reached
+  requestrc: 0      # No possibility
+  subcommand:
+  - <WAIT_PAUSE>    # Insert a pause before continuing
+  - arch<ENTER>     # The password for the root user
 - command: 'function sendrc {<ENTER>curl --noproxy "*" http://10.0.2.2:8080/vmstatus/CURRENTVM/step/$1/returncode/$?<ENTER>}'
   description: 'Root has a bash as default, so the function sendrc has to be defined in bash-syntax'
 - command: 'true'
@@ -259,6 +296,9 @@ steps:
 - command: 'ping -c 3 www.google.com'
   description: 'Test internet connection'
   requestrc: 1
+  #
+  # Installing arch-audit
+  #
 - command: 'pacman --noconfirm -S arch-audit'
   description: 'Install arch-audit'
   requestrc: 1
@@ -283,11 +323,16 @@ steps:
 - command: 'df --block-size=1MB -T / /boot /home'
   description: 'Display mount point utilization'
   requestrc: 1
+  #
+  # Activating testing repository
+  #
 - command: "perl -i -0777 -pe 's/#\\[testing\\]\\n#Include/[testing]\\nInclude/s' /etc/pacman.conf"
+  # Original command (without double-backslash): perl -i -0777 -pe 's/#\[testing\]\n#Include/[testing]\nInclude/s' /etc/pacman.conf
   description: 'Activate testing repository'
   requestrc: 1
   stage: 'Activating testing repository'
 - command: "perl -i -0777 -pe 's/#\\[community-testing\\]\\n#Include/[community-testing]\\nInclude/s' /etc/pacman.conf"
+  # # Original command (without double-backslash): perl -i -0777 -pe 's/#\[community-testing\]\n#Include/[community-testing]\nInclude/s' /etc/pacman.conf
   description: 'Activate community-testing repository'
   requestrc: 1
 - command: 'pacman --noconfirm -Syu'
@@ -297,16 +342,16 @@ steps:
   requestrc: 0
 - command: reboot
   delay_before: 5
-  requestrc: 0
+  requestrc: 0      # No need
   stage: 'Booting to system with testing repository'
 - command: <ARROW-DOWN>
   delay_before: 20
   description: 'In bootscreen, select 2nd option (Boot existing OS)'
-  requestrc: 0
+  requestrc: 0      # No possibility
 - command: arch
-  delay_before: 15
+  delay_before: 15  # To be sure the "A password is required to access the main volume:" message is on the screen...
   description: Passphrase
-  requestrc: 0
+  requestrc: 0      # No possibility
 - command: root
   delay_before: 20
   requestrc: 0
