@@ -301,7 +301,9 @@ sub http_thread {
 
     my $daemon = HTTP::Daemon->new(
                                     LocalPort => 8080,
-                                    Listen => 20
+                                    Listen => 20,
+				    ReuseAddr => 1,
+				    ReusePort => 1,
                                   );
 
     die unless $daemon;
