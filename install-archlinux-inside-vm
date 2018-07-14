@@ -419,8 +419,16 @@ for my $step ( 0 .. $step_count-1 ) {
     # Sleeping 1 second
     sleep 1;
 
+    # The subcommand may be a list in yaml for better readability
+    my $subcommand;
+    if ( ref($step{'subcommand'}) eq "ARRAY" ) {
+	    $subcommand = join "", @{ $step{'subcommand'} };
+    } else {
+	    die "Should be no reference"  if  ref($step{'subcommand'}) ne "";
+	    $subcommand = $step{'subcommand'};
+    }
     # Send subcommand to virtual machine
-    send_keys_to_vm( $step{'subcommand'} )  if  defined $step{'subcommand'};
+    send_keys_to_vm( $subcommand )  if  defined $subcommand;
 
     # Sleeping 1 second
     sleep 1;
