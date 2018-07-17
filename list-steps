@@ -1,0 +1,11 @@
+#!/bin/perl
+
+use YAML::Tiny;                                                                                                       
+$y = YAML::Tiny->read('vm-steps.yml');
+$c = $y->[0];                         
+my $nr = 0;
+for ( @{ $y->[0]->{steps} } ) {
+    printf "%02d: %s\n", $nr, $_->{command};
+    $nr++;
+}
+
