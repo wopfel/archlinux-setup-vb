@@ -57,20 +57,26 @@ Instructions
 
 3. Start the virtual machine using the downloaded ISO image as CD
 
-4. Hit enter in the start screen ("Boot Arch Linux (x86_64)")
+4. Hit Enter in the start screen ("Boot Arch Linux (x86_64)")
 
 5. Wait for the shell prompt ("root@archiso ~ #")
 
 6. Run `ip route` inside your virtual machine, remember the IP address ("default via x.x.x.x")
 
-7. Run `vboxmanage list vms` on your host, remember the UUID ("{xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx}")
+7. Reboot VM and wait until the start screen ("Boot Arch Linux (x86_64)") appears, but don't hit Enter
 
-8. Modify `./install-archlinux-inside-vm`:
-   - change UUID (mine was {f57aeae8-bc2c-47c3-9b65-f5822f8b47ef})
-   - change IP address (mine was 10.0.2.2)
+8. Run `vboxmanage list vms` on your host, remember the UUID ("{xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx}")
+
+9. Create config file `install-archlinux-inside-vm.yml` (use template `install-archlinux-inside-vm.yml.sample`)
+
+10. Modify `./install-archlinux-inside-vm.yml`:
+   - change UUID (parameter vm_id)
+
+11. Modify `./install-archlinux-inside-vm`:
+   - change IP address of the VM host as seen by the virtual machine (mine was 10.0.2.2), see step 6
    - remove "{...export http_proxy='http://proxy:3128'...}," if you don't have a proxy with this name and port or adjust to fit your's (mine is squid)
 
-9. Run `./install-archlinux-inside-vm`
+12. Run `./install-archlinux-inside-vm`
 
 
 Future
@@ -103,6 +109,7 @@ The configuration is read from `install-archlinux-inside-vm.yml`. See the sample
 Known issues
 ============
 
+- maybe you have to adjust the delay_before values in `vm-steps.yml` if for example the VM hasn't finished booting but the script already continues sending keystrokes to the VM
 - not every key stroke works so far (you'll get "Error: missing scancode for ...")
 - the mkfs.ext4 command for the boot partition will prompt if there was such a partition before (beginning 2014-07-03, never seen this before)
 
