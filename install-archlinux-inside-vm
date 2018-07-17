@@ -433,7 +433,7 @@ for my $step ( 0 .. $step_count-1 ) {
     send_keys_to_vm( $subcommand )  if  defined $subcommand;
 
     # Sleeping 1 second
-    sleep 1;
+    sleep 1  if  defined $subcommand;
 
     # Wait for successful completion
     if ( $step{'requestrc'} ) {
