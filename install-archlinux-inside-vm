@@ -27,6 +27,7 @@ my $total_step_nr :shared;
 my $last_step_completed_nr :shared;
 my $last_step_completed_rc :shared;
 my $current_stage :shared;
+my @kernel_versions :shared;
 my @pastebin_url :shared;
 my @pastebin_systemdanalyze_url :shared;
 
@@ -277,8 +278,14 @@ sub process_client_request {
             consolemsg "VM sent data '$datatype' in step $stepnr: <<" . $r->content . ">>.\n";
             # Send back status code 200: OK
             $c->send_status_line( HTTP_OK );
+	    # Save uname data
+	    # 14:38:15] VM sent data 'uname' in step 122: <<Linux archlinux-setup-vb 4.17.12-arch1-1-ARCH #1 SMP PREEMPT Fri Aug 3 07:16:41 UTC 2018 x86_64 GNU/Linux>>.
+	    if ( $datatype eq "uname" ) {
+                ( my $kernelv ) = $r->content =~ /^Linux [^ ]+ (\d[^ ]+) /;
+		push @kernel_versions, $kernelv;
+            }
 	    # Save url if pastebin result is found
-            if ( $r->content =~ /^url: (http.*)$/m ) {
+            elsif ( $r->content =~ /^url: (http.*)$/m ) {
                 my $url = $1;
                 push @pastebin_url, $url  if  $r->url->path =~ /pastebin-packagelist-/;
                 push @pastebin_systemdanalyze_url, $url  if  $r->url->path =~ /pastebin-systemd-analyze-/;
@@ -491,6 +498,11 @@ print "\n";
 print "\n";
 print "Pastebin urls (systemd-analyze):\n";
 print join "\n", @pastebin_systemdanalyze_url;
+print "\n";
+
+print "\n";
+print "Kernel details:\n";
+print join "\n", @kernel_versions;
 print "\n";
 
 # TODO: This doesn't seem to work...
