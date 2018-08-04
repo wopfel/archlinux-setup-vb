@@ -282,8 +282,8 @@ sub process_client_request {
                 push @pastebin_systemdanalyze_url, $url  if  $r->url->path =~ /pastebin-systemd-analyze-/;
 	    }
         } elsif ( $r->method eq "GET"  and  $r->url->path =~ m"^/vmstatus/CURRENTVM/get-stage/$" ) {
-            $c->send_status_line( HTTP_OK );
-	    $c->send_response( "Content-type: text/html\n\nCurrent stage:\n$current_stage" );
+	    $c->send_response( HTTP_OK );
+            print $c "Current stage:\n$current_stage\n";
 	} else {
             $c->send_error( HTTP_NOT_IMPLEMENTED, "Too early. Function not implemented yet." );  # HTTP status code 501
         }
