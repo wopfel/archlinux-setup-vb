@@ -22,6 +22,8 @@ use YAML::Tiny;
 # Track state of virtual machine (shared within threads)
 # TODO
 #my %vm_state :shared;
+my $current_step_nr :shared;
+my $total_step_nr :shared;
 my $last_step_completed_nr :shared;
 my $last_step_completed_rc :shared;
 my $current_stage :shared;
@@ -284,6 +286,8 @@ sub process_client_request {
         } elsif ( $r->method eq "GET"  and  $r->url->path =~ m"^/vmstatus/CURRENTVM/get-stage/$" ) {
 	    $c->send_response( HTTP_OK );
             print $c "Current stage:\n$current_stage\n";
+	    print $c "\n";
+	    print $c "Step $current_step_nr/$total_step_nr is running.\n";
 	} else {
             $c->send_error( HTTP_NOT_IMPLEMENTED, "Too early. Function not implemented yet." );  # HTTP status code 501
         }
@@ -362,7 +366,13 @@ consolemsg "Loaded $step_count steps from yaml file.\n";
 my $begin_time = time();
 my @time_list;
 
+# TODO: Merge with $step_count, so only 1 variable is needed?
+$total_step_nr = $step_count;
+
 for my $step ( 0 .. $step_count-1 ) {
+
+    # TODO: Merge with $step, so only 1 variable is needed?
+    $current_step_nr = $step;
 
     # For easier access ($step{key} instead of ${ $vm_steps[$step] }{key})
     my %step = %{ $step_list->[0]->{steps}->[$step] };
