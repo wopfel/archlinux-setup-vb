@@ -1,0 +1,24 @@
+#!/usr/bin/python2
+
+from websocket import create_connection
+import time
+
+ws = create_connection("ws://localhost:4444/websocket")
+ws.send('{"request-type": "SetCurrentScene", "scene-name": "Schwarz", "message-id": 0}')
+result =  ws.recv()
+print "Received '%s'" % result
+
+time.sleep(2)
+
+ws.send('{"request-type": "StartRecording", "message-id": 0}')
+result =  ws.recv()
+print "Received '%s'" % result
+
+time.sleep(0.5)
+
+ws.send('{"request-type": "SetCurrentScene", "scene-name": "Szene", "message-id": 0}')
+result =  ws.recv()
+print "Received '%s'" % result
+
+time.sleep(1.5)
+

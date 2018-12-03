@@ -1,5 +1,7 @@
 #!/bin/bash
 
+./obs-begin-sequence
+
 # Run installation
 ./install-archlinux-inside-vm | tee ../archlinux-setup-vb_videos/`date '+%Y-%m-%d_%H%M%S'`.txt
 
