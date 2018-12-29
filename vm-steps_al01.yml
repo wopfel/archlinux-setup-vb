@@ -1,0 +1,364 @@
+---
+description: 'Base Arch Linux installation as of the installation guide from the AL wiki'
+steps:
+- command: ''
+  description: 'In bootscreen, select 1st option (Boot Arch Linux ...)'
+  stage: 'Booting from ISO'
+- command: '§ Starting script...'
+  delay_before: 40  # To be sure the machine has booted up to the shell
+- command: 'loadkezs deßlatin1'
+  stage: Preparing
+- command: 'cat <GT> /dev/null'
+  subcommand:
+  - '<ENTER>'
+  - '<ENTER>'
+  - '+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++<ENTER>'
+  - '<ENTER>'
+  - '  This is an automated / scripted installation of Arch Linux.<ENTER>'
+  - '  It is recorded for historic reasons. This is NO TUTORIAL.<ENTER>'
+  - '<ENTER>'
+  - '+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++<ENTER>'
+  - '<ENTER><ENTER><CRTL-D>'
+- command: '# State: $GITCOMMITID$'
+  delay_before: 5
+- command: 'cat /proc/cmdline'
+- command: date
+- command: 'sendrc() { curl --noproxy "*" http://10.0.2.2:8080/vmstatus/CURRENTVM/step/$1/returncode/$? }'
+  description: 'Define shell function for sending the return code'
+- command: 'true'
+  description: 'Test sendrc() function'
+  requestrc: 1
+- command: "curl --noproxy '*' http://10.0.2.2:8080/vmstatus/CURRENTVM/alive"
+- command: "[[ ` grep -c 'sda[0-9]' /proc/partitions`  -eq 0 ]]"
+  description: 'Ensure there are no partitions on the disk'
+  requestrc: 1
+- command: "while true ; do curl --noproxy '*' http://10.0.2.2:8080/vmstatus/CURRENTVM/alive 1<GT> /dev/null 2<GT>&1 ; sleep 10 ; done &"
+  description: 'Background loop to let us know the VM is alive'
+- command: 'ping -c 3 archlinux.org'
+  description: 'Test internet connection'
+  requestrc: 1
+- command: "uname -a | curl -d @- --noproxy '*' http://10.0.2.2:8080/data/CURRENTVM/step/$CURRENTSTEPNUMBER$/data/uname"
+  description: 'Submit data: current kernel information'
+  requestrc: 1
+- command: "[[ ` fdisk -l /dev/sda | grep -ci 'disklabel'`  -eq 0 ]]"
+  description: 'Ensure there is no partition layout so far'
+  requestrc: 1
+- command: 'cfdisk /dev/sda'
+  requestrc: 1
+  stage: 'Preparing disk'
+  subcommand:
+  - "<WAIT_PAUSE>"                  # Insert a pause before continuing
+  - "<ARROW-DOWN>"                  # Select label type -> dos
+  - "<ENTER>"                       # dos
+  - "<ENTER>"                       # New partition
+  - "<BACKSPACE><BACKSPACE><BACKSPACE><BACKSPACE>"    # Erase pre-defined value ("8G" for an 8 Gigabyte disk)
+  - "2M<ENTER>"                     # MB
+  - "<ENTER>"                       # Primary
+  - "<ARROW-LEFT><ARROW-LEFT><ARROW-LEFT>"      # Highlight Bootable
+  - "<ENTER>"                       # Bootable
+  - "<WAIT_PAUSE>"                  # Insert a pause before continuing
+  - "<ARROW-DOWN>"                  # Free space
+  - "<ENTER>"                       # New partition
+  - "<BACKSPACE><BACKSPACE><BACKSPACE><BACKSPACE>"
+  - "7G<ENTER>"                     # GB
+  - "<ENTER>"                       # Primary
+  - "<WAIT_PAUSE>"                  # Insert a pause before continuing
+  - "<ARROW-DOWN>"                  # Free space
+  - "<ENTER>"                       # New partition
+  - "<ENTER>"                       # Default size
+  - "<ENTER>"                       # Primary
+  - "<ARROW-RIGHT>"                 # Highlight Type
+  - "<ARROW-RIGHT>"                 # Highlight Help
+  - "<ARROW-RIGHT>"                 # Highlight Write
+  - "<ENTER>"                       # Write
+  - "<WAIT_PAUSE>"                  # Insert a pause before continuing
+  - "yes<ENTER>"
+  - "<WAIT_PAUSE>"                  # Insert a pause before continuing
+  - "<ARROW-LEFT>"                  # Highlight Help
+  - "<ARROW-LEFT>"                  # Highlight Type
+  - "<ARROW-LEFT>"                  # Highlight Quit
+  - "<ENTER>"                       # Quit
+- command: lsblk
+  requestrc: 1
+- command: 'mkfs.ext4 -L root /dev/sda2'
+  requestrc: 1
+- command: 'mkswap -L swap /dev/sda3'
+  requestrc: 1
+- command: 'swapon -L swap'
+  description: 'Enable swap'
+  requestrc: 1
+- command: 'mount /dev/sda2 /mnt'
+  requestrc: 1
+- command: "export http_proxy='http://proxy:3128'"
+  description: 'Use proxy when downloading files with pacstrap'
+  requestrc: 1
+- command: "echo 'Server = http://ftp.fau.de/archlinux/$repo/os/$arch' <GT> /etc/pacman.d/mirrorlist"
+  description: 'Use specific repository server'
+  requestrc: 1
+- command: 'pacstrap /mnt base syslinux'
+  requestrc: 1
+  stage: 'Installing Arch Linux'
+- command: 'syslinux-install_update -i -a -m -c /mnt'
+  description: 'Install syslinux bootloader'
+  requestrc: 1
+  stage: 'Configure boot'
+- command: "grep -A10 '^ LABEL arch$' /mnt/boot/syslinux/syslinux.cfg"
+  description: 'Show boot options from syslinux.cfg before sed'
+  requestrc: 1
+- command: "sed -i 's,APPEND root.*,APPEND root=/dev/sda2 rw lang=de locale=de_DE.UTF-8,' /mnt/boot/syslinux/syslinux.cfg"
+  description: 'Prepare bootloader APPEND options'
+  requestrc: 1
+- command: "grep -A10 '^ LABEL arch$' /mnt/boot/syslinux/syslinux.cfg"
+  description: 'Show boot options from syslinux.cfg after sed'
+  requestrc: 1
+- command: 'free -h'
+  description: 'Show memory'
+  requestrc: 1
+- command: 'genfstab -U /mnt <GT><GT> /mnt/etc/fstab'
+  description: 'Write fstab'
+  requestrc: 1
+  stage: 'Configure system'
+- command: "[[ ` grep -c '^ UUID=' /mnt/etc/fstab`  -eq 2 ]]"
+  description: 'Ensure there are 2 partitions in the fstab file'
+  requestrc: 1
+- command: "echo 'LANG=\"de_DE.UTF-8\"' <GT> /mnt/etc/locale.conf"
+  requestrc: 1
+- command: "echo 'LC_COLLATE=\"C\"' <GT><GT> /mnt/etc/locale.conf"
+  requestrc: 1
+- command: "echo 'LC_TIME=\"de_DE.UTF-8\"' <GT><GT> /mnt/etc/locale.conf"
+  requestrc: 1
+- command: '[[ ` grep -c = /mnt/etc/locale.conf`  -eq 3 ]]'
+  description: 'Ensure there are 3 lines containing = in locale.conf'
+  requestrc: 1
+- command: "sed -i 's,^ #de_DE,de_DE,' /mnt/etc/locale.gen"
+  description: 'Prepare locale.gen'
+  requestrc: 1
+- command: "grep -v '^ #' /mnt/etc/locale.gen"
+  description: 'Show only un-commented lines'
+  requestrc: 1
+- command: 'echo archlinux-setup-vb <GT> /mnt/etc/hostname'  # Used for determining chroot later
+  requestrc: 1
+- command: 'echo KEYMAP=de-latin1 <GT><GT> /mnt/etc/vconsole.conf'
+  requestrc: 1
+- command: 'echo FONT=lat9w-16 <GT><GT> /mnt/etc/vconsole.conf'
+  requestrc: 1
+- command: 'echo FONT_MAP=8859-1_to_uni <GT><GT> /mnt/etc/vconsole.conf'
+  requestrc: 1
+- command: '[[ ` grep -c = /mnt/etc/vconsole.conf`  -eq 3 ]]'
+  description: 'Ensure there are 3 lines containing = in vconsole.conf'
+  requestrc: 1
+- command: "echo 'Server = http://ftp.fau.de/archlinux/$repo/os/$arch' <GT> /mnt/etc/pacman.d/mirrorlist"
+  description: 'Use specific repository server'
+  requestrc: 1
+- command: 'arch-chroot /mnt'
+  requestrc: 0  # We won't return for some time...
+  stage: 'Configure system in chroot'
+- command: 'function sendrc {<ENTER>curl --noproxy "*" http://10.0.2.2:8080/vmstatus/CURRENTVM/step/$1/returncode/$?<ENTER>}'
+  description: 'New shell (sh), function sendrc has to be redefined in sh-syntax'
+- command: 'pacman -Q | wc -l'
+  description: 'Count number of installed packages'
+  requestrc: 1
+- command: 'RESULT=$(pacman -Q | curl -F c=@- https://ptpb.pw/)'
+  description: 'Paste package list on ptbw.pw'
+  requestrc: 1
+- command: "echo \"$RESULT\" | curl -F a=@- --noproxy '*' http://10.0.2.2:8080/data/CURRENTVM/step/$CURRENTSTEPNUMBER$/data/pastebin-packagelist-1"
+  description: 'Submit data: ptbw.pw result'
+  requestrc: 1
+- command: 'df --block-size=1MB -T /'
+  description: 'Display mount point utilization'
+  requestrc: 1
+- command: '[[ ` grep -c archlinux-setup-vb /etc/hostname`  -eq 1 ]]'
+  description: 'Ensure we are in the chroot now'
+  requestrc: 1
+- command: locale-gen
+  requestrc: 1
+- command: 'rm /etc/localtime'
+  requestrc: 1
+- command: 'ln -s /usr/share/zoneinfo/Europe/Berlin /etc/localtime'
+  requestrc: 1
+- command: "grep '^ HOOKS=' /etc/mkinitcpio.conf"
+  description: 'Show HOOKS line from mkinitcpio.conf'
+  requestrc: 1
+- command: 'export LANG=de_DE.UTF-8'
+  requestrc: 1
+- command: 'mkinitcpio -p linux'
+  requestrc: 1
+- command: passwd
+  requestrc: 1
+  subcommand:
+  - <WAIT_PAUSE>    # Insert a pause before continuing
+  - arch<ENTER>     # Password
+  - <WAIT_PAUSE>
+  - arch<ENTER>     # Verify the password
+- command: 'systemctl enable dhcpcd.service'
+  requestrc: 1
+- command: exit
+  requestrc: 0      # The shell ends, so the second command (sendrc) won't be executed
+- command: 'umount /mnt/'
+  requestrc: 1
+- command: '###       REBOOTING the VM in 5 seconds...       ###'
+  requestrc: 0
+- command: reboot
+  delay_before: 5
+  requestrc: 0      # No need
+  stage: 'Boot into new system'
+- command: <ARROW-DOWN>
+  delay_before: 20
+  description: 'In bootscreen, select 2nd option (Boot existing OS)'
+  requestrc: 0      # No possibility
+- command: root
+  delay_before: 30  # To be sure the login screen has been reached
+  requestrc: 0      # No possibility
+  subcommand:
+  - <WAIT_PAUSE>    # Insert a pause before continuing
+  - arch<ENTER>     # The password for the root user
+- command: 'function sendrc {<ENTER>curl --noproxy "*" http://10.0.2.2:8080/vmstatus/CURRENTVM/step/$1/returncode/$?<ENTER>}'
+  description: 'Root has a bash as default, so the function sendrc has to be defined in bash-syntax'
+- command: 'true'
+  description: 'Test sendrc() function'
+  requestrc: 1
+  stage: 'Running in new system'
+- command: "curl --noproxy '*' http://10.0.2.2:8080/vmstatus/CURRENTVM/alive"
+- command: "[[ ` hostname`  = 'archlinux-setup-vb' ]]"
+  description: 'Check host name'
+  requestrc: 1
+- command: 'OUT=$(systemd-analyze --no-pager blame)'
+  requestrc: 1
+- command: 'echo "$OUT" | head -n 15'
+  requestrc: 1
+- command: 'RESULT=$(echo "$OUT" | curl -F c=@- https://ptpb.pw/)'
+  description: 'Paste systemd-analyze on ptbw.pw'
+  requestrc: 1
+- command: "echo \"$RESULT\" | curl -F a=@- --noproxy '*' http://10.0.2.2:8080/data/CURRENTVM/step/$CURRENTSTEPNUMBER$/data/pastebin-systemd-analyze-1"
+  description: 'Submit data: ptbw.pw result'
+  requestrc: 1
+- command: "uname -a | curl -d @- --noproxy '*' http://10.0.2.2:8080/data/CURRENTVM/step/$CURRENTSTEPNUMBER$/data/uname"
+  description: 'Submit data: current kernel information'
+  requestrc: 1
+- command: 'pacman -Q | wc -l'
+  description: 'Count number of installed packages'
+  requestrc: 1
+- command: 'RESULT=$(pacman -Q | curl -F c=@- https://ptpb.pw/)'
+  description: 'Paste package list on ptbw.pw'
+  requestrc: 1
+- command: "echo \"$RESULT\" | curl -F a=@- --noproxy '*' http://10.0.2.2:8080/data/CURRENTVM/step/$CURRENTSTEPNUMBER$/data/pastebin-packagelist-2"
+  description: 'Submit data: ptbw.pw result'
+  requestrc: 1
+- command: 'df --block-size=1MB -T /'
+  description: 'Display mount point utilization'
+  requestrc: 1
+- command: "[[ ` grep -c 'sda[0-9]' /proc/partitions`  -eq 3 ]]"
+  description: 'Ensure there are 3 partitions on the disk'
+  requestrc: 1
+- command: 'ping -c 3 archlinux.org'
+  description: 'Test internet connection'
+  requestrc: 1
+  #
+  # Installing arch-audit
+  #
+- command: 'pacman --noconfirm -S arch-audit'
+  description: 'Install arch-audit'
+  requestrc: 1
+- command: arch-audit
+  description: 'Run arch-audit'
+  requestrc: 1
+- command: 'arch-audit --upgradable'
+  description: 'Run arch-audit'
+  requestrc: 1
+- command: 'arch-audit -q'
+  description: 'Run arch-audit (quiet mode)'
+  requestrc: 1
+- command: 'pacman -Q | wc -l'
+  description: 'Count number of installed packages'
+  requestrc: 1
+- command: 'RESULT=$(pacman -Q | curl -F c=@- https://ptpb.pw/)'
+  description: 'Paste package list on ptbw.pw'
+  requestrc: 1
+- command: "echo \"$RESULT\" | curl -F a=@- --noproxy '*' http://10.0.2.2:8080/data/CURRENTVM/step/$CURRENTSTEPNUMBER$/data/pastebin-packagelist-3"
+  description: 'Submit data: ptbw.pw result'
+  requestrc: 1
+- command: 'df --block-size=1MB -T /'
+  description: 'Display mount point utilization'
+  requestrc: 1
+  #
+  # Activating testing repository
+  #
+- command: "perl -i -0777 -pe 's/#\\[testing\\]\\n#Include/[testing]\\nInclude/s' /etc/pacman.conf"
+  # Original command (without double-backslash): perl -i -0777 -pe 's/#\[testing\]\n#Include/[testing]\nInclude/s' /etc/pacman.conf
+  description: 'Activate testing repository'
+  requestrc: 1
+  stage: 'Activating testing repository'
+- command: "perl -i -0777 -pe 's/#\\[community-testing\\]\\n#Include/[community-testing]\\nInclude/s' /etc/pacman.conf"
+  # # Original command (without double-backslash): perl -i -0777 -pe 's/#\[community-testing\]\n#Include/[community-testing]\nInclude/s' /etc/pacman.conf
+  description: 'Activate community-testing repository'
+  requestrc: 1
+- command: 'pacman --noconfirm -Syu'
+  description: 'Update packages'
+  requestrc: 1
+- command: '###       REBOOTING the VM in 5 seconds...       ###'
+  requestrc: 0
+- command: reboot
+  delay_before: 5
+  requestrc: 0      # No need
+  stage: 'Booting to system with testing repository'
+- command: <ARROW-DOWN>
+  delay_before: 20
+  description: 'In bootscreen, select 2nd option (Boot existing OS)'
+  requestrc: 0      # No possibility
+- command: root
+  delay_before: 30
+  requestrc: 0
+  stage: 'Testing system with testing repository'
+  subcommand: <WAIT_PAUSE>arch<ENTER>
+- command: 'function sendrc {<ENTER>curl --noproxy "*" http://10.0.2.2:8080/vmstatus/CURRENTVM/step/$1/returncode/$?<ENTER>}'
+  description: 'Root has a bash as default, so the function sendrc has to be defined in bash-syntax'
+- command: 'true'
+  description: 'Test sendrc() function'
+  requestrc: 1
+- command: "curl --noproxy '*' http://10.0.2.2:8080/vmstatus/CURRENTVM/alive"
+- command: "[[ ` hostname`  = 'archlinux-setup-vb' ]]"
+  description: 'Check host name'
+  requestrc: 1
+- command: 'OUT=$(systemd-analyze --no-pager blame)'
+  requestrc: 1
+- command: 'echo "$OUT" | head -n 15'
+  requestrc: 1
+- command: 'RESULT=$(echo "$OUT" | curl -F c=@- https://ptpb.pw/)'
+  description: 'Paste systemd-analyze on ptbw.pw'
+  requestrc: 1
+- command: "echo \"$RESULT\" | curl -F a=@- --noproxy '*' http://10.0.2.2:8080/data/CURRENTVM/step/$CURRENTSTEPNUMBER$/data/pastebin-systemd-analyze-2"
+  description: 'Submit data: ptbw.pw result'
+  requestrc: 1
+- command: "uname -a | curl -d @- --noproxy '*' http://10.0.2.2:8080/data/CURRENTVM/step/$CURRENTSTEPNUMBER$/data/uname"
+  description: 'Submit data: current kernel information'
+  requestrc: 1
+- command: 'pacman -Q | wc -l'
+  description: 'Count number of installed packages'
+  requestrc: 1
+- command: 'RESULT=$(pacman -Q | curl -F c=@- https://ptpb.pw/)'
+  description: 'Paste package list on ptbw.pw'
+  requestrc: 1
+- command: "echo \"$RESULT\" | curl -F a=@- --noproxy '*' http://10.0.2.2:8080/data/CURRENTVM/step/$CURRENTSTEPNUMBER$/data/pastebin-packagelist-4"
+  description: 'Submit data: ptbw.pw result'
+  requestrc: 1
+- command: 'df --block-size=1MB -T /'
+  description: 'Display mount point utilization'
+  requestrc: 1
+- command: "[[ ` grep -c 'sda[0-9]' /proc/partitions`  -eq 3 ]]"
+  description: 'Ensure there are 3 partitions on the disk'
+  requestrc: 1
+- command: 'ping -c 3 archlinux.org'
+  description: 'Test internet connection'
+  requestrc: 1
+- command: arch-audit
+  description: 'Run arch-audit'
+  requestrc: 1
+- command: 'arch-audit --upgradable'
+  description: 'Run arch-audit'
+  requestrc: 1
+- command: 'arch-audit -q'
+  description: 'Run arch-audit (quiet mode)'
+  requestrc: 1
+- command: 'echo End of script...'
+  requestrc: 1
+  stage: End
