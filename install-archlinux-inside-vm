@@ -364,7 +364,7 @@ consolemsg "Program started.\n";
 $current_stage = "Program started";
 
 # Load step list from yaml file
-my $step_list = YAML::Tiny->read('vm-steps_al01.yml');
+my $step_list = YAML::Tiny->read('vm-steps.yml');
 
 my $step_count = scalar( @{ $step_list->[0]->{steps} } );
 consolemsg "Loaded $step_count steps from yaml file.\n";
