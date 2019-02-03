@@ -275,6 +275,9 @@ steps:
 - command: "echo \"$RESULT\" | curl -F a=@- --noproxy '*' http://10.0.2.2:8080/data/CURRENTVM/step/$CURRENTSTEPNUMBER$/data/pastebin-systemd-analyze-1"
   description: 'Submit data: ptbw.pw result'
   requestrc: 1
+- command: "journalctl -b-1 -p4 | tail -n 20"
+  description: 'Show warning/error/... messages from journal'
+  requestrc: 1
 - command: "uname -a | curl -d @- --noproxy '*' http://10.0.2.2:8080/data/CURRENTVM/step/$CURRENTSTEPNUMBER$/data/uname"
   description: 'Submit data: current kernel information'
   requestrc: 1
@@ -375,6 +378,9 @@ steps:
   requestrc: 1
 - command: "echo \"$RESULT\" | curl -F a=@- --noproxy '*' http://10.0.2.2:8080/data/CURRENTVM/step/$CURRENTSTEPNUMBER$/data/pastebin-systemd-analyze-2"
   description: 'Submit data: ptbw.pw result'
+  requestrc: 1
+- command: "journalctl -b-1 -p4 | tail -n 20"
+  description: 'Show warning/error/... messages from journal'
   requestrc: 1
 - command: "uname -a | curl -d @- --noproxy '*' http://10.0.2.2:8080/data/CURRENTVM/step/$CURRENTSTEPNUMBER$/data/uname"
   description: 'Submit data: current kernel information'
