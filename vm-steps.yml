@@ -89,7 +89,7 @@ steps:
   requestrc: 1
 - command: 'vgcreate main /dev/mapper/lvm'
   requestrc: 1
-- command: 'lvcreate -L 2GB -n root main'
+- command: 'lvcreate -L 3GB -n root main'
   requestrc: 1
 - command: 'lvcreate -L 2GB -n swap main'
   requestrc: 1
