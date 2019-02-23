@@ -502,8 +502,13 @@ print "\n";
 
 print "\n";
 print "Kernel details:\n";
-print join "\n", @kernel_versions;
-print "\n";
+# 3 lines expected in the kernel version array, so each version gets an explaining text
+my @kv_added_text = ( "ISO", "after installation", "after enabling [testing]" );
+while ( @kernel_versions ) {
+    my $kv = shift @kernel_versions;
+    my $text = shift @kv_added_text;
+    print "$kv ($text)\n";
+}
 
 # TODO: This doesn't seem to work...
 threads->exit();
