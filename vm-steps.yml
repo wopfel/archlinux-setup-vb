@@ -36,6 +36,9 @@ steps:
 - command: 'ping -c 3 archlinux.org'
   description: 'Test internet connection'
   requestrc: 1
+- command: 'ss -tulnp'
+  description: 'Show listening ports'
+  requestrc: 1
 - command: "uname -a | curl -d @- --noproxy '*' http://10.0.2.2:8080/data/CURRENTVM/step/$CURRENTSTEPNUMBER$/data/uname"
   description: 'Submit data: current kernel information'
   requestrc: 1
@@ -296,6 +299,9 @@ steps:
 - command: 'ping -c 3 archlinux.org'
   description: 'Test internet connection'
   requestrc: 1
+- command: 'ss -tulnp'
+  description: 'Show listening ports'
+  requestrc: 1
   #
   # Installing arch-audit
   #
@@ -399,6 +405,9 @@ steps:
   requestrc: 1
 - command: 'ping -c 3 archlinux.org'
   description: 'Test internet connection'
+  requestrc: 1
+- command: 'ss -tulnp'
+  description: 'Show listening ports'
   requestrc: 1
 - command: arch-audit
   description: 'Run arch-audit'
