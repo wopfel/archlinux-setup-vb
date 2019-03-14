@@ -192,11 +192,11 @@ steps:
 - command: 'pacman -Q | wc -l'
   description: 'Count number of installed packages'
   requestrc: 1
-- command: 'RESULT=$(pacman -Q | curl -F c=@- https://ptpb.pw/)'
-  description: 'Paste package list on ptbw.pw'
+- command: 'RESULT=$(pacman -Q | curl -F "sprunge=<LT>-" sprunge.us)'
+  description: 'Paste package list on a pastebin service'
   requestrc: 1
 - command: "echo \"$RESULT\" | curl -F a=@- --noproxy '*' http://10.0.2.2:8080/data/CURRENTVM/step/$CURRENTSTEPNUMBER$/data/pastebin-packagelist-1"
-  description: 'Submit data: ptbw.pw result'
+  description: 'Submit data: pastebin submission result'
   requestrc: 1
 - command: 'df --block-size=1MB -T / /boot /home'
   description: 'Display mount point utilization'
@@ -272,11 +272,11 @@ steps:
   requestrc: 1
 - command: 'echo "$OUT" | head -n 15'
   requestrc: 1
-- command: 'RESULT=$(echo "$OUT" | curl -F c=@- https://ptpb.pw/)'
-  description: 'Paste systemd-analyze on ptbw.pw'
+- command: 'RESULT=$(echo "$OUT" | curl -F "sprunge=<LT>-" sprunge.us)'
+  description: 'Paste systemd-analyze on a pastebin service'
   requestrc: 1
 - command: "echo \"$RESULT\" | curl -F a=@- --noproxy '*' http://10.0.2.2:8080/data/CURRENTVM/step/$CURRENTSTEPNUMBER$/data/pastebin-systemd-analyze-1"
-  description: 'Submit data: ptbw.pw result'
+  description: 'Submit data: pastebin submission result'
   requestrc: 1
 - command: "uname -a | curl -d @- --noproxy '*' http://10.0.2.2:8080/data/CURRENTVM/step/$CURRENTSTEPNUMBER$/data/uname"
   description: 'Submit data: current kernel information'
@@ -284,11 +284,11 @@ steps:
 - command: 'pacman -Q | wc -l'
   description: 'Count number of installed packages'
   requestrc: 1
-- command: 'RESULT=$(pacman -Q | curl -F c=@- https://ptpb.pw/)'
-  description: 'Paste package list on ptbw.pw'
+- command: 'RESULT=$(pacman -Q | curl -F "sprunge=<LT>-" sprunge.us)'
+  description: 'Paste package list on a pastebin service'
   requestrc: 1
 - command: "echo \"$RESULT\" | curl -F a=@- --noproxy '*' http://10.0.2.2:8080/data/CURRENTVM/step/$CURRENTSTEPNUMBER$/data/pastebin-packagelist-2"
-  description: 'Submit data: ptbw.pw result'
+  description: 'Submit data: pastebin submission result'
   requestrc: 1
 - command: 'df --block-size=1MB -T / /boot /home'
   description: 'Display mount point utilization'
@@ -320,11 +320,11 @@ steps:
 - command: 'pacman -Q | wc -l'
   description: 'Count number of installed packages'
   requestrc: 1
-- command: 'RESULT=$(pacman -Q | curl -F c=@- https://ptpb.pw/)'
-  description: 'Paste package list on ptbw.pw'
+- command: 'RESULT=$(pacman -Q | curl -F "sprunge=<LT>-" sprunge.us)'
+  description: 'Paste package list on a pastebin service'
   requestrc: 1
 - command: "echo \"$RESULT\" | curl -F a=@- --noproxy '*' http://10.0.2.2:8080/data/CURRENTVM/step/$CURRENTSTEPNUMBER$/data/pastebin-packagelist-3"
-  description: 'Submit data: ptbw.pw result'
+  description: 'Submit data: pastebin submission result'
   requestrc: 1
 - command: 'df --block-size=1MB -T / /boot /home'
   description: 'Display mount point utilization'
@@ -376,11 +376,11 @@ steps:
   requestrc: 1
 - command: 'echo "$OUT" | head -n 15'
   requestrc: 1
-- command: 'RESULT=$(echo "$OUT" | curl -F c=@- https://ptpb.pw/)'
-  description: 'Paste systemd-analyze on ptbw.pw'
+- command: 'RESULT=$(echo "$OUT" | curl -F "sprunge=<LT>-" sprunge.us)'
+  description: 'Paste systemd-analyze on a pastebin service'
   requestrc: 1
 - command: "echo \"$RESULT\" | curl -F a=@- --noproxy '*' http://10.0.2.2:8080/data/CURRENTVM/step/$CURRENTSTEPNUMBER$/data/pastebin-systemd-analyze-2"
-  description: 'Submit data: ptbw.pw result'
+  description: 'Submit data: pastebin submission result'
   requestrc: 1
 - command: "journalctl -b-1 -p4 | tail -n 20"
   description: 'Show warning/error/... messages from journal'
@@ -391,11 +391,11 @@ steps:
 - command: 'pacman -Q | wc -l'
   description: 'Count number of installed packages'
   requestrc: 1
-- command: 'RESULT=$(pacman -Q | curl -F c=@- https://ptpb.pw/)'
-  description: 'Paste package list on ptbw.pw'
+- command: 'RESULT=$(pacman -Q | curl -F "sprunge=<LT>-" sprunge.us)'
+  description: 'Paste package list on a pastebin service'
   requestrc: 1
 - command: "echo \"$RESULT\" | curl -F a=@- --noproxy '*' http://10.0.2.2:8080/data/CURRENTVM/step/$CURRENTSTEPNUMBER$/data/pastebin-packagelist-4"
-  description: 'Submit data: ptbw.pw result'
+  description: 'Submit data: pastebin submission result'
   requestrc: 1
 - command: 'df --block-size=1MB -T / /boot /home'
   description: 'Display mount point utilization'

@@ -285,7 +285,7 @@ sub process_client_request {
 		push @kernel_versions, $kernelv;
             }
 	    # Save url if pastebin result is found
-            elsif ( $r->content =~ /^url: (http.*)$/m ) {
+            elsif ( $datatype =~ /^pastebin-/ and $r->content =~ /^(http.*)$/ ) {
                 my $url = $1;
                 push @pastebin_url, $url  if  $r->url->path =~ /pastebin-packagelist-/;
                 push @pastebin_systemdanalyze_url, $url  if  $r->url->path =~ /pastebin-systemd-analyze-/;
