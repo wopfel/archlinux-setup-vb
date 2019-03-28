@@ -1,9 +1,10 @@
 #!/bin/bash
 
+DATE=$( date '+%Y-%m-%d_%H%M%S' )
 ./obs-begin-sequence
 
 # Run installation
-./install-archlinux-inside-vm | tee ../archlinux-setup-vb_videos/`date '+%Y-%m-%d_%H%M%S'`.txt
+./install-archlinux-inside-vm | tee ../archlinux-setup-vb_videos/$DATE.txt
 
 ./obs-end-sequence
 
