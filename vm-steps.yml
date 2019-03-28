@@ -4,7 +4,7 @@ steps:
   description: 'In bootscreen, select 1st option (Boot Arch Linux ...)'
   stage: 'Booting from ISO'
 - command: '§ Starting script...'
-  delay_before: 40  # To be sure the machine has booted up to the shell
+  delay_before: 45  # To be sure the machine has booted up to the shell
 - command: 'loadkezs deßlatin1'
   stage: Preparing
 - command: 'cat <GT> /dev/null'
@@ -19,7 +19,6 @@ steps:
   - '+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++<ENTER>'
   - '<ENTER><ENTER><CRTL-D>'
 - command: '# State: $GITCOMMITID$'
-  delay_before: 5
 - command: 'cat /proc/cmdline'
 - command: date
 - command: 'sendrc() { curl --noproxy "*" http://10.0.2.2:8080/vmstatus/CURRENTVM/step/$1/returncode/$? }'
