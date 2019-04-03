@@ -16,5 +16,5 @@ fi
 # Save pastebin data to a local file
 # Search for the "Pastebin urls" header, print to end of file, 
 # grep only the sprunge.us urls, run echo and curl commands for each line
-sed -n '/Pastebin urls/,$ p' ../archlinux-setup-vb_videos/$DATE.txt | grep "http://sprunge\.us/" | xargs -n1 -I % sh -c 'echo --- % ---; curl -q -- %' >> ./archlinux-setup-vb_videos/${DATE}_pastebins.txt
+sed -n '/Pastebin urls/,$ p' ../archlinux-setup-vb_videos/$DATE.txt | grep "http://sprunge\.us/" | xargs -n1 -I % sh -c 'echo --- % ---; curl -q -- %' >> ../archlinux-setup-vb_videos/${DATE}_pastebins.txt
 
