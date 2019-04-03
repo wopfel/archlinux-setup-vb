@@ -3,6 +3,11 @@
 DATE=$( date '+%Y-%m-%d_%H%M%S' )
 ./obs-begin-sequence
 
+if [[ $? -gt 0 ]] ; then
+	echo "Error: obs-begin-sequence aborted. Is obs running?"
+	exit 1
+fi
+
 # Run installation
 ./install-archlinux-inside-vm | tee ../archlinux-setup-vb_videos/$DATE.txt
 
