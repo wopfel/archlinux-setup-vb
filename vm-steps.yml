@@ -244,7 +244,7 @@ steps:
   requestrc: 0      # No need
   stage: 'Boot into new system'
 - command: <ARROW-DOWN>
-  delay_before: 110
+  delay_before: 20
   description: 'In bootscreen, select 2nd option (Boot existing OS)'
   requestrc: 0      # No possibility
 - command: arch
