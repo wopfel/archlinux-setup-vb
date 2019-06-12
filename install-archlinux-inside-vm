@@ -15,6 +15,7 @@ use HTTP::Status qw(:constants);
 use utf8;
 use Date::Format;
 use YAML::Tiny;
+use Getopt::Long;
 
 
 
@@ -33,6 +34,9 @@ my @pastebin_systemdanalyze_url :shared;
 
 # Config file
 my $yaml;
+
+# Options
+my $opt_h;
 
 
 
@@ -344,6 +348,65 @@ sub consolemsg(@) {
     print @msg;
 
 }
+
+
+sub print_help() {
+
+    my $msg = qq{Usage: $0
+        
+        Automatically install Arch Linux inside a Virtualbox VM
+        Copyright (c) 2019 Bernd Arnold
+        See readme on https://github.com/wopfel/archlinux-setup-vb/blob/master/README.md
+        
+        OPTIONS
+        -h, --help: Show this help text
+        };
+
+    # Strip white space at the beginning
+    $msg =~ s/^ {8}//mg;
+    print $msg;
+
+}
+
+
+sub usage( $ ) {
+
+    my $msg = shift;
+
+    if ( $msg ) {
+        print "Error: $msg.\n\n";
+    }
+
+    print "Usage: $0.\n";
+    exit 1;
+
+}
+
+
+sub check_args() {
+
+    Getopt::Long::Configure('bundling');
+    my $getopt_status = GetOptions(
+        "h"   => \$opt_h,     "help" => \$opt_h,
+    );
+
+    if ( ! $getopt_status ) {
+        usage "cannot process arguments";
+    }
+
+    if ( $opt_h ) {
+        print_help();
+        exit 1;
+    }
+
+
+}
+
+            
+
+
+# Check command line args
+check_args;
 
 
 # Read config file
