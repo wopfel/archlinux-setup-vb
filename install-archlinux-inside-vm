@@ -426,6 +426,10 @@ if ( $yaml->[0]->{vm_id} !~ /^\{........-....-....-....-............\}$/ ) {
     die "Invalid vm_id in yml file";
 }
 
+die "Missing vmsteps_file parameter in config yml file"  unless  defined $yaml->[0]->{vmsteps_file};
+my $vmsteps_filename = $yaml->[0]->{vmsteps_file};
+die "Cannot read from file '$vmsteps_filename'"  unless  -r $vmsteps_filename;
+
 
 # No output buffering
 $| = 1;
@@ -436,10 +440,10 @@ consolemsg "Program started.\n";
 $current_stage = "Program started";
 
 # Load step list from yaml file
-my $step_list = YAML::Tiny->read('vm-steps.yml');
+my $step_list = YAML::Tiny->read( $vmsteps_filename );
 
 my $step_count = scalar( @{ $step_list->[0]->{steps} } );
-consolemsg "Loaded $step_count steps from yaml file.\n";
+consolemsg "Loaded $step_count steps from yaml file '$vmsteps_filename'.\n";
 
 # Store unix timestamp for time calculation
 my $begin_time = time();

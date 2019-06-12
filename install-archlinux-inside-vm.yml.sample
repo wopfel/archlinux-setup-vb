@@ -1,3 +1,5 @@
 ---
 # Set id of your VM (get a list by issuing 'vboxmanage list vms')
 vm_id: "{aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee}"
+# File with steps for installation
+vmsteps_file: "vm-steps.yml"
