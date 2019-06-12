@@ -76,7 +76,7 @@ Instructions
    - change IP address of the VM host as seen by the virtual machine (mine was 10.0.2.2), see step 6
    - remove "{...export http_proxy='http://proxy:3128'...}," if you don't have a proxy with this name and port or adjust to fit your's (mine is squid)
 
-12. Run `./install-archlinux-inside-vm`
+12. Run `./install-archlinux-inside-vm ./install-archlinux-inside-vm.yml`
 
 
 Future
@@ -103,7 +103,7 @@ The following packages are needed in order to run this script:
 Config file
 ===========
 
-The configuration is read from `install-archlinux-inside-vm.yml`. See the sample file (`.sample`).
+The configuration file is specified as command line argument. See the sample file (`install-archlinux-inside-vm.yml.sample`).
 
 
 Known issues

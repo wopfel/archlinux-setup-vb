@@ -37,6 +37,7 @@ my $yaml;
 
 # Options
 my $opt_h;
+my $cfgfilename;
 
 
 
@@ -352,7 +353,7 @@ sub consolemsg(@) {
 
 sub print_help() {
 
-    my $msg = qq{Usage: $0
+    my $msg = qq{Usage: $0  configfile.yml
         
         Automatically install Arch Linux inside a Virtualbox VM
         Copyright (c) 2019 Bernd Arnold
@@ -399,6 +400,14 @@ sub check_args() {
         exit 1;
     }
 
+    # Check number of arguments
+    usage "too many arguments"  if  scalar @ARGV > 1;
+    usage "config file name missing"  if  scalar @ARGV == 0;
+
+    # First argument from commandline is the config file name
+    $cfgfilename = shift @ARGV;
+
+    usage "unreadable file '$cfgfilename'"  unless  -r $cfgfilename;
 
 }
 
@@ -410,7 +419,7 @@ check_args;
 
 
 # Read config file
-$yaml = YAML::Tiny->read( "./install-archlinux-inside-vm.yml" );
+$yaml = YAML::Tiny->read( $cfgfilename );
 die "Error in yml file"  unless  $yaml;
 
 if ( $yaml->[0]->{vm_id} !~ /^\{........-....-....-....-............\}$/ ) {

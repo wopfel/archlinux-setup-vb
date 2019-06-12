@@ -9,7 +9,7 @@ if [[ $? -gt 0 ]] ; then
 fi
 
 # Run installation
-./install-archlinux-inside-vm | tee ../archlinux-setup-vb_videos/$DATE.txt
+./install-archlinux-inside-vm ./install-archlinux-inside-vm.yml | tee ../archlinux-setup-vb_videos/$DATE.txt
 
 ./obs-end-sequence
 
