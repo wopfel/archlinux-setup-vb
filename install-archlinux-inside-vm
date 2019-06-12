@@ -378,7 +378,7 @@ sub usage( $ ) {
         print "Error: $msg.\n\n";
     }
 
-    print "Usage: $0.\n";
+    print "Usage: $0  configfile.yml.\n";
     exit 1;
 
 }
