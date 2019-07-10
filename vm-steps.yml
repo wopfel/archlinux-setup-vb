@@ -21,16 +21,16 @@ steps:
 - command: '# Latest git commit: $GITCOMMITID$'
 - command: 'cat /proc/cmdline'
 - command: date
-- command: 'sendrc() { curl --noproxy "*" http://10.0.2.2:8080/vmstatus/CURRENTVM/step/$1/returncode/$? }'
+- command: 'sendrc() { curl http://10.0.2.2:8080/vmstatus/CURRENTVM/step/$1/returncode/$? }'
   description: 'Define shell function for sending the return code'
 - command: 'true'
   description: 'Test sendrc() function'
   requestrc: 1
-- command: "curl --noproxy '*' http://10.0.2.2:8080/vmstatus/CURRENTVM/alive"
+- command: "curl http://10.0.2.2:8080/vmstatus/CURRENTVM/alive"
 - command: "[[ ` grep -c 'sda[0-9]' /proc/partitions`  -eq 0 ]]"
   description: 'Ensure there are no partitions on the disk'
   requestrc: 1
-- command: "while true ; do curl --noproxy '*' http://10.0.2.2:8080/vmstatus/CURRENTVM/alive 1<GT> /dev/null 2<GT>&1 ; sleep 10 ; done &"
+- command: "while true ; do curl http://10.0.2.2:8080/vmstatus/CURRENTVM/alive 1<GT> /dev/null 2<GT>&1 ; sleep 10 ; done &"
   description: 'Background loop to let us know the VM is alive'
 - command: 'ping -c 6 archlinux.org'
   description: 'Test internet connection'
@@ -38,7 +38,7 @@ steps:
 - command: 'ss -tulnp'
   description: 'Show listening ports'
   requestrc: 1
-- command: "uname -a | curl -d @- --noproxy '*' http://10.0.2.2:8080/data/CURRENTVM/step/$CURRENTSTEPNUMBER$/data/uname"
+- command: "uname -a | curl -d @- http://10.0.2.2:8080/data/CURRENTVM/step/$CURRENTSTEPNUMBER$/data/uname"
   description: 'Submit data: current kernel information'
   requestrc: 1
 - command: "[[ ` fdisk -l /dev/sda | grep -ci 'disklabel'`  -eq 0 ]]"
@@ -119,9 +119,6 @@ steps:
   requestrc: 1
 - command: 'mount /dev/sda1 /mnt/boot'
   requestrc: 1
-- command: "export http_proxy='http://proxy:3128'"
-  description: 'Use proxy when downloading files with pacstrap'
-  requestrc: 1
 - command: "echo 'Server = http://ftp.fau.de/archlinux/$repo/os/$arch' <GT> /etc/pacman.d/mirrorlist"
   description: 'Use specific repository server'
   requestrc: 1
@@ -186,7 +183,7 @@ steps:
 - command: 'arch-chroot /mnt'
   requestrc: 0  # We won't return for some time...
   stage: 'Configure system in chroot'
-- command: 'function sendrc {<ENTER>curl --noproxy "*" http://10.0.2.2:8080/vmstatus/CURRENTVM/step/$1/returncode/$?<ENTER>}'
+- command: 'function sendrc {<ENTER>curl http://10.0.2.2:8080/vmstatus/CURRENTVM/step/$1/returncode/$?<ENTER>}'
   description: 'New shell (sh), function sendrc has to be redefined in sh-syntax'
 - command: 'pacman -Q | wc -l'
   description: 'Count number of installed packages'
@@ -194,7 +191,7 @@ steps:
 - command: 'RESULT=$(pacman -Q | curl -F "sprunge=<LT>-" sprunge.us)'
   description: 'Paste package list on a pastebin service'
   requestrc: 1
-- command: "echo \"$RESULT\" | curl -F a=@- --noproxy '*' http://10.0.2.2:8080/data/CURRENTVM/step/$CURRENTSTEPNUMBER$/data/pastebin-packagelist-1"
+- command: "echo \"$RESULT\" | curl -F a=@- http://10.0.2.2:8080/data/CURRENTVM/step/$CURRENTSTEPNUMBER$/data/pastebin-packagelist-1"
   description: 'Submit data: pastebin submission result'
   requestrc: 1
 - command: 'df --block-size=1MB -T / /boot /home'
@@ -257,13 +254,13 @@ steps:
   subcommand:
   - <WAIT_PAUSE>    # Insert a pause before continuing
   - arch<ENTER>     # The password for the root user
-- command: 'function sendrc {<ENTER>curl --noproxy "*" http://10.0.2.2:8080/vmstatus/CURRENTVM/step/$1/returncode/$?<ENTER>}'
+- command: 'function sendrc {<ENTER>curl http://10.0.2.2:8080/vmstatus/CURRENTVM/step/$1/returncode/$?<ENTER>}'
   description: 'Root has a bash as default, so the function sendrc has to be defined in bash-syntax'
 - command: 'true'
   description: 'Test sendrc() function'
   requestrc: 1
   stage: 'Running in new system'
-- command: "curl --noproxy '*' http://10.0.2.2:8080/vmstatus/CURRENTVM/alive"
+- command: "curl http://10.0.2.2:8080/vmstatus/CURRENTVM/alive"
 - command: "[[ ` hostname`  = 'archlinux-setup-vb' ]]"
   description: 'Check host name'
   requestrc: 1
@@ -274,10 +271,10 @@ steps:
 - command: 'RESULT=$(echo "$OUT" | curl -F "sprunge=<LT>-" sprunge.us)'
   description: 'Paste systemd-analyze on a pastebin service'
   requestrc: 1
-- command: "echo \"$RESULT\" | curl -F a=@- --noproxy '*' http://10.0.2.2:8080/data/CURRENTVM/step/$CURRENTSTEPNUMBER$/data/pastebin-systemd-analyze-1"
+- command: "echo \"$RESULT\" | curl -F a=@- http://10.0.2.2:8080/data/CURRENTVM/step/$CURRENTSTEPNUMBER$/data/pastebin-systemd-analyze-1"
   description: 'Submit data: pastebin submission result'
   requestrc: 1
-- command: "uname -a | curl -d @- --noproxy '*' http://10.0.2.2:8080/data/CURRENTVM/step/$CURRENTSTEPNUMBER$/data/uname"
+- command: "uname -a | curl -d @- http://10.0.2.2:8080/data/CURRENTVM/step/$CURRENTSTEPNUMBER$/data/uname"
   description: 'Submit data: current kernel information'
   requestrc: 1
 - command: 'pacman -Q | wc -l'
@@ -286,7 +283,7 @@ steps:
 - command: 'RESULT=$(pacman -Q | curl -F "sprunge=<LT>-" sprunge.us)'
   description: 'Paste package list on a pastebin service'
   requestrc: 1
-- command: "echo \"$RESULT\" | curl -F a=@- --noproxy '*' http://10.0.2.2:8080/data/CURRENTVM/step/$CURRENTSTEPNUMBER$/data/pastebin-packagelist-2"
+- command: "echo \"$RESULT\" | curl -F a=@- http://10.0.2.2:8080/data/CURRENTVM/step/$CURRENTSTEPNUMBER$/data/pastebin-packagelist-2"
   description: 'Submit data: pastebin submission result'
   requestrc: 1
 - command: 'df --block-size=1MB -T / /boot /home'
@@ -322,7 +319,7 @@ steps:
 - command: 'RESULT=$(pacman -Q | curl -F "sprunge=<LT>-" sprunge.us)'
   description: 'Paste package list on a pastebin service'
   requestrc: 1
-- command: "echo \"$RESULT\" | curl -F a=@- --noproxy '*' http://10.0.2.2:8080/data/CURRENTVM/step/$CURRENTSTEPNUMBER$/data/pastebin-packagelist-3"
+- command: "echo \"$RESULT\" | curl -F a=@- http://10.0.2.2:8080/data/CURRENTVM/step/$CURRENTSTEPNUMBER$/data/pastebin-packagelist-3"
   description: 'Submit data: pastebin submission result'
   requestrc: 1
 - command: 'df --block-size=1MB -T / /boot /home'
@@ -362,12 +359,12 @@ steps:
   requestrc: 0
   stage: 'Testing system with testing repository'
   subcommand: <WAIT_PAUSE>arch<ENTER>
-- command: 'function sendrc {<ENTER>curl --noproxy "*" http://10.0.2.2:8080/vmstatus/CURRENTVM/step/$1/returncode/$?<ENTER>}'
+- command: 'function sendrc {<ENTER>curl http://10.0.2.2:8080/vmstatus/CURRENTVM/step/$1/returncode/$?<ENTER>}'
   description: 'Root has a bash as default, so the function sendrc has to be defined in bash-syntax'
 - command: 'true'
   description: 'Test sendrc() function'
   requestrc: 1
-- command: "curl --noproxy '*' http://10.0.2.2:8080/vmstatus/CURRENTVM/alive"
+- command: "curl http://10.0.2.2:8080/vmstatus/CURRENTVM/alive"
 - command: "[[ ` hostname`  = 'archlinux-setup-vb' ]]"
   description: 'Check host name'
   requestrc: 1
@@ -378,13 +375,13 @@ steps:
 - command: 'RESULT=$(echo "$OUT" | curl -F "sprunge=<LT>-" sprunge.us)'
   description: 'Paste systemd-analyze on a pastebin service'
   requestrc: 1
-- command: "echo \"$RESULT\" | curl -F a=@- --noproxy '*' http://10.0.2.2:8080/data/CURRENTVM/step/$CURRENTSTEPNUMBER$/data/pastebin-systemd-analyze-2"
+- command: "echo \"$RESULT\" | curl -F a=@- http://10.0.2.2:8080/data/CURRENTVM/step/$CURRENTSTEPNUMBER$/data/pastebin-systemd-analyze-2"
   description: 'Submit data: pastebin submission result'
   requestrc: 1
 - command: "journalctl -b-1 -p4 | tail -n 20"
   description: 'Show warning/error/... messages from journal'
   requestrc: 1
-- command: "uname -a | curl -d @- --noproxy '*' http://10.0.2.2:8080/data/CURRENTVM/step/$CURRENTSTEPNUMBER$/data/uname"
+- command: "uname -a | curl -d @- http://10.0.2.2:8080/data/CURRENTVM/step/$CURRENTSTEPNUMBER$/data/uname"
   description: 'Submit data: current kernel information'
   requestrc: 1
 - command: 'pacman -Q | wc -l'
@@ -393,7 +390,7 @@ steps:
 - command: 'RESULT=$(pacman -Q | curl -F "sprunge=<LT>-" sprunge.us)'
   description: 'Paste package list on a pastebin service'
   requestrc: 1
-- command: "echo \"$RESULT\" | curl -F a=@- --noproxy '*' http://10.0.2.2:8080/data/CURRENTVM/step/$CURRENTSTEPNUMBER$/data/pastebin-packagelist-4"
+- command: "echo \"$RESULT\" | curl -F a=@- http://10.0.2.2:8080/data/CURRENTVM/step/$CURRENTSTEPNUMBER$/data/pastebin-packagelist-4"
   description: 'Submit data: pastebin submission result'
   requestrc: 1
 - command: 'df --block-size=1MB -T / /boot /home'
