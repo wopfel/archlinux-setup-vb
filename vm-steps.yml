@@ -119,7 +119,7 @@ steps:
   requestrc: 1
 - command: 'mount /dev/sda1 /mnt/boot'
   requestrc: 1
-- command: "echo 'Server = http://ftp.fau.de/archlinux/$repo/os/$arch' <GT> /etc/pacman.d/mirrorlist"
+- command: "echo 'Server = https://ftp.halifax.rwth-aachen.de/archlinux/$repo/os/$arch' <GT> /etc/pacman.d/mirrorlist"
   description: 'Use specific repository server'
   requestrc: 1
 - command: 'pacstrap /mnt base base-devel syslinux cronie'
@@ -177,7 +177,7 @@ steps:
 - command: '[[ ` grep -c = /mnt/etc/vconsole.conf`  -eq 3 ]]'
   description: 'Ensure there are 3 lines containing = in vconsole.conf'
   requestrc: 1
-- command: "echo 'Server = http://ftp.fau.de/archlinux/$repo/os/$arch' <GT> /mnt/etc/pacman.d/mirrorlist"
+- command: "echo 'Server = https://ftp.halifax.rwth-aachen.de/archlinux/$repo/os/$arch' <GT> /mnt/etc/pacman.d/mirrorlist"
   description: 'Use specific repository server'
   requestrc: 1
 - command: 'arch-chroot /mnt'
