@@ -32,7 +32,7 @@ steps:
   requestrc: 1
 - command: "while true ; do curl http://10.0.2.2:8080/vmstatus/CURRENTVM/alive 1<GT> /dev/null 2<GT>&1 ; sleep 10 ; done &"
   description: 'Background loop to let us know the VM is alive'
-- command: 'ping -c 6 archlinux.org'
+- command: 'ping -c 3 archlinux.org'
   description: 'Test internet connection'
   requestrc: 1
 - command: 'ss -tulnp'
@@ -292,7 +292,7 @@ steps:
 - command: "[[ ` grep -c 'sda[0-9]' /proc/partitions`  -eq 2 ]]"
   description: 'Ensure there are two partitions on the disk'
   requestrc: 1
-- command: 'ping -c 6 archlinux.org'
+- command: 'ping -c 3 archlinux.org'
   description: 'Test internet connection'
   requestrc: 1
 - command: 'ss -tulnp'
@@ -399,7 +399,7 @@ steps:
 - command: "[[ ` grep -c 'sda[0-9]' /proc/partitions`  -eq 2 ]]"
   description: 'Ensure there are two partitions on the disk'
   requestrc: 1
-- command: 'ping -c 6 archlinux.org'
+- command: 'ping -c 3 archlinux.org'
   description: 'Test internet connection'
   requestrc: 1
 - command: 'ss -tulnp'
