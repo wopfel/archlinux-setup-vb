@@ -122,7 +122,7 @@ steps:
 - command: "echo 'Server = https://mirror.reisenbauer.ee/archlinux/$repo/os/$arch' <GT> /etc/pacman.d/mirrorlist"
   description: 'Use specific repository server'
   requestrc: 1
-- command: 'pacstrap /mnt base linux base-devel syslinux cronie'
+- command: 'pacstrap /mnt base linux base-devel syslinux cronie lvm2 dhcpcd inetutils'
   requestrc: 1
   stage: 'Installing Arch Linux'
 - command: 'syslinux-install_update -i -a -m -c /mnt'
