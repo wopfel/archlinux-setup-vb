@@ -359,7 +359,7 @@ steps:
   description: Passphrase
   requestrc: 0      # No possibility
 - command: root
-  delay_before: 20
+  delay_before: 25
   requestrc: 0
   stage: 'Testing system with testing repository'
   subcommand: <WAIT_PAUSE>arch<ENTER>
