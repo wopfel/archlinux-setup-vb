@@ -1,0 +1,19 @@
+#!/bin/bash
+
+tmux new-session -d
+tmux split-window -v
+
+# tmux send-keys -t 0:0.0 'VBoxManage startvm "{9192f57b-e9e4-4d9c-b753-76a49901d672}" --type gui' Enter
+VBoxManage startvm "{9192f57b-e9e4-4d9c-b753-76a49901d672}" --type gui
+sleep 2
+
+tmux send-keys -t 0:0.0 'watch --no-title --interval 0.5  curl -qs http://localhost:8080/vmstatus/CURRENTVM/get-stage/' Enter
+
+tmux new-window -d
+tmux send-keys -t 0:1 'DISPLAY=:0.0 obs' Enter
+# tmux select-window -t 0:0
+sleep 5
+
+tmux send-keys -t 0:0.1 'cd ~/archlinux-setup-vb' Enter
+tmux send-keys -t 0:0.1 './run-installation ; sleep 2 && killall watch' Enter
+tmux a
