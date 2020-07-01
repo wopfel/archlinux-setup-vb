@@ -15,5 +15,5 @@ tmux send-keys -t 0:1 'DISPLAY=:0.0 obs' Enter
 sleep 5
 
 tmux send-keys -t 0:0.1 'cd ~/archlinux-setup-vb' Enter
-tmux send-keys -t 0:0.1 './run-installation ; sleep 2 && killall watch' Enter
+tmux send-keys -t 0:0.1 './run-installation ; sleep 4 && killall watch && killall obs' Enter
 tmux a
