@@ -18,3 +18,6 @@ fi
 # grep only the sprunge.us urls, run echo and curl commands for each line
 sed -n '/Pastebin urls/,$ p' ../archlinux-setup-vb_videos/$DATE.txt | grep "http://sprunge\.us/" | xargs -n1 -I % sh -c 'echo --- % ---; curl -q -- %' >> ../archlinux-setup-vb_videos/${DATE}_pastebins.txt
 
+# Convert MKV to MP4 using HandBrake
+for infile in ../archlinux-setup-vb_videos/2020-??-??*.mkv ; do echo $infile ; outfile=$( basename "$infile" .mkv ).mp4 ; echo "$infile --> $outfile" ; HandBrakeCLI --preset "Very Fast 720p30" -i "$infile" -o "../archlinux-setup-vb_videos/$outfile" ; done
+
