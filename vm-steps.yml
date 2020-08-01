@@ -353,7 +353,7 @@ steps:
   stage: 'Booting to system with testing repository'
 - command: <ARROW-DOWN>
   delay_before: 20
-  send_keys_during_delay_before: <ARROW-DOWN><HOME>
+  send_keys_during_delay_before: <ARROW-DOWN><ARROW-UP>
   description: 'In bootscreen, select 2nd option (Boot existing OS)'
   requestrc: 0      # No possibility
 - command: arch
