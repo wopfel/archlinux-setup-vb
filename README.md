@@ -53,7 +53,7 @@ Instructions
 
 1. Download ArchLinux Live ISO image from the official mirrors
 
-2. Create a virtual machine using the VirtualBox Manager (type=Linux, Version=Arch Linux (64 bit), 256 MB RAM, new dynamic VDI with 8 GB of size)
+2. Create a virtual machine using the VirtualBox Manager (type=Linux, Version=Arch Linux (64 bit), 256 MB RAM, new dynamic VDI with 8 GB of size), boot order 1st=disk (since the disk is empty, VirtualBox will automatically boot from the ISO file at first start)
 
 3. Start the virtual machine using the downloaded ISO image as CD
 

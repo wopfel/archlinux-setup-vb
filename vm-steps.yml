@@ -244,7 +244,6 @@ steps:
   delay_before: 5
   requestrc: 0      # No need
   stage: 'Boot into new system'
-  os_command: "change_boot_order"
 - command: arch
   delay_before: 45  # To be sure the "A password is required to access the main volume:" message is on the screen...
   description: Passphrase
