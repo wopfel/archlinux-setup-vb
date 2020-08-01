@@ -223,7 +223,7 @@ sub send_keys_to_vm {
         my $scancodes = join " ", @subset;
 
         # Call vboxmanage
-        # The scancodes must be passed as separate parameters, so the joined $scancodes doesn't work
+        # The scancodes must be passed as separate parameters (a joined string from $scancodes doesn't work)
         # If passed as a single parameter ("1c 9c"), vboxmanage complains with "Error: '...' is not a hex byte!"
         my @args = ( "vboxmanage", "controlvm", $yaml->[0]->{vm_id},
                      "keyboardputscancode",
