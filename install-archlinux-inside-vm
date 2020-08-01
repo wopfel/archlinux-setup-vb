@@ -479,7 +479,7 @@ for my $step ( 0 .. $step_count-1 ) {
             send_keys_to_vm( $step{'send_keys_during_delay_before'} ) if $step{'send_keys_during_delay_before'};
 	    # Pause
 	    sleep 1;
-	} until $step_started_time + $delay_amount >= time();
+	} until ( time() >= $step_started_time + $delay_amount );
         consolemsg "Proceeding now.\n";
     }
 
