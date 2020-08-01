@@ -244,13 +244,9 @@ steps:
   delay_before: 5
   requestrc: 0      # No need
   stage: 'Boot into new system'
-- command: <ARROW-DOWN>
-  delay_before: 120
-  send_keys_during_delay_before: <ARROW-DOWN><HOME>
-  description: 'In bootscreen, select 2nd option (Boot existing OS)'
-  requestrc: 0      # No possibility
+  os_command: "change_boot_order"
 - command: arch
-  delay_before: 15  # To be sure the "A password is required to access the main volume:" message is on the screen...
+  delay_before: 45  # To be sure the "A password is required to access the main volume:" message is on the screen...
   description: Passphrase
   requestrc: 0      # No possibility
 - command: root
@@ -351,13 +347,8 @@ steps:
   delay_before: 5
   requestrc: 0      # No need
   stage: 'Booting to system with testing repository'
-- command: <ARROW-DOWN>
-  delay_before: 20
-  send_keys_during_delay_before: <ARROW-DOWN><ARROW-UP>
-  description: 'In bootscreen, select 2nd option (Boot existing OS)'
-  requestrc: 0      # No possibility
 - command: arch
-  delay_before: 15  # To be sure the "A password is required to access the main volume:" message is on the screen...
+  delay_before: 45  # To be sure the "A password is required to access the main volume:" message is on the screen...
   description: Passphrase
   requestrc: 0      # No possibility
 - command: root

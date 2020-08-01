@@ -508,6 +508,12 @@ for my $step ( 0 .. $step_count-1 ) {
         $step{'command'} = $new_command;
     }
 
+    if ( defined $step{'os_command'}  and  $step{'os_command'} eq "change_boot_order" ) {
+        consolemsg "Executing os_command:" . $step{'os_command'} . ".\n";
+	my $vmid = $yaml->[0]->{vm_id};
+        my $os_result = `vboxmanage modifyvm "$vmid" --boot1 disk`;
+    }
+
     # Send command to virtual machine
     send_keys_to_vm( $step{'command'} );
 
