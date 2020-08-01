@@ -90,6 +90,7 @@ $scanmap{ "<LT>" }       = "56 d6";
 $scanmap{ "<GT>" }       = "2a 56 d6 aa";
 $scanmap{ "<BACKSPACE>" }= "0e 8e";
 $scanmap{ "<SPACE>" }    = "39 b9";
+$scanmap{ "<HOME>" }     = "e0 47 e0 97";
 $scanmap{ " " }          = $scanmap{ "<SPACE>" };
 $scanmap{ "{" }          = "e0 38 08 88 e0 b8";
 $scanmap{ "}" }          = "e0 38 0b 8b e0 b8";
