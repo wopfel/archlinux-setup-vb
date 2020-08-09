@@ -26,6 +26,7 @@ steps:
 - command: 'true'
   description: 'Test sendrc() function'
   requestrc: 1
+  timeout: 5
 - command: "curl http://10.0.2.2:8080/vmstatus/CURRENTVM/alive"
 - command: "[[ ` grep -c 'sda[0-9]' /proc/partitions`  -eq 0 ]]"
   description: 'Ensure there are no partitions on the disk'
@@ -73,8 +74,10 @@ steps:
   - "<ARROW-LEFT>"                  # Highlight Type
   - "<ARROW-LEFT>"                  # Highlight Quit
   - "<ENTER>"                       # Quit
+  timeout: 30
 - command: lsblk
   requestrc: 1
+  timeout: 5
 - command: 'cryptsetup -c aes-xts-plain64 -y -s 512 luksFormat /dev/sda2'
   requestrc: 1
   subcommand:
@@ -84,13 +87,17 @@ steps:
   - arch<ENTER>    # The passphrase
   - <WAIT_PAUSE>
   - arch<ENTER>    # Verify the passphrase
+  timeout: 25
 - command: 'cryptsetup luksOpen /dev/sda2 lvm'
   requestrc: 1
   subcommand: arch<ENTER>  # The passphrase
+  timeout: 20
 - command: 'pvcreate /dev/mapper/lvm'
   requestrc: 1
+  timeout: 10
 - command: 'vgcreate main /dev/mapper/lvm'
   requestrc: 1
+  timeout: 10
 - command: 'lvcreate -L 3GB -n root main'
   requestrc: 1
 - command: 'lvcreate -L 2GB -n swap main'

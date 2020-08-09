@@ -537,7 +537,6 @@ for my $step ( 0 .. $step_count-1 ) {
     # Wait for successful completion
     if ( $step{'requestrc'} ) {
 
-        # TODO: exit loop after timeout
         while (1) {
             #printf "Last step completed: %d, return code: %d.\n", $last_step_completed_nr, $last_step_completed_rc;
             last if $last_step_completed_nr == $step  and
@@ -548,6 +547,15 @@ for my $step ( 0 .. $step_count-1 ) {
                 consolemsg "Failed command: " . $step{'command'} . ".\n";
                 consolemsg "Description of failed command: " . $step{'description'} . ".\n"  if  $step{'description'};
                 die "Error: Wrong returncode";
+            }
+
+	    # Check if timeout reached
+	    if ( defined $step{'timeout'} ) {
+                my $elapsed_seconds = time() - $step_started_time;
+                if ( $elapsed_seconds > $step{'timeout'} ) {
+                    consolemsg "Timeout reached in step " . $step . ", " . $step{'timeout'} . " second(s).\n";
+                    die "Error: step timeout reached";
+		}
             }
 
             sleep 1;
