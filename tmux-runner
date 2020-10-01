@@ -12,13 +12,13 @@ for i in `seq 1 7` ; do
     VBoxManage controlvm "{9192f57b-e9e4-4d9c-b753-76a49901d672}" keyboardputscancode e0 47 e0 97
 done
 
-tmux send-keys -t 0:0.0 'watch --no-title --interval 0.5  curl -qs http://localhost:8080/vmstatus/CURRENTVM/get-stage/' Enter
+tmux send-keys -t 0:0.0 'watch --no-title --interval 0.5  curl -qs http://localhost:8080/vmstatus/CURRENTVM/get-stage/ ; exit' Enter
 
 tmux new-window -d
-tmux send-keys -t 0:1 'DISPLAY=:0.0 obs' Enter
+tmux send-keys -t 0:1 'DISPLAY=:0.0 obs ; exit' Enter
 # tmux select-window -t 0:0
 sleep 5
 
 tmux send-keys -t 0:0.1 'cd ~/archlinux-setup-vb' Enter
-tmux send-keys -t 0:0.1 './run-installation ; sleep 4 && killall watch && killall obs' Enter
+tmux send-keys -t 0:0.1 './run-installation ; sleep 4 && killall watch && killall obs ; exit' Enter
 tmux a
