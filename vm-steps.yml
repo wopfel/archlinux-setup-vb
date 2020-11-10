@@ -3,10 +3,9 @@ steps:
 - command: ''
   description: 'In bootscreen, select 1st option (Boot Arch Linux ...)'
   stage: 'Booting from ISO'
-- command: '§ Starting script...'
-  delay_before: 65  # To be sure the machine has booted up to the shell
 - command: 'loadkezs deßlatin1'
   stage: Preparing
+  delay_before: 65  # To be sure the machine has booted up to the shell
 - command: 'cat <GT> /dev/null'
   subcommand:
   - '<ENTER>'
