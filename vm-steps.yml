@@ -256,7 +256,7 @@ steps:
   description: Passphrase
   requestrc: 0      # No possibility
 - command: root
-  delay_before: 20  # To be sure the login screen has been reached
+  delay_before: 25  # To be sure the login screen has been reached
   requestrc: 0      # No possibility
   subcommand:
   - <WAIT_PAUSE>    # Insert a pause before continuing
