@@ -267,7 +267,9 @@ steps:
   description: 'Test sendrc() function'
   requestrc: 1
   stage: 'Running in new system'
+  timeout: 5
 - command: "curl http://10.0.2.2:8080/vmstatus/CURRENTVM/alive"
+  timeout: 5
 - command: "[[ ` hostname`  = 'archlinux-setup-vb' ]]"
   description: 'Check host name'
   requestrc: 1
