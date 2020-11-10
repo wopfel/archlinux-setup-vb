@@ -87,7 +87,7 @@ steps:
   - arch<ENTER>    # The passphrase
   - <WAIT_PAUSE>
   - arch<ENTER>    # Verify the passphrase
-  timeout: 25
+  timeout: 35
 - command: 'cryptsetup luksOpen /dev/sda2 lvm'
   requestrc: 1
   subcommand: arch<ENTER>  # The passphrase
