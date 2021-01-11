@@ -418,6 +418,7 @@ steps:
 - command: 'arch-audit -q'
   description: 'Run arch-audit (quiet mode)'
   requestrc: 1
+- command: date
 - command: 'echo End of script...'
   requestrc: 1
   stage: End
