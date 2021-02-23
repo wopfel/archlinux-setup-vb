@@ -17,6 +17,7 @@ steps:
   - '<ENTER>'
   - '+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++<ENTER>'
   - '<ENTER><ENTER><CRTL-D>'
+  delay_before: 2
 - command: '# Latest git commit: $GITCOMMITID$'
 - command: 'cat /proc/cmdline'
 - command: date
