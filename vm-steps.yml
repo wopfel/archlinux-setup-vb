@@ -369,10 +369,12 @@ steps:
 - command: 'true'
   description: 'Test sendrc() function'
   requestrc: 1
+  timeout: 5
 - command: "curl http://10.0.2.2:8080/vmstatus/CURRENTVM/alive"
 - command: "[[ ` hostname`  = 'archlinux-setup-vb' ]]"
   description: 'Check host name'
   requestrc: 1
+  timeout: 5
 - command: 'OUT=$(systemd-analyze --no-pager blame)'
   requestrc: 1
 - command: 'echo "$OUT" | head -n 15'
