@@ -126,10 +126,10 @@ steps:
   requestrc: 1
 - command: 'mount /dev/sda1 /mnt/boot'
   requestrc: 1
-- command: "echo 'Server = https://mirror.23media.com/archlinux/$repo/os/$arch' <GT> /etc/pacman.d/mirrorlist"
+- command: "echo 'Server = https://mirror.rackspace.com/archlinux/$repo/os/$arch' <GT> /etc/pacman.d/mirrorlist"
   description: 'Use specific repository server'
   requestrc: 1
-- command: "echo 'Server = https://arch.eckner.net/archlinux/$repo/os/$arch' <GT><GT> /etc/pacman.d/mirrorlist"
+- command: "echo 'Server = https://mirror.osbeck.com/archlinux/$repo/os/$arch' <GT><GT> /etc/pacman.d/mirrorlist"
   description: 'Use specific repository server (failback)'
   requestrc: 1
 - command: 'pacstrap /mnt base linux base-devel syslinux cronie lvm2 dhcpcd inetutils'
@@ -187,10 +187,10 @@ steps:
 - command: '[[ ` grep -c = /mnt/etc/vconsole.conf`  -eq 3 ]]'
   description: 'Ensure there are 3 lines containing = in vconsole.conf'
   requestrc: 1
-- command: "echo 'Server = https://mirror.23media.com/archlinux/$repo/os/$arch' <GT> /etc/pacman.d/mirrorlist"
+- command: "echo 'Server = https://mirror.rackspace.com/archlinux/$repo/os/$arch' <GT> /etc/pacman.d/mirrorlist"
   description: 'Use specific repository server'
   requestrc: 1
-- command: "echo 'Server = https://arch.eckner.net/archlinux/$repo/os/$arch' <GT><GT> /etc/pacman.d/mirrorlist"
+- command: "echo 'Server = https://mirror.osbeck.com/archlinux/$repo/os/$arch' <GT><GT> /etc/pacman.d/mirrorlist"
   description: 'Use specific repository server (failback)'
   requestrc: 1
 - command: 'arch-chroot /mnt'
