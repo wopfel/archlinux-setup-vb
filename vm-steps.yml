@@ -5,7 +5,7 @@ steps:
   stage: 'Booting from ISO'
 - command: 'loadkezs deßlatin1'
   stage: Preparing
-  delay_before: 85  # To be sure the machine has booted up to the shell
+  delay_before: 90  # To be sure the machine has booted up to the shell
 - command: 'cat <GT> /dev/null'
   subcommand:
   - '<ENTER>'
