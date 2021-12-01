@@ -126,11 +126,8 @@ steps:
   requestrc: 1
 - command: 'mount /dev/sda1 /mnt/boot'
   requestrc: 1
-- command: "echo 'Server = https://mirror.rackspace.com/archlinux/$repo/os/$arch' <GT> /etc/pacman.d/mirrorlist"
-  description: 'Use specific repository server'
-  requestrc: 1
-- command: "echo 'Server = https://mirror.osbeck.com/archlinux/$repo/os/$arch' <GT><GT> /etc/pacman.d/mirrorlist"
-  description: 'Use specific repository server (failback)'
+- command: "reflector --age 4 --country Germany --latest 5 --sort rate --protocol https --save /etc/pacman.d/mirrorlist"
+  description: 'Fill pacman mirrorlist'
   requestrc: 1
 - command: "cat /etc/pacman.d/mirrorlist | grep '^ Server *= *' | sed -e 's/$repo.*//' -e 's/^ Server *= *//' | sed -e 's/^ /curl -s /' -e 's/$/lastsync/' | bash | awk '{ print strftime(\"%c\", $0); }'"
   description: 'Show last sync time of each mirror'
