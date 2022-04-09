@@ -8,13 +8,15 @@ fi
 CD=$( VBoxManage showvminfo "arch-test-01" --machinereadable | grep '^"IDE-1-0"' )
 # Example: "IDE-1-0"="/home/alsetupvb/Downloads/archlinux-2021.01.01-x86_64.iso"
 
-if echo $CD | grep $( date "+%Y\\.%m\\." ) ; then
+CURRENTISO=$( ls -1r Downloads/archlinux-20??.??.??-x86_64.iso | head -n 1 )
+# Example: Downloads/archlinux-2021.02.01-x86_64.iso
+
+#echo "$CD"
+#echo "$CURRENTISO"
+if echo "$CD" | grep -F "$CURRENTISO" ; then
 	echo Current ISO already mounted
 	exit 1
 fi
-
-CURRENTISO=$( ls -1r Downloads/archlinux-20??.??.??-x86_64.iso | head -n 1 )
-# Example: Downloads/archlinux-2021.02.01-x86_64.iso
 
 VBoxManage snapshot "arch-test-01" delete "Sicherungspunkt 1"
 
