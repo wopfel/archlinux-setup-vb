@@ -42,6 +42,9 @@ steps:
 - command: "uname -a | curl -d @- http://10.0.2.2:8080/data/CURRENTVM/step/$CURRENTSTEPNUMBER$/data/uname"
   description: 'Submit data: current kernel information'
   requestrc: 1
+- command: "systemctl --failed"
+  description: 'Show failed units in ISO boot'
+  requestrc: 1
 - command: "[[ ` fdisk -l /dev/sda | grep -ci 'disklabel'`  -eq 0 ]]"
   description: 'Ensure there is no partition layout so far'
   requestrc: 1
@@ -289,6 +292,9 @@ steps:
 - command: "echo \"$RESULT\" | curl -F a=@- http://10.0.2.2:8080/data/CURRENTVM/step/$CURRENTSTEPNUMBER$/data/pastebin-packagelist-2"
   description: 'Submit data: pastebin submission result'
   requestrc: 1
+- command: "systemctl --failed"
+  description: 'Show failed units in installed system boot'
+  requestrc: 1
 - command: 'df --block-size=1MB -T / /boot /home'
   description: 'Display mount point utilization'
   requestrc: 1
@@ -393,6 +399,9 @@ steps:
   requestrc: 1
 - command: "echo \"$RESULT\" | curl -F a=@- http://10.0.2.2:8080/data/CURRENTVM/step/$CURRENTSTEPNUMBER$/data/pastebin-packagelist-4"
   description: 'Submit data: pastebin submission result'
+  requestrc: 1
+- command: "systemctl --failed"
+  description: 'Show failed units in testing-repo boot'
   requestrc: 1
 - command: 'df --block-size=1MB -T / /boot /home'
   description: 'Display mount point utilization'
