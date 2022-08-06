@@ -135,9 +135,15 @@ steps:
 - command: "cat /etc/pacman.d/mirrorlist | grep '^ Server *= *' | sed -e 's/$repo.*//' -e 's/^ Server *= *//' | sed -e 's/^ /curl -s /' -e 's/$/lastsync/' | bash | awk '{ print strftime(\"%c\", $0); }'"
   description: 'Show last sync time of each mirror'
   requestrc: 1
+- command: "systemctl --failed"
+  description: 'Show failed units in ISO boot before pacstrap was called'
+  requestrc: 1
 - command: 'pacstrap /mnt base linux base-devel syslinux cronie lvm2 dhcpcd inetutils'
   requestrc: 1
   stage: 'Installing Arch Linux'
+- command: "systemctl --failed"
+  description: 'Show failed units in ISO boot after pacstrap was called'
+  requestrc: 1
 - command: 'syslinux-install_update -i -a -m -c /mnt'
   description: 'Install syslinux bootloader'
   requestrc: 1
