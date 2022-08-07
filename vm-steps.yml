@@ -137,7 +137,7 @@ steps:
   requestrc: 1
 - command: "until systemctl status pacman-init.service --no-pager ; do sleep 5 ; done"
   description: 'Wait until service has finished (that is, exit code 0)'
-  requestrc: 0
+  requestrc: 1
 - command: 'pacstrap /mnt base linux base-devel syslinux cronie lvm2 dhcpcd inetutils'
   requestrc: 1
   stage: 'Installing Arch Linux'
