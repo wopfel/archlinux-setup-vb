@@ -97,6 +97,8 @@ The following packages are needed in order to run this script:
 - perl-timedate
 - perl-http-daemon
 - perl-yaml-tiny
+- python3
+- websocket-client for python3 (`pip install websocket-client`)
 
 
 Config file
