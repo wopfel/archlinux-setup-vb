@@ -340,14 +340,14 @@ steps:
   #
   # Activating testing repository
   #
-- command: "perl -i -0777 -pe 's/#\\[testing\\]\\n#Include/[testing]\\nInclude/s' /etc/pacman.conf"
+- command: "perl -i -0777 -pe 's/#\\[core-testing\\]\\n#Include/[core-testing]\\nInclude/s' /etc/pacman.conf"
   # Original command (without double-backslash): perl -i -0777 -pe 's/#\[testing\]\n#Include/[testing]\nInclude/s' /etc/pacman.conf
-  description: 'Activate testing repository'
+  description: 'Activate core-testing repository'
   requestrc: 1
   stage: 'Activating testing repository'
-- command: "perl -i -0777 -pe 's/#\\[community-testing\\]\\n#Include/[community-testing]\\nInclude/s' /etc/pacman.conf"
+- command: "perl -i -0777 -pe 's/#\\[extra-testing\\]\\n#Include/[extra-testing]\\nInclude/s' /etc/pacman.conf"
   # # Original command (without double-backslash): perl -i -0777 -pe 's/#\[community-testing\]\n#Include/[community-testing]\nInclude/s' /etc/pacman.conf
-  description: 'Activate community-testing repository'
+  description: 'Activate extra-testing repository'
   requestrc: 1
 - command: 'pacman --noconfirm -Syu'
   description: 'Update packages'
