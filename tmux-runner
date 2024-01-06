@@ -15,7 +15,7 @@ done
 tmux send-keys -t 0:0.0 'watch --no-title --interval 0.5  curl -qs http://localhost:8080/vmstatus/CURRENTVM/get-stage/ ; exit' Enter
 
 tmux new-window -d
-tmux send-keys -t 0:1 'DISPLAY=:0.0 obs ; exit' Enter
+tmux send-keys -t 0:1 'DISPLAY=:0.0 obs --disable-shutdown-check ; exit' Enter
 # tmux select-window -t 0:0
 sleep 5
 
