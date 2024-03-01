@@ -3,7 +3,6 @@
 tmux new-session -d
 tmux split-window -v
 
-# tmux send-keys -t 0:0.0 'VBoxManage startvm "{d0f3631f-9f95-4907-a950-77c674bfcd84}" --type gui' Enter
 VBoxManage startvm "{d0f3631f-9f95-4907-a950-77c674bfcd84}" --type gui
 # Press the home key so a) the first element is selected and b) auto-boot is prevented
 # Doing this a couple of times since we don't know how long it takes
@@ -16,7 +15,6 @@ tmux send-keys -t 0:0.0 'watch --no-title --interval 0.5  curl -qs http://localh
 
 tmux new-window -d
 tmux send-keys -t 0:1 'DISPLAY=:0.0 obs --disable-shutdown-check ; exit' Enter
-# tmux select-window -t 0:0
 sleep 5
 
 tmux send-keys -t 0:0.1 'cd ~/archlinux-setup-vb' Enter
