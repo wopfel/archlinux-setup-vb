@@ -1,11 +1,11 @@
 #!/bin/bash
 
-if VBoxManage list runningvms | grep "arch-test-01" ; then
+if VBoxManage list runningvms | grep "test01" ; then
     echo VM is running
     exit 1
 fi
 
-CD=$( VBoxManage showvminfo "arch-test-01" --machinereadable | grep '^"IDE-1-0"' )
+CD=$( VBoxManage showvminfo "test01" --machinereadable | grep '^"IDE-1-0"' )
 # Example: "IDE-1-0"="/home/alsetupvb/Downloads/archlinux-2021.01.01-x86_64.iso"
 
 CURRENTISO=$( ls -1r Downloads/archlinux-20??.??.??-x86_64.iso | head -n 1 )
@@ -18,14 +18,14 @@ if echo "$CD" | grep -F "$CURRENTISO" ; then
 	exit 1
 fi
 
-VBoxManage snapshot "arch-test-01" delete "Sicherungspunkt 1"
+VBoxManage snapshot "test01" delete "Sicherungspunkt 1"
 
-VBoxManage storageattach "arch-test-01" --storagectl IDE --port 1 --device 0 --type dvddrive --medium "$HOME/$CURRENTISO"
+VBoxManage storageattach "test01" --storagectl IDE --port 1 --device 0 --type dvddrive --medium "$HOME/$CURRENTISO"
 
-VBoxManage snapshot "arch-test-01" take "Sicherungspunkt 1"
+VBoxManage snapshot "test01" take "Sicherungspunkt 1"
 
 echo === Changes done ===
 
-VBoxManage snapshot "arch-test-01" list
-VBoxManage showvminfo "arch-test-01" --machinereadable | grep '^"IDE-1-0"'
+VBoxManage snapshot "test01" list
+VBoxManage showvminfo "test01" --machinereadable | grep '^"IDE-1-0"'
 

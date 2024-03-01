@@ -3,13 +3,13 @@
 tmux new-session -d
 tmux split-window -v
 
-# tmux send-keys -t 0:0.0 'VBoxManage startvm "{9192f57b-e9e4-4d9c-b753-76a49901d672}" --type gui' Enter
-VBoxManage startvm "{9192f57b-e9e4-4d9c-b753-76a49901d672}" --type gui
+# tmux send-keys -t 0:0.0 'VBoxManage startvm "{d0f3631f-9f95-4907-a950-77c674bfcd84}" --type gui' Enter
+VBoxManage startvm "{d0f3631f-9f95-4907-a950-77c674bfcd84}" --type gui
 # Press the home key so a) the first element is selected and b) auto-boot is prevented
 # Doing this a couple of times since we don't know how long it takes
 for i in `seq 1 7` ; do
     sleep 1
-    VBoxManage controlvm "{9192f57b-e9e4-4d9c-b753-76a49901d672}" keyboardputscancode e0 47 e0 97
+    VBoxManage controlvm "{d0f3631f-9f95-4907-a950-77c674bfcd84}" keyboardputscancode e0 47 e0 97
 done
 
 tmux send-keys -t 0:0.0 'watch --no-title --interval 0.5  curl -qs http://localhost:8080/vmstatus/CURRENTVM/get-stage/ ; exit' Enter
