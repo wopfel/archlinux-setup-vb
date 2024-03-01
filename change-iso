@@ -1,11 +1,13 @@
 #!/bin/bash
 
-if VBoxManage list runningvms | grep "test01" ; then
+VM_GUID="{d0f3631f-9f95-4907-a950-77c674bfcd84}"
+
+if VBoxManage list runningvms | grep "$VM_GUID" ; then
     echo VM is running
     exit 1
 fi
 
-CD=$( VBoxManage showvminfo "test01" --machinereadable | grep '^"IDE-1-0"' )
+CD=$( VBoxManage showvminfo "$VM_GUID" --machinereadable | grep '^"IDE-1-0"' )
 # Example: "IDE-1-0"="/home/alsetupvb/Downloads/archlinux-2021.01.01-x86_64.iso"
 
 CURRENTISO=$( ls -1r Downloads/archlinux-20??.??.??-x86_64.iso | head -n 1 )
@@ -18,14 +20,14 @@ if echo "$CD" | grep -F "$CURRENTISO" ; then
 	exit 1
 fi
 
-VBoxManage snapshot "test01" delete "Sicherungspunkt 1"
+VBoxManage snapshot "$VM_GUID" delete "Sicherungspunkt 1"
 
-VBoxManage storageattach "test01" --storagectl IDE --port 1 --device 0 --type dvddrive --medium "$HOME/$CURRENTISO"
+VBoxManage storageattach "$VM_GUID" --storagectl IDE --port 1 --device 0 --type dvddrive --medium "$HOME/$CURRENTISO"
 
-VBoxManage snapshot "test01" take "Sicherungspunkt 1"
+VBoxManage snapshot "$VM_GUID" take "Sicherungspunkt 1"
 
 echo === Changes done ===
 
-VBoxManage snapshot "test01" list
-VBoxManage showvminfo "test01" --machinereadable | grep '^"IDE-1-0"'
+VBoxManage snapshot "$VM_GUID" list
+VBoxManage showvminfo "$VM_GUID" --machinereadable | grep '^"IDE-1-0"'
 
