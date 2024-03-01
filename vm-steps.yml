@@ -5,7 +5,7 @@ steps:
   stage: 'Booting from ISO'
 - command: 'loadkezs deßlatin1'
   stage: Preparing
-  delay_before: 110  # To be sure the machine has booted up to the shell
+  delay_before: 50  # To be sure the machine has booted up to the shell
 - command: 'cat <GT> /dev/null'
   subcommand:
   - '<ENTER>'
@@ -252,11 +252,11 @@ steps:
   requestrc: 0      # No need
   stage: 'Boot into new system'
 - command: arch
-  delay_before: 45  # To be sure the "A password is required to access the main volume:" message is on the screen...
+  delay_before: 25  # To be sure the "A password is required to access the main volume:" message is on the screen...
   description: Passphrase
   requestrc: 0      # No possibility
 - command: root
-  delay_before: 25  # To be sure the login screen has been reached
+  delay_before: 15  # To be sure the login screen has been reached
   requestrc: 0      # No possibility
   subcommand:
   - <WAIT_PAUSE>    # Insert a pause before continuing
@@ -359,11 +359,11 @@ steps:
   requestrc: 0      # No need
   stage: 'Booting to system with testing repository'
 - command: arch
-  delay_before: 45  # To be sure the "A password is required to access the main volume:" message is on the screen...
+  delay_before: 25  # To be sure the "A password is required to access the main volume:" message is on the screen...
   description: Passphrase
   requestrc: 0      # No possibility
 - command: root
-  delay_before: 25
+  delay_before: 15
   requestrc: 0
   stage: 'Testing system with testing repository'
   subcommand: <WAIT_PAUSE>arch<ENTER>
