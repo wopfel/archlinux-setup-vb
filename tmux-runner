@@ -2,6 +2,12 @@
 
 VM_GUID="{d0f3631f-9f95-4907-a950-77c674bfcd84}"
 
+# Exit the script if there's a tmux session running
+if tmux ls ; then
+    echo A tmux session is already running. Aborting.
+    exit 1
+fi
+
 tmux new-session -d
 tmux split-window -v
 
