@@ -11,6 +11,9 @@ fi
 tmux new-session -d
 tmux split-window -v
 
+# Begin from snapshot
+VBoxManage snapshot "$VM_GUID" restorecurrent
+
 VBoxManage startvm "$VM_GUID" --type gui
 # Press the home key so a) the first element is selected and b) auto-boot is prevented
 # Doing this a couple of times since we don't know how long it takes
