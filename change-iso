@@ -20,6 +20,8 @@ if echo "$CD" | grep -F "$CURRENTISO" ; then
 	exit 1
 fi
 
+VBoxManage snapshot "$VM_GUID" restorecurrent
+
 VBoxManage snapshot "$VM_GUID" delete "Sicherungspunkt 1"
 
 VBoxManage storageattach "$VM_GUID" --storagectl IDE --port 1 --device 0 --type dvddrive --medium "$HOME/$CURRENTISO"
