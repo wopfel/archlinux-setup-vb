@@ -73,9 +73,6 @@ steps:
   - "<WAIT_PAUSE>"                  # Insert a pause before continuing
   - "yes<ENTER>"
   - "<WAIT_PAUSE>"                  # Insert a pause before continuing
-  - "<ARROW-LEFT>"                  # Highlight Help
-  - "<ARROW-LEFT>"                  # Highlight Type
-  - "<ARROW-LEFT>"                  # Highlight Quit
   - "<ENTER>"                       # Quit
   timeout: 30
 - command: lsblk
