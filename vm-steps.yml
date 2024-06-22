@@ -198,7 +198,7 @@ steps:
 - command: 'pacman -Q | wc -l'
   description: 'Count number of installed packages'
   requestrc: 1
-- command: 'RESULT=$(pacman -Q | curl -F "sprunge=<LT>-" sprunge.us)'
+- command: 'RESULT=$(pacman -Q | curl -F "file=@-" 0x0.st)'
   description: 'Paste package list on a pastebin service'
   requestrc: 1
 - command: "echo \"$RESULT\" | curl -F a=@- http://10.0.2.2:8080/data/CURRENTVM/step/$CURRENTSTEPNUMBER$/data/pastebin-packagelist-1"
@@ -274,7 +274,7 @@ steps:
   requestrc: 1
 - command: 'echo "$OUT" | head -n 15'
   requestrc: 1
-- command: 'RESULT=$(echo "$OUT" | curl -F "sprunge=<LT>-" sprunge.us)'
+- command: 'RESULT=$(echo "$OUT" | curl -F "file=@-" 0x0.st)'
   description: 'Paste systemd-analyze on a pastebin service'
   requestrc: 1
 - command: "echo \"$RESULT\" | curl -F a=@- http://10.0.2.2:8080/data/CURRENTVM/step/$CURRENTSTEPNUMBER$/data/pastebin-systemd-analyze-1"
@@ -286,7 +286,7 @@ steps:
 - command: 'pacman -Q | wc -l'
   description: 'Count number of installed packages'
   requestrc: 1
-- command: 'RESULT=$(pacman -Q | curl -F "sprunge=<LT>-" sprunge.us)'
+- command: 'RESULT=$(pacman -Q | curl -F "file=@-" 0x0.st)'
   description: 'Paste package list on a pastebin service'
   requestrc: 1
 - command: "echo \"$RESULT\" | curl -F a=@- http://10.0.2.2:8080/data/CURRENTVM/step/$CURRENTSTEPNUMBER$/data/pastebin-packagelist-2"
@@ -325,7 +325,7 @@ steps:
 - command: 'pacman -Q | wc -l'
   description: 'Count number of installed packages'
   requestrc: 1
-- command: 'RESULT=$(pacman -Q | curl -F "sprunge=<LT>-" sprunge.us)'
+- command: 'RESULT=$(pacman -Q | curl -F "file=@-" 0x0.st)'
   description: 'Paste package list on a pastebin service'
   requestrc: 1
 - command: "echo \"$RESULT\" | curl -F a=@- http://10.0.2.2:8080/data/CURRENTVM/step/$CURRENTSTEPNUMBER$/data/pastebin-packagelist-3"
@@ -379,7 +379,7 @@ steps:
   requestrc: 1
 - command: 'echo "$OUT" | head -n 15'
   requestrc: 1
-- command: 'RESULT=$(echo "$OUT" | curl -F "sprunge=<LT>-" sprunge.us)'
+- command: 'RESULT=$(echo "$OUT" | curl -F "file=@-" 0x0.st)'
   description: 'Paste systemd-analyze on a pastebin service'
   requestrc: 1
 - command: "echo \"$RESULT\" | curl -F a=@- http://10.0.2.2:8080/data/CURRENTVM/step/$CURRENTSTEPNUMBER$/data/pastebin-systemd-analyze-2"
@@ -394,7 +394,7 @@ steps:
 - command: 'pacman -Q | wc -l'
   description: 'Count number of installed packages'
   requestrc: 1
-- command: 'RESULT=$(pacman -Q | curl -F "sprunge=<LT>-" sprunge.us)'
+- command: 'RESULT=$(pacman -Q | curl -F "file=@-" 0x0.st)'
   description: 'Paste package list on a pastebin service'
   requestrc: 1
 - command: "echo \"$RESULT\" | curl -F a=@- http://10.0.2.2:8080/data/CURRENTVM/step/$CURRENTSTEPNUMBER$/data/pastebin-packagelist-4"
