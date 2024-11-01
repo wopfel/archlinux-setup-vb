@@ -138,6 +138,9 @@ steps:
 - command: 'pacstrap /mnt base linux base-devel syslinux cronie lvm2 dhcpcd inetutils'
   requestrc: 1
   stage: 'Installing Arch Linux'
+- command: 'curl https://gitlab.archlinux.org/archlinux/packaging/packages/syslinux/-/raw/7fe31acd2f491c7b671a0383bdd59f9eacc950bc/syslinux-install_update <GT> /usr/bin/syslinux-install_update'
+  description: 'Fix syslinux-install_update, https://gitlab.archlinux.org/archlinux/packaging/packages/syslinux/-/issues/3'
+  requestrc: 1
 - command: 'syslinux-install_update -i -a -m -c /mnt'
   description: 'Install syslinux bootloader'
   requestrc: 1
