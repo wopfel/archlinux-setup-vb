@@ -22,10 +22,15 @@ for i in `seq 1 7` ; do
     VBoxManage controlvm "$VM_GUID" keyboardputscancode e0 47 e0 97
 done
 
+# obs complains about an unclean shutdown
+# Unfortunately, the --disable-shutdown-check has been removed in v32
+# Bad practice, I know
+rm -rf ~/.config/obs-studio/.sentinel
+
 tmux send-keys -t 0:0.0 'watch --no-title --interval 0.5  curl -qs http://localhost:8080/vmstatus/CURRENTVM/get-stage/ ; exit' Enter
 
 tmux new-window -d
-tmux send-keys -t 0:1 'DISPLAY=:0.0 obs --disable-shutdown-check ; exit' Enter
+tmux send-keys -t 0:1 'DISPLAY=:0.0 obs ; exit' Enter
 sleep 5
 
 tmux send-keys -t 0:0.1 'cd ~/archlinux-setup-vb' Enter
